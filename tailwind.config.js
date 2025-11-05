@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./src/app/**/*.{js,ts,jsx,tsx}",
-        "./src/components/**/*.{js,ts,jsx,tsx}",
+        "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
         extend: {
@@ -14,22 +13,16 @@ module.exports = {
                 primary: {
                     DEFAULT: "#06cdaf",
                     light: "#5fffd2",
-                    dark: "#13b89f",
+                    dark: "#0d8775",
                 },
                 secondary: "#1976d2",
                 error: "#f44336",
                 success: "#4caf50",
             },
             fontFamily: {
-                sans: ["Montserrat", "Arial", "sans-serif"],
-            },
-            borderRadius: {
-                DEFAULT: "8px",
+                sans: ["var(--font-montserrat)"],
             },
         },
-    },
-    fontFamily: {
-        sans: ["var(--font-montserrat)"],
     },
     plugins: [],
 };
