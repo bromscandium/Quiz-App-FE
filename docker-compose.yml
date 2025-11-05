@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    environment:
+      - HOST=${HOST}
+      - PORT=${PORT}
+    command: npm run dev
