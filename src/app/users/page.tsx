@@ -1,4 +1,3 @@
-import { List } from '@components/list';
 import { UserCard } from '@templates/cards/user';
 
 const mockUsers = [
@@ -24,7 +23,11 @@ export default function UsersPage() {
     return (
         <div className="max-w-screen-xl mx-auto px-6 py-12">
             <h1 className="text-4xl text-text-primary font-bold mb-6">List of users</h1>
-            <List items={mockUsers} renderItem={(user) => <UserCard {...user} key={user.id} />} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {mockUsers.map((user) => (
+                    <UserCard key={user.id} {...user} />
+                ))}
+            </div>
         </div>
     );
 }

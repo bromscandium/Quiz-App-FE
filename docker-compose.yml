@@ -1,16 +1,16 @@
 services:
-  app:
-    build: .
-    env_file:
-      - .env
-    ports:
-      - "${PORT}:${PORT}"
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: ./app/src
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
+    app:
+        build: .
+        env_file:
+            - .env
+        ports:
+            - '${PORT}:${PORT}'
+        develop:
+            watch:
+                - action: sync
+                  path: ./src
+                  target: ./app/src
+                  ignore:
+                      - node_modules/
+                - action: rebuild
+                  path: package.json

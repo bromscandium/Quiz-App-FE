@@ -1,31 +1,43 @@
-import { Button } from '@components/button';
-import { Input } from '@components/input';
+import { Button } from '@ui/button';
+import { Input } from '@ui/input';
+import Link from 'next/link';
 
 export default function LoginPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background px-6">
-            <div className="w-full max-w-md bg-paper p-8 rounded shadow-md">
-                <h1 className="text-3xl font-bold text-text-primary mb-6 text-center">Login</h1>
+        <div className="min-h-screen flex items-center justify-center ">
+            <div className="w-full max-w-md bg-paper p-8 rounded shadow-md bg-white">
+                <h1 className="text-3xl font-bold text-primary mb-6 text-center">Login</h1>
 
-                <form className="flex flex-col">
-                    <Input label="Email" type="email" placeholder="Enter your email" required />
+                <div className="flex flex-col gap-4 w-full">
                     <Input
-                        label="Password"
-                        type="password"
-                        placeholder="Enter your password"
+                        type="email"
+                        placeholder="Enter your email"
+                        className="text-black placeholder-custom-primary-light"
                         required
                     />
-
-                    <Button type="submit" className="w-full mt-4">
+                    <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        className="text-black placeholder-custom-primary-light"
+                        required
+                    />
+                    <Button
+                        type="submit"
+                        className="w-full bg-primary text-white rounded-md hover:bg-custom-primary-dark transition-colors duration-200 font-medium"
+                    >
                         Sign In
                     </Button>
-                </form>
+                </div>
+
 
                 <p className="text-sm text-text-secondary mt-4 text-center">
                     Don’t have an account?{' '}
-                    <a href="/register" className="text-primary hover:text-primary-dark">
+                    <Link
+                        href="/register"
+                        className="text-primary hover:text-custom-primary-dark transition-colors duration-200"
+                    >
                         Sign up
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

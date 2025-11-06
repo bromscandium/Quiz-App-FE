@@ -1,35 +1,36 @@
 import Link from 'next/link';
+import { NavLinks } from '@enums/routes';
 
 export function Header() {
     const navLinks = [
-        { href: '/users', label: 'Users' },
-        { href: '/companies', label: 'Companies' },
-        { href: '/about', label: 'About' },
+        { href: NavLinks.Users, label: 'Users' },
+        { href: NavLinks.Companies, label: 'Companies' },
+        { href: NavLinks.About, label: 'About' },
     ];
 
     return (
-        <header className="bg-paper text-text-primary">
-            <div className="max-w-screen-xl mx-auto flex items-center px-6 py-6 relative">
-                <div className="absolute left-6 text-3xl font-bold">
+        <header className="bg-background shadow-md">
+            <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-4">
+                <div className="text-2xl font-bold text-primary">
                     <Link href="/">Quiz App</Link>
                 </div>
 
-                <nav className="flex-1 flex justify-center gap-6">
+                <nav className="flex-1 flex justify-center gap-8">
                     {navLinks.map((link) => (
                         <Link
                             key={link.href}
                             href={link.href}
-                            className="hover:text-primary transition-colors "
+                            className="text-primary hover:text-custom-primary-dark transition-colors duration-200 font-medium"
                         >
                             {link.label}
                         </Link>
                     ))}
                 </nav>
 
-                <div className="absolute right-6">
+                <div>
                     <Link
                         href="/login"
-                        className="text-text-primary hover:text-primary font-medium "
+                        className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-custom-primary-dark transition-colors duration-200 font-medium"
                     >
                         Login
                     </Link>

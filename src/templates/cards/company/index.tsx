@@ -1,4 +1,4 @@
-import { Card } from '@components/card';
+import { Card, CardHeader, CardTitle, CardContent } from 'ui/card';
 
 type CompanyCardProps = {
     id: string;
@@ -10,23 +10,23 @@ type CompanyCardProps = {
 
 export function CompanyCard({ name, owner, description, isPrivate }: CompanyCardProps) {
     return (
-        <Card>
-            <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-semibold text-text-primary">
-                    {name || 'Unnamed Company'}
-                </h2>
-                {isPrivate !== undefined && (
-                    <span
-                        className={`text-xs px-2 py-1 rounded ${
-                            isPrivate ? 'bg-error text-white' : 'bg-success text-white'
-                        }`}
-                    >
+        <Card className="w-72">
+            <CardHeader>
+                <CardTitle>{name}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-1 text-text-secondary text-sm">
+                <p>@{description}</p>
+                <p>{owner}</p>
+                <span
+                    className={`text-xs px-2 py-1 rounded ${
+                        isPrivate
+                            ? 'bg-custom-error text-white'
+                            : 'bg-custom-success text-white'
+                    }`}
+                >
                         {isPrivate ? 'Private' : 'Public'}
                     </span>
-                )}
-            </div>
-            <p className="text-text-secondary text-sm mb-1">Owner: {owner}</p>
-            {description && <p className="text-text-secondary text-sm">{description}</p>}
+            </CardContent>
         </Card>
     );
 }
