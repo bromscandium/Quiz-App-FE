@@ -1,0 +1,62 @@
+{
+  "home": {
+    "description": "Welcome to Quiz App! Test your knowledge, create your own quizzes, and challenge your friends."
+  },
+  "about": {
+    "title": "About Us",
+    "welcome": "Welcome to Quiz App, a modern platform built to make learning engaging and interactive. Our mission is to provide users with an easy-to-use environment where they can challenge themselves, track their knowledge, and have fun while doing it.",
+    "visionTitle": "Our Vision",
+    "visionText": "We aim to create a community where learning is accessible, interactive, and motivating. By combining technology with thoughtful design, we help users stay curious and continuously improve their skills.",
+    "offerTitle": "What We Offer",
+    "offerList": {
+      "firstPoint": "Wide variety of quizzes across multiple topics",
+      "secondPoint": "Progress tracking to monitor your growth",
+      "thirdPoint": "A clean, user-friendly interface",
+      "fourthPoint": "Ability to share quizzes and challenge friends"
+    },
+    "contactTitle": "Contact",
+    "contactQuestion": "Have questions or feedback?",
+    "contactEmail": "Reach out at {email}.",
+    "contactEnd": "We'd love to hear from you."
+  },
+  "companies": {
+    "title": "List of companies",
+    "company": {
+      "title": "Company",
+      "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
+    }
+  },
+  "users": {
+    "title": "List of users",
+    "user": {
+      "title": "User",
+      "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
+    }
+  },
+  "login": {
+    "title": "Login",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "register": {
+    "message": "Nothing to register."
+  },
+  "header": {
+    "users": "Users",
+    "companies": "Companies",
+    "about": "About",
+    "login": "Login"
+  },
+  "actions": {
+    "delete": "Delete",
+    "confirmDeleteTitle": "Are you sure?",
+    "confirmDeleteDescription": "This action cannot be undone. It will permanently delete {itemName} from your list.",
+    "cancel": "Cancel"
+  },
+  "test": {
+    "testItemName": "Something"
+  }
+}

@@ -1,4 +1,6 @@
+'use client';
 import { UserCard } from '@templates/cards/user';
+import { useTranslations } from 'next-intl';
 
 const mockUsers = [
     {
@@ -20,9 +22,11 @@ const mockUsers = [
 ];
 
 export default function UsersPage() {
+    const t = useTranslations('users');
+
     return (
         <div className="max-w-screen-xl mx-auto px-6 py-12">
-            <h1 className="text-4xl text-text-primary font-bold mb-6">List of users</h1>
+            <h1 className="text-4xl text-text-primary font-bold mb-6">{t('title')}</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {mockUsers.map((user) => (
                     <UserCard key={user.id} {...user} />

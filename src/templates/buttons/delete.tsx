@@ -1,58 +1,59 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from 'ui/button';
+import React from 'react';
 import {
-    Dialog,
-    DialogTrigger,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogClose,
-} from 'ui/dialog';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@ui/alert-dialog';
+import { Button } from '@ui/button';
+import { useTranslations } from 'next-intl';
 
 type DeleteButtonProps = {
     itemName: string;
-    onConfirm: () => void;
+    itemId: string | number;
+    onDelete: (id: string | number) => void;
 };
 
-export function DeleteButton({ itemName, onConfirm }: DeleteButtonProps) {
-    const [open, setOpen] = useState(false);
+export default function DeleteButton({ itemName, itemId, onDelete }: DeleteButtonProps) {
+    const t = useTranslations('actions');
+
+    const handleDelete = () => {
+        onDelete(itemId);
+    };
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button variant="destructive" className="hover:bg-red-800">
-                    Delete
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="gap-2 bg-red-600 hover:bg-red-700">
+                    {t('delete')}
                 </Button>
-            </DialogTrigger>
+            </AlertDialogTrigger>
 
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Confirm deleting</DialogTitle>
-                    <DialogDescription className="text-black">
-                        Are you sure about deleting {itemName}? This action cannot be undone.
-                    </DialogDescription>
-                </DialogHeader>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>{t('confirmDeleteTitle')}</AlertDialogTitle>
+                    <AlertDialogDescription className="text-black">
+                        {t('confirmDeleteDescription', { itemName })}
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
 
-                <div className="flex justify-end gap-2 mt-4">
-                    <DialogClose asChild className="text-black bg-white  hover:bg-gray-100">
-                        <Button variant="default">Cancel</Button>
-                    </DialogClose>
-
-                    <Button
-                        variant="destructive"
-                        className="hover:bg-red-800"
-                        onClick={() => {
-                            onConfirm();
-                            setOpen(false);
-                        }}
+                <AlertDialogFooter>
+                    <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
+                    <AlertDialogAction
+                        onClick={handleDelete}
+                        className="bg-red-600 hover:bg-red-700"
                     >
-                        Delete
-                    </Button>
-                </div>
-            </DialogContent>
-        </Dialog>
+                        {t('delete')}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 }

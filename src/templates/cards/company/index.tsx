@@ -19,13 +19,11 @@ export function CompanyCard({ name, owner, description, isPrivate }: CompanyCard
                 <p>{owner}</p>
                 <span
                     className={`text-xs px-2 py-1 rounded ${
-                        isPrivate
-                            ? 'bg-custom-error text-white'
-                            : 'bg-custom-success text-white'
+                        isPrivate ? 'bg-custom-error text-white' : 'bg-custom-success text-white'
                     }`}
                 >
-                        {isPrivate ? 'Private' : 'Public'}
-                    </span>
+                    {isPrivate ? 'Private' : 'Public'}
+                </span>
             </CardContent>
         </Card>
     );
