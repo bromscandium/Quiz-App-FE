@@ -1,16 +1,22 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState, AppDispatch } from '@libs/redux/store';
+import { setLanguage } from '@libs/redux/slices/language';
 
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@ui/select';
 
 export default function LanguageSelect() {
-    const locale = useLocale();
+    const dispatch = useDispatch<AppDispatch>();
+    const locale = useSelector((state: RootState) => state.language.locale);
     const router = useRouter();
 
     const handleChangeLocale = (newLocale: string) => {
+        dispatch(setLanguage(newLocale));
         document.cookie = `NEXT_LOCALE=${newLocale}; path=/`;
         router.push(`/${newLocale}`);
     };
