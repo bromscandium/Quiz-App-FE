@@ -7,6 +7,7 @@ import { routing } from '@libs/i18n/routing';
 import { notFound } from 'next/navigation';
 import '@styles/globals.css';
 import { setRequestLocale } from 'next-intl/server';
+import { StoreProvider } from '@libs/redux/StoreProvider';
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -40,13 +41,15 @@ export default async function RootLayout({
     }
 
     return (
-        <html lang={locale} className={montserrat.variable}>
-            <body className="min-h-screen antialiased font-sans">
-                <NextIntlClientProvider>
-                    <Header />
-                    {children}
-                </NextIntlClientProvider>
-            </body>
-        </html>
+        <StoreProvider>
+            <html lang={locale} className={montserrat.variable}>
+                <body className="min-h-screen antialiased font-sans">
+                    <NextIntlClientProvider>
+                        <Header />
+                        {children}
+                    </NextIntlClientProvider>
+                </body>
+            </html>
+        </StoreProvider>
     );
 }

@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 
 export default function AboutUsPage() {
     const t = useTranslations('about');
-    const email = 'wrongmail@gmail.com';
+    const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL!;
 
     return (
         <div className="max-w-4xl mx-auto px-6 py-12 text-text-primary flex flex-col gap-6">
