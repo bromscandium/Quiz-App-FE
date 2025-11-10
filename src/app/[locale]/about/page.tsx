@@ -1,38 +1,50 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import {
+    TypographyH1,
+    TypographyH2,
+    TypographyList,
+    TypographyListItem,
+    TypographyP,
+} from '@ui/typography';
+import Link from 'next/link';
 
 export default function AboutUsPage() {
     const t = useTranslations('about');
     const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL!;
 
+    const offerPoints = [
+        'offerList.firstPoint',
+        'offerList.secondPoint',
+        'offerList.thirdPoint',
+        'offerList.fourthPoint',
+    ];
+
     return (
-        <div className="max-w-4xl mx-auto px-6 py-12 text-text-primary flex flex-col gap-6">
-            <h1 className="text-4xl font-bold">{t('title')}</h1>
-
-            <p className="text-lg">{t('welcome')}</p>
-
-            <h2 className="text-2xl font-semibold">{t('visionTitle')}</h2>
-            <p>{t('visionText')}</p>
-
-            <h2 className="text-2xl font-semibold">{t('offerTitle')}</h2>
-            <ul className="list-disc list-inside flex flex-col gap-2">
-                <li>{t('offerList.firstPoint')}</li>
-                <li>{t('offerList.secondPoint')}</li>
-                <li>{t('offerList.thirdPoint')}</li>
-                <li>{t('offerList.fourthPoint')}</li>
-            </ul>
-
-            <h2 className="text-2xl font-semibold">{t('contactTitle')}</h2>
-            <p>{t('contactQuestion')}</p>
-            <p>
+        <div className="max-w-screen-xl mx-auto px-6 py-12 flex flex-col gap-6">
+            <TypographyH1>{t('title')}</TypographyH1>
+            <TypographyP>{t('welcome')}</TypographyP>
+            <TypographyH2>{t('visionTitle')}</TypographyH2>
+            <TypographyP>{t('visionText')}</TypographyP>
+            <TypographyH2>{t('offerTitle')}</TypographyH2>
+            <TypographyList>
+                {offerPoints.map((key) => (
+                    <TypographyListItem key={key}>{t(key)}</TypographyListItem>
+                ))}
+            </TypographyList>
+            <TypographyH2>{t('contactTitle')}</TypographyH2>
+            <TypographyP>
+                {t('contactQuestion')}
+                <br />
                 {t('contactEmail', { email }) && (
-                    <a className="text-primary hover:text-primary-dark" href={`mailto:${email}`}>
+                    <Link className="text-primary hover:text-primary-dark" href={`mailto:${email}`}>
                         {email}
-                    </a>
+                    </Link>
                 )}
-            </p>
-            <p>{t('contactEnd')}</p>
+                <br />
+                {t('contactEnd')}
+            </TypographyP>
         </div>
     );
 }
