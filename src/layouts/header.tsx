@@ -1,13 +1,27 @@
+'use client';
+
 import Link from 'next/link';
 import { NavLinks } from '@enums/routes';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import LanguageSelect from '@templates/selects/languages';
 
 export function Header() {
-    const navLinks = [
-        { href: NavLinks.Users, label: 'Users' },
-        { href: NavLinks.Companies, label: 'Companies' },
-        { href: NavLinks.About, label: 'About' },
-    ];
+    const t = useTranslations('header');
 
+    const locale = useLocale();
+    const router = useRouter();
+
+    const handleChangeLocale = (newLocale: string) => {
+        document.cookie = `NEXT_LOCALE=${newLocale}; path=/`;
+        router.push(`/${newLocale}`);
+    };
+
+    const navLinks = [
+        { href: `/${locale}${NavLinks.Users}`, label: t('users') },
+        { href: `/${locale}${NavLinks.Companies}`, label: t('companies') },
+        { href: `/${locale}${NavLinks.About}`, label: t('about') },
+    ];
     return (
         <header className="bg-background shadow-md">
             <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-4">
@@ -27,13 +41,14 @@ export function Header() {
                     ))}
                 </nav>
 
-                <div>
+                <div className="flex items-center gap-4">
                     <Link
-                        href="/login"
-                        className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-custom-primary-dark transition-colors duration-200 font-medium"
+                        href={`/${locale}/login`}
+                        className="px-4 py-1 bg-primary text-primary-foreground rounded-md hover:bg-custom-primary-dark transition-colors duration-200 font-medium"
                     >
-                        Login
+                        {t('login')}
                     </Link>
+                    <LanguageSelect />
                 </div>
             </div>
         </header>
