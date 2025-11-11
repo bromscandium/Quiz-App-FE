@@ -1,35 +1,30 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
-
+import { useRouter, usePathname } from '@libs/i18n/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { RootState, AppDispatch } from '@libs/redux/store';
 import { setLanguage } from '@libs/redux/slices/language';
-
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@ui/select';
+import { MenuItem, Select, SelectChangeEvent, FormControl } from '@mui/material';
 
 export default function LanguageSelect() {
     const dispatch = useDispatch<AppDispatch>();
     const locale = useSelector((state: RootState) => state.language.locale);
     const router = useRouter();
+    const pathname = usePathname();
 
-    const handleChangeLocale = (newLocale: string) => {
-        dispatch(setLanguage(newLocale));
-        document.cookie = `NEXT_LOCALE=${newLocale}; path=/`;
-        router.push(`/${newLocale}`);
+    const handleChange = ({ target: { value } }: SelectChangeEvent) => {
+        dispatch(setLanguage(value));
+        document.cookie = `NEXT_LOCALE=${value}; path=/`;
+        router.replace(pathname, { locale: value });
     };
 
     return (
-        <Select value={locale} onValueChange={handleChangeLocale}>
-            <SelectTrigger className="w-24">
-                <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem value="en">EN</SelectItem>
-                <SelectItem value="ua">UA</SelectItem>
-            </SelectContent>
-        </Select>
+        <FormControl size="small" sx={{ minWidth: 80 }}>
+            <Select value={locale} onChange={handleChange}>
+                <MenuItem value="en">EN</MenuItem>
+                <MenuItem value="ua">UA</MenuItem>
+            </Select>
+        </FormControl>
     );
 }

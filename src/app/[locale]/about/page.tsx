@@ -1,14 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import {
-    TypographyH1,
-    TypographyH2,
-    TypographyList,
-    TypographyListItem,
-    TypographyP,
-} from '@ui/typography';
-import Link from 'next/link';
+import { Box, Typography, List, ListItem, Link as MuiLink } from '@mui/material';
 
 export default function AboutUsPage() {
     const t = useTranslations('about');
@@ -22,29 +15,54 @@ export default function AboutUsPage() {
     ];
 
     return (
-        <div className="max-w-screen-xl mx-auto px-6 py-12 flex flex-col gap-6">
-            <TypographyH1>{t('title')}</TypographyH1>
-            <TypographyP>{t('welcome')}</TypographyP>
-            <TypographyH2>{t('visionTitle')}</TypographyH2>
-            <TypographyP>{t('visionText')}</TypographyP>
-            <TypographyH2>{t('offerTitle')}</TypographyH2>
-            <TypographyList>
+        <Box
+            sx={{
+                maxWidth: '1200px',
+                mx: 'auto',
+                px: 3,
+                py: 6,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 4,
+            }}
+        >
+            <Typography variant="h3" component="h1" fontWeight={800}>
+                {t('title')}
+            </Typography>
+
+            <Typography variant="body1">{t('welcome')}</Typography>
+
+            <Typography variant="h5" component="h2" fontWeight={700}>
+                {t('visionTitle')}
+            </Typography>
+            <Typography variant="body1">{t('visionText')}</Typography>
+
+            <Typography variant="h5" component="h2" fontWeight={700}>
+                {t('offerTitle')}
+            </Typography>
+            <List sx={{ pl: 2 }}>
                 {offerPoints.map((key) => (
-                    <TypographyListItem key={key}>{t(key)}</TypographyListItem>
+                    <ListItem key={key} sx={{ display: 'list-item', py: 0 }}>
+                        <Typography variant="body1">{t(key)}</Typography>
+                    </ListItem>
                 ))}
-            </TypographyList>
-            <TypographyH2>{t('contactTitle')}</TypographyH2>
-            <TypographyP>
-                {t('contactQuestion')}
-                <br />
-                {t('contactEmail', { email }) && (
-                    <Link className="text-primary hover:text-primary-dark" href={`mailto:${email}`}>
+            </List>
+
+            <Typography variant="h5" component="h2" fontWeight={700}>
+                {t('contactTitle')}
+            </Typography>
+            <Typography variant="body1">{t('contactQuestion')}</Typography>
+            {t('contactEmail', { email }) && (
+                <Typography variant="body1">
+                    <MuiLink
+                        href={`mailto:${email}`}
+                        sx={{ color: 'primary.main', '&:hover': { color: 'primary.dark' } }}
+                    >
                         {email}
-                    </Link>
-                )}
-                <br />
-                {t('contactEnd')}
-            </TypographyP>
-        </div>
+                    </MuiLink>
+                </Typography>
+            )}
+            <Typography variant="body1">{t('contactEnd')}</Typography>
+        </Box>
     );
 }

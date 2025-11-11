@@ -1,49 +1,75 @@
 'use client';
-import { Button } from '@ui/button';
-import { Input } from '@ui/input';
-import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
-import { TypographyH1, TypographyP } from '@ui/typography';
+
+import { Box, Typography, TextField, Button, Link as MuiLink } from '@mui/material';
+import { Link } from '@libs/i18n/navigation';
+import { useTranslations } from 'next-intl';
+import { NavLinks } from '@enums/routes';
 
 export default function LoginPage() {
     const t = useTranslations('login');
-    const locale = useLocale();
 
     return (
-        <div className="min-h-screen flex items-center justify-center">
-            <div className="w-full max-w-md bg-paper p-8 rounded shadow-md bg-white flex flex-col gap-6">
-                <TypographyH1 className="text-center">{t('title')}</TypographyH1>
-                <div className="flex flex-col gap-4 w-full">
-                    <Input
+        <Box
+            sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: 2,
+            }}
+        >
+            <Box
+                sx={{
+                    width: '100%',
+                    maxWidth: 400,
+                    bgcolor: 'background.paper',
+                    p: 4,
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 3,
+                }}
+            >
+                <Typography variant="h4" component="h1" textAlign="center" fontWeight={700}>
+                    {t('title')}
+                </Typography>
+
+                <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <TextField
                         type="email"
                         placeholder={t('emailPlaceholder')}
-                        className="text-black placeholder-custom-primary-light py-5"
                         required
+                        fullWidth
                     />
-                    <Input
+                    <TextField
                         type="password"
                         placeholder={t('passwordPlaceholder')}
-                        className="text-black placeholder-custom-primary-light py-5"
                         required
+                        fullWidth
                     />
                     <Button
                         type="submit"
-                        className="w-full bg-primary text-white rounded-md hover:bg-custom-primary-dark transition-colors duration-200 font-medium py-5"
+                        variant="contained"
+                        color="primary"
+                        sx={{ py: 1.5, fontWeight: 500 }}
+                        fullWidth
                     >
                         {t('signIn')}
                     </Button>
-                </div>
+                </Box>
 
-                <TypographyP className="text-center">
+                <Typography variant="body2" textAlign="center">
                     {t('noAccount')}{' '}
-                    <Link
-                        href={`/${locale}/register`}
-                        className="text-primary hover:text-custom-primary-dark transition-colors duration-200"
+                    <MuiLink
+                        component={Link}
+                        href={NavLinks.Register}
+                        sx={{ color: 'primary.main', '&:hover': { color: 'primary.dark' } }}
                     >
                         {t('signUp')}
-                    </Link>
-                </TypographyP>
-            </div>
-        </div>
+                    </MuiLink>
+                </Typography>
+            </Box>
+        </Box>
     );
 }

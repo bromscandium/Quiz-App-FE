@@ -1,13 +1,12 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { NextIntlClientProvider, hasLocale } from 'next-intl';
-import { Header } from '@layouts/header';
+import { hasLocale } from 'next-intl';
+import { Header } from '@layouts/Header';
 import { Montserrat } from 'next/font/google';
 import { routing } from '@libs/i18n/routing';
 import { notFound } from 'next/navigation';
-import '@styles/globals.css';
 import { setRequestLocale } from 'next-intl/server';
-import { StoreProvider } from '@libs/redux/StoreProvider';
+import { AppProviders } from '@layouts/AppProviders';
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -22,18 +21,15 @@ export const metadata: Metadata = {
     },
 };
 
-export function generateStaticParams() {
-    return routing.locales.map((locale) => ({ locale }));
-}
-
-export default async function RootLayout({
-    children,
-    params,
-}: {
+interface RootLayoutProps {
     children: React.ReactNode;
     params: Promise<{ locale: string }>;
-}) {
+}
+
+export default async function RootLayout({ children, params }: RootLayoutProps) {
     const { locale } = await params;
+    const messages = (await import(`@messages/${locale}.json`)).default;
+    const timeZone: string = process.env.NEXT_PUBLIC_TIMEZONE!;
 
     setRequestLocale(locale);
     if (!hasLocale(routing.locales, locale)) {
@@ -41,15 +37,13 @@ export default async function RootLayout({
     }
 
     return (
-        <StoreProvider>
-            <html lang={locale} className={montserrat.variable}>
-                <body className="min-h-screen antialiased font-sans">
-                    <NextIntlClientProvider>
-                        <Header />
-                        {children}
-                    </NextIntlClientProvider>
-                </body>
-            </html>
-        </StoreProvider>
+        <html lang={locale} className={montserrat.variable}>
+            <body className="min-h-screen antialiased font-sans">
+                <AppProviders locale={locale} messages={messages} timeZone={timeZone}>
+                    <Header />
+                    {children}
+                </AppProviders>
+            </body>
+        </html>
     );
 }

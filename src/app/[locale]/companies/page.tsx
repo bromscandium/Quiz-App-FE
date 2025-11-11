@@ -1,7 +1,7 @@
 'use client';
 import { CompanyCard } from '@templates/cards/company';
 import { useTranslations } from 'next-intl';
-import { TypographyH1 } from '@ui/typography';
+import { Box, Typography } from '@mui/material';
 
 const mockCompanies = [
     { id: '1', name: 'Acme Corp', owner: 'John', description: 'Tech company', isPrivate: true },
@@ -12,13 +12,38 @@ export default function CompaniesPage() {
     const t = useTranslations('companies');
 
     return (
-        <div className="max-w-screen-xl mx-auto px-6 py-12 flex flex-col gap-6">
-            <TypographyH1>{t('title')}</TypographyH1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <Box
+            sx={{
+                maxWidth: '1300px',
+                mx: 'auto',
+                px: 3,
+                py: 6,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 4,
+            }}
+        >
+            <Typography variant="h4" component="h2" fontWeight="bold">
+                {t('title')}
+            </Typography>
+
+            <Box
+                sx={{
+                    display: 'grid',
+                    gridTemplateColumns: {
+                        xs: '1fr',
+                        sm: 'repeat(2, 1fr)',
+                        md: 'repeat(3, 1fr)',
+                    },
+                    gap: 3,
+                }}
+            >
                 {mockCompanies.map((company) => (
-                    <CompanyCard key={company.id} {...company} />
+                    <Box key={company.id}>
+                        <CompanyCard {...company} />
+                    </Box>
                 ))}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }
