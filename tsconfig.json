@@ -27,11 +27,8 @@
       "@app/*": [
         "app/*"
       ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
+      "@enums/*": [
+        "enums/*"
       ],
       "@layouts/*": [
         "layouts/*"
@@ -39,29 +36,11 @@
       "@libs/*": [
         "libs/*"
       ],
-      "@locales/*": [
-        "locales/*"
-      ],
-      "@providers/*": [
-        "providers/*"
-      ],
       "@styles/*": [
         "styles/*"
       ],
       "@templates/*": [
         "templates/*"
-      ],
-      "@types/*": [
-        "types/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@enums/*": [
-        "enums/*"
-      ],
-      "@ui/*": [
-        "ui/*"
       ],
       "@messages/*": [
         "messages/*"

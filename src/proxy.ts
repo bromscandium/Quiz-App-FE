@@ -7,9 +7,15 @@ export function proxy(request: NextRequest) {
 
     const pathParts = pathname.split('/').filter(Boolean);
 
-    if (!routing.locales.includes(pathParts[0]) || pathParts[0] !== cookieLocale) {
+    const hasValidLocale =
+        pathParts[0] && (routing.locales as readonly string[]).includes(pathParts[0]);
+
+    if (!hasValidLocale || pathParts[0] !== cookieLocale) {
         const url = request.nextUrl.clone();
-        url.pathname = `/${cookieLocale}${pathname.replace(/^\/[^/]+/, '')}`;
+
+        const pathWithoutLocale = hasValidLocale ? pathname.replace(/^\/[^/]+/, '') : pathname;
+
+        url.pathname = `/${cookieLocale}${pathWithoutLocale}`;
 
         const response = NextResponse.redirect(url);
 
