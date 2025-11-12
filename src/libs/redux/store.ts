@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import languageSlice from './slices/language';
+import { languageReducer } from '@libs/redux/slices/language';
+import { loginReducer } from '@libs/redux/slices/login';
 
 export const store = configureStore({
-    reducer: {
-        language: languageSlice,
-    },
+	reducer: {
+		language: languageReducer,
+		login: loginReducer,
+	},
 });
 
 export type RootState = ReturnType<typeof store.getState>;
