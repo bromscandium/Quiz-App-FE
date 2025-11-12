@@ -45,7 +45,13 @@
     "passwordPlaceholder": "Enter your password",
     "signIn": "Sign In",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordInvalid": "Password must be at least 8 characters"
+    }
   },
   "register": {
     "message": "Nothing to register."

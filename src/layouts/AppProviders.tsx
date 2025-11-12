@@ -9,21 +9,30 @@ import { theme } from '@styles/theme';
 import type { Messages } from 'next-intl';
 
 interface AppProvidersProps {
-    children: ReactNode;
-    locale: string;
-    messages: Messages;
-    timeZone: string;
+	children: ReactNode;
+	locale: string;
+	messages: Messages;
+	timeZone: string;
 }
 
-export function AppProviders({ children, locale, messages, timeZone }: AppProvidersProps) {
-    return (
-        <ReduxProvider store={store}>
-            <NextIntlClientProvider locale={locale} messages={messages} timeZone={timeZone}>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    {children}
-                </ThemeProvider>
-            </NextIntlClientProvider>
-        </ReduxProvider>
-    );
+export function AppProviders({
+	children,
+	locale,
+	messages,
+	timeZone,
+}: AppProvidersProps) {
+	return (
+		<ReduxProvider store={store}>
+			<NextIntlClientProvider
+				locale={locale}
+				messages={messages}
+				timeZone={timeZone}
+			>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					{children}
+				</ThemeProvider>
+			</NextIntlClientProvider>
+		</ReduxProvider>
+	);
 }

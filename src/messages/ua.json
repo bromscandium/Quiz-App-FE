@@ -44,7 +44,13 @@
     "passwordPlaceholder": "Введіть ваш пароль",
     "signIn": "Увійти",
     "noAccount": "Немає облікового запису?",
-    "signUp": "Зареєструватися"
+    "signUp": "Зареєструватися",
+    "errors": {
+      "emailRequired": "Пошта обовʼязкова",
+      "emailInvalid": "Неправильний формат пошти",
+      "passwordRequired": "Пароль обовʼязковий",
+      "passwordShort": "Пароль має містити мінімум 8 символів"
+    }
   },
   "register": {
     "message": "Немає нічого для реєстрації."
