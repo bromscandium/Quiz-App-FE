@@ -1,59 +1,63 @@
 'use client';
 
-import React from 'react';
+import * as React from 'react';
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@ui/alert-dialog';
-import { Button } from '@ui/button';
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogContentText,
+	DialogActions,
+	Button,
+	Typography,
+} from '@mui/material';
 import { useTranslations } from 'next-intl';
 
 type DeleteButtonProps = {
-    itemName: string;
-    itemId: string | number;
-    onDelete: (id: string | number) => void;
+	itemName: string;
+	itemId: string | number;
+	onDelete: (id: string | number) => void;
 };
 
-export default function DeleteButton({ itemName, itemId, onDelete }: DeleteButtonProps) {
-    const t = useTranslations('actions');
+export default function DeleteButton({
+	itemName,
+	itemId,
+	onDelete,
+}: DeleteButtonProps) {
+	const t = useTranslations('actions');
+	const [open, setOpen] = React.useState(false);
 
-    const handleDelete = () => {
-        onDelete(itemId);
-    };
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
-    return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="gap-2 bg-red-600 hover:bg-red-700">
-                    {t('delete')}
-                </Button>
-            </AlertDialogTrigger>
+	const handleDelete = () => {
+		onDelete(itemId);
+		handleClose();
+	};
 
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>{t('confirmDeleteTitle')}</AlertDialogTitle>
-                    <AlertDialogDescription className="text-black">
-                        {t('confirmDeleteDescription', { itemName })}
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
+	return (
+		<>
+			<Button color="error" variant="contained" onClick={handleOpen}>
+				<Typography>{t('delete')}</Typography>
+			</Button>
 
-                <AlertDialogFooter>
-                    <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                    <AlertDialogAction
-                        onClick={handleDelete}
-                        className="bg-red-600 hover:bg-red-700"
-                    >
-                        {t('delete')}
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-    );
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle>{t('confirmDeleteTitle')}</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						{t('confirmDeleteDescription', { itemName })}
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose}>{t('cancel')}</Button>
+					<Button
+						onClick={handleDelete}
+						color="error"
+						variant="contained"
+					>
+						{t('delete')}
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</>
+	);
 }

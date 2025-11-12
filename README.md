@@ -1,6 +1,7 @@
 # Quiz App FE
 
-This guide explains how to set up and run the Quiz App frontend using Docker and Docker Compose.
+This guide explains how to set up and run the Quiz App frontend using
+Docker and Docker Compose.
 
 ## Commands
 

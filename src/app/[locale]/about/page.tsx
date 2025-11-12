@@ -1,38 +1,85 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import {
+	Box,
+	Typography,
+	List,
+	ListItem,
+	Link as MuiLink,
+} from '@mui/material';
 
 export default function AboutUsPage() {
-    const t = useTranslations('about');
-    const email = 'wrongmail@gmail.com';
+	const t = useTranslations('about');
+	const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL!;
 
-    return (
-        <div className="max-w-4xl mx-auto px-6 py-12 text-text-primary flex flex-col gap-6">
-            <h1 className="text-4xl font-bold">{t('title')}</h1>
+	const offerPoints = [
+		'offerList.firstPoint',
+		'offerList.secondPoint',
+		'offerList.thirdPoint',
+		'offerList.fourthPoint',
+	];
 
-            <p className="text-lg">{t('welcome')}</p>
+	return (
+		<Box
+			sx={{
+				maxWidth: '1200px',
+				mx: 'auto',
+				px: 3,
+				py: 6,
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 4,
+			}}
+		>
+			<Typography variant="h3" component="h1" fontWeight={800}>
+				{t('title')}
+			</Typography>
 
-            <h2 className="text-2xl font-semibold">{t('visionTitle')}</h2>
-            <p>{t('visionText')}</p>
+			<Typography variant="body1">{t('welcome')}</Typography>
 
-            <h2 className="text-2xl font-semibold">{t('offerTitle')}</h2>
-            <ul className="list-disc list-inside flex flex-col gap-2">
-                <li>{t('offerList.firstPoint')}</li>
-                <li>{t('offerList.secondPoint')}</li>
-                <li>{t('offerList.thirdPoint')}</li>
-                <li>{t('offerList.fourthPoint')}</li>
-            </ul>
+			<Typography variant="h5" component="h2" fontWeight={700}>
+				{t('visionTitle')}
+			</Typography>
+			<Typography variant="body1">{t('visionText')}</Typography>
 
-            <h2 className="text-2xl font-semibold">{t('contactTitle')}</h2>
-            <p>{t('contactQuestion')}</p>
-            <p>
-                {t('contactEmail', { email }) && (
-                    <a className="text-primary hover:text-primary-dark" href={`mailto:${email}`}>
-                        {email}
-                    </a>
-                )}
-            </p>
-            <p>{t('contactEnd')}</p>
-        </div>
-    );
+			<Typography variant="h5" component="h2" fontWeight={700}>
+				{t('offerTitle')}
+			</Typography>
+			<List sx={{ pl: 2 }}>
+				{offerPoints.map((key) => (
+					<ListItem
+						key={key}
+						sx={{
+							display: 'list-item',
+							py: 0,
+						}}
+					>
+						<Typography variant="body1">{t(key)}</Typography>
+					</ListItem>
+				))}
+			</List>
+
+			<Typography variant="h5" component="h2" fontWeight={700}>
+				{t('contactTitle')}
+			</Typography>
+			<Typography variant="body1">{t('contactQuestion')}</Typography>
+			{t('contactEmail', { email }) && (
+				<Typography variant="body1">
+					<MuiLink
+						href={`mailto:${email}`}
+						sx={{
+							color: 'primary.main',
+							'&:hover': {
+								color: 'primary.dark',
+							},
+						}}
+					>
+						{email}
+					</MuiLink>
+				</Typography>
+			)}
+			<Typography variant="body1">{t('contactEnd')}</Typography>
+		</Box>
+	);
 }

@@ -16,11 +16,15 @@
     },
     "contactTitle": "Contact",
     "contactQuestion": "Have questions or feedback?",
-    "contactEmail": "Reach out at {email}.",
+    "contactEmail": "Reach out at ",
     "contactEnd": "We'd love to hear from you."
   },
   "companies": {
     "title": "List of companies",
+    "private": "Private",
+    "public": "Public",
+
+    "viewCompany": "View Company",
     "company": {
       "title": "Company",
       "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
@@ -28,6 +32,8 @@
   },
   "users": {
     "title": "List of users",
+    "viewProfile": "View Profile",
+    "joinedAt": "Joined At",
     "user": {
       "title": "User",
       "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
@@ -39,7 +45,13 @@
     "passwordPlaceholder": "Enter your password",
     "signIn": "Sign In",
     "noAccount": "Don't have an account?",
-    "signUp": "Sign up"
+    "signUp": "Sign up",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordInvalid": "Password must be at least 8 characters"
+    }
   },
   "register": {
     "message": "Nothing to register."

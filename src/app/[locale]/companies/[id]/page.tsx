@@ -1,14 +1,19 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Box, Typography } from '@mui/material';
 
 export default function CompanyPage() {
-    const t = useTranslations('companies');
+	const t = useTranslations('companies');
 
-    return (
-        <div>
-            <h1 className="text-4xl text-text-primary font-bold">{t('company.title')}</h1>
-            <h3 className="text-2xl">{t('company.note')}</h3>
-        </div>
-    );
+	return (
+		<Box component="main">
+			<Typography variant="h3" component="h2">
+				{t('company.title')}
+			</Typography>
+			<Typography variant="h4" component="h4">
+				{t('company.note')}
+			</Typography>
+		</Box>
+	);
 }
