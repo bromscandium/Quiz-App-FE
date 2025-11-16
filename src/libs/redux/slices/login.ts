@@ -25,12 +25,15 @@ const loginSlice = createSlice({
 		setPassword: (state, action: PayloadAction<string>) => {
 			state.password = action.payload;
 		},
-        setErrors: (state, action: PayloadAction<LoginState['errors']>) => {
-            state.errors = action.payload;
-        },
-        clearErrors: (state) => {
-            state.errors = {};
-        },
+		setErrors: (
+			state,
+			action: PayloadAction<LoginState['errors']>,
+		) => {
+			state.errors = action.payload;
+		},
+		clearErrors: (state) => {
+			state.errors = {};
+		},
 	},
 });
 

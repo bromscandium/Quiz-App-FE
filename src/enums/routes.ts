@@ -1,4 +1,4 @@
-export enum NavLinks {
+export enum Routers {
 	Home = '/',
 	Users = '/users',
 	Companies = '/companies',

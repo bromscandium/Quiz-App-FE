@@ -9,7 +9,7 @@ import {
 	Button,
 } from '@mui/material';
 import { useRouter } from '@libs/i18n/navigation';
-import { NavLinks } from '@enums/routes';
+import { Routers } from '@enums/routes';
 import { useTranslations } from 'next-intl';
 
 type CompanyCardProps = {
@@ -93,7 +93,7 @@ export function CompanyCard({
 					variant="contained"
 					color="primary"
 					onClick={() =>
-						router.push(`${NavLinks.Companies}/${id}`)
+						router.push(`${Routers.Companies}/${id}`)
 					}
 				>
 					{t('viewCompany')}
