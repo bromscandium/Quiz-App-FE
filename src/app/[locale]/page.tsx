@@ -1,16 +1,25 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
 import DeleteButton from '@templates/buttons/delete';
+import * as HealthCheckApi from '@api/healthcheck';
 
 export default function HomePage() {
 	const tHome = useTranslations('home');
 	const tTest = useTranslations('test');
-    const applicationName: string = process.env.NEXT_PUBLIC_APP_NAME!;
+	const applicationName: string = process.env.NEXT_PUBLIC_APP_NAME!;
 
+	const handleHealthCheck = async () => {
+		try {
+			const response = await HealthCheckApi.getHealthCheckRedis();
+			console.log('HealthCheck:', response.data);
+		} catch (error) {
+			console.error('HealthCheck error:', error);
+		}
+	};
 
-    return (
+	return (
 		<Box
 			sx={{
 				minHeight: '100vh',
@@ -31,7 +40,7 @@ export default function HomePage() {
 				}}
 			>
 				<Typography variant="h2" component="h1" fontWeight="bold">
-                    {applicationName}
+					{applicationName}
 				</Typography>
 
 				<Typography variant="body1" color="text.secondary">
@@ -43,6 +52,9 @@ export default function HomePage() {
 					itemId={123}
 					onDelete={() => console.log('Deleted item')}
 				/>
+				<Button onClick={handleHealthCheck}>
+					Test Health Check For Development
+				</Button>
 			</Box>
 		</Box>
 	);

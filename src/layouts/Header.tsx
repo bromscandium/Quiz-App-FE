@@ -3,25 +3,25 @@
 import { AppBar, Toolbar, Box, Button, Typography } from '@mui/material';
 import { Link } from '@libs/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { NavLinks } from '@enums/routes';
+import { Routers } from '@enums/routes';
 import LanguageSelect from '@templates/selects/languages';
 
 export function Header() {
 	const t = useTranslations('header');
 
-    const applicationName: string = process.env.NEXT_PUBLIC_APP_NAME!;
+	const applicationName: string = process.env.NEXT_PUBLIC_APP_NAME!;
 
 	const navLinks = [
 		{
-			href: NavLinks.Users,
+			href: Routers.Users,
 			label: t('users'),
 		},
 		{
-			href: NavLinks.Companies,
+			href: Routers.Companies,
 			label: t('companies'),
 		},
 		{
-			href: NavLinks.About,
+			href: Routers.About,
 			label: t('about'),
 		},
 	];
@@ -50,14 +50,14 @@ export function Header() {
 				<Typography
 					variant="h5"
 					component={Link}
-					href={NavLinks.Home}
+					href={Routers.Home}
 					sx={{
 						textDecoration: 'none',
 						color: 'primary.main',
 						fontWeight: 'bold',
 					}}
 				>
-                    {applicationName}
+					{applicationName}
 				</Typography>
 
 				<Box
@@ -91,7 +91,7 @@ export function Header() {
 				>
 					<Button
 						component={Link}
-						href={NavLinks.Login}
+						href={Routers.Login}
 						variant="contained"
 						color="primary"
 					>
