@@ -8,9 +8,9 @@ import {
 	Box,
 	Button,
 } from '@mui/material';
-import { useRouter } from '@libs/i18n/navigation';
-import { Routers } from '@enums/routes';
-import { useTranslations } from 'next-intl';
+import {useRouter} from '@libs/i18n/navigation';
+import {Routes} from '@enums/routes';
+import {useTranslations} from 'next-intl';
 
 type CompanyCardProps = {
 	id: string;
@@ -77,9 +77,7 @@ export function CompanyCard({
 							px: 1,
 							py: 0.5,
 							borderRadius: 1,
-							bgcolor: isPrivate
-								? 'error.main'
-								: 'success.main',
+							bgcolor: isPrivate ? 'error.main' : 'success.main',
 							color: 'common.white',
 							width: 'fit-content',
 							mt: 0.5,
@@ -92,9 +90,7 @@ export function CompanyCard({
 					fullWidth
 					variant="contained"
 					color="primary"
-					onClick={() =>
-						router.push(`${Routers.Companies}/${id}`)
-					}
+					onClick={() => router.push(`${Routes.Companies.href}/${id}`)}
 				>
 					{t('viewCompany')}
 				</Button>

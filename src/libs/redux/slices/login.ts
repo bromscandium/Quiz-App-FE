@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface LoginState {
 	email: string;
@@ -6,6 +6,7 @@ interface LoginState {
 	errors: {
 		email?: string;
 		password?: string;
+		general?: string;
 	};
 }
 
@@ -25,10 +26,7 @@ const loginSlice = createSlice({
 		setPassword: (state, action: PayloadAction<string>) => {
 			state.password = action.payload;
 		},
-		setErrors: (
-			state,
-			action: PayloadAction<LoginState['errors']>,
-		) => {
+		setErrors: (state, action: PayloadAction<LoginState['errors']>) => {
 			state.errors = action.payload;
 		},
 		clearErrors: (state) => {
@@ -37,6 +35,6 @@ const loginSlice = createSlice({
 	},
 });
 
-export const { setEmail, setPassword, setErrors, clearErrors } =
+export const {setEmail, setPassword, setErrors, clearErrors} =
 	loginSlice.actions;
 export const loginReducer = loginSlice.reducer;

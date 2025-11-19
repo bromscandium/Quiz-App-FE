@@ -10,7 +10,7 @@ import {
 	Button,
 	Typography,
 } from '@mui/material';
-import { useTranslations } from 'next-intl';
+import {useTranslations} from 'next-intl';
 
 type DeleteButtonProps = {
 	itemName: string;
@@ -44,7 +44,7 @@ export default function DeleteButton({
 				<DialogTitle>{t('confirmDeleteTitle')}</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						{t('confirmDeleteDescription', { itemName })}
+						{t('confirmDeleteDescription', {itemName})}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>

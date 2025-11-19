@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface LanguageState {
 	locale: string;
@@ -18,5 +18,5 @@ const languageSlice = createSlice({
 	},
 });
 
-export const { setLanguage } = languageSlice.actions;
+export const {setLanguage} = languageSlice.actions;
 export const languageReducer = languageSlice.reducer;

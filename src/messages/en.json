@@ -47,6 +47,7 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
     "errors": {
+      "generalError": "Something went wrong, try again",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email format",
       "passwordRequired": "Password is required",
@@ -60,7 +61,10 @@
     "users": "Users",
     "companies": "Companies",
     "about": "About",
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile",
+    "menu": "Menu"
   },
   "actions": {
     "delete": "Delete",

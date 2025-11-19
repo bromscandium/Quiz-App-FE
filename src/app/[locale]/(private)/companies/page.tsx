@@ -1,7 +1,7 @@
 'use client';
-import { CompanyCard } from '@templates/cards/company';
-import { useTranslations } from 'next-intl';
-import { Box, Typography } from '@mui/material';
+import {CompanyCard} from '@templates/cards/company';
+import {useTranslations} from 'next-intl';
+import {Box, Typography} from '@mui/material';
 
 const mockCompanies = [
 	{

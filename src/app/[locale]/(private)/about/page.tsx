@@ -1,13 +1,7 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import {
-	Box,
-	Typography,
-	List,
-	ListItem,
-	Link as MuiLink,
-} from '@mui/material';
+import {useTranslations} from 'next-intl';
+import {Box, Typography, List, ListItem, Link as MuiLink} from '@mui/material';
 
 export default function AboutUsPage() {
 	const t = useTranslations('about');
@@ -46,7 +40,7 @@ export default function AboutUsPage() {
 			<Typography variant="h5" component="h2" fontWeight={700}>
 				{t('offerTitle')}
 			</Typography>
-			<List sx={{ pl: 2 }}>
+			<List sx={{pl: 2}}>
 				{offerPoints.map((key) => (
 					<ListItem
 						key={key}
@@ -64,7 +58,7 @@ export default function AboutUsPage() {
 				{t('contactTitle')}
 			</Typography>
 			<Typography variant="body1">{t('contactQuestion')}</Typography>
-			{t('contactEmail', { email }) && (
+			{t('contactEmail', {email}) && (
 				<Typography variant="body1">
 					<MuiLink
 						href={`mailto:${email}`}
