@@ -1,7 +1,7 @@
 'use client';
-import { UserCard } from '@templates/cards/user';
-import { useTranslations } from 'next-intl';
-import { Box, Typography } from '@mui/material';
+import {UserCard} from '@templates/cards/user';
+import {useTranslations} from 'next-intl';
+import {Box, Typography} from '@mui/material';
 
 const mockUsers = [
 	{

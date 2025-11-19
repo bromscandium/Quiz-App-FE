@@ -1,13 +1,16 @@
-export enum Endpoints {
-	HealthCheck = '/',
-	Users = '/users/',
-	Auth = '/auth/',
-	Companies = '/companies/',
-	Memberships = '/memberships/',
-	CompanyActions = '/company_actions/',
-	Quizzes = '/quizzes/',
-	Quiz_attempts = '/quiz_attempts/',
-	Stats = '/stats/',
-	Export = '/export/',
-	Notifications = '/notifications/',
-}
+export const Endpoints = {
+	HealthCheck: {
+		root: '/',
+		db: '/health/db',
+		redis: '/health/redis',
+	},
+	Auth: {
+		login: '/auth/login',
+		logout: '/auth/logout',
+		refresh: '/auth/refresh',
+		me: 'auth/me',
+	},
+	Users: {
+		create: '/users',
+	},
+};

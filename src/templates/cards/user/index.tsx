@@ -6,9 +6,9 @@ import {
 	Box,
 	Button,
 } from '@mui/material';
-import { useRouter } from '@libs/i18n/navigation';
-import { Routers } from '@enums/routes';
-import { useTranslations } from 'next-intl';
+import {useRouter} from '@libs/i18n/navigation';
+import {Routes} from '@enums/routes';
+import {useTranslations} from 'next-intl';
 
 type UserCardProps = {
 	id: string;
@@ -84,7 +84,7 @@ export function UserCard({
 					<Typography
 						variant="body2"
 						color="text.secondary"
-						sx={{ fontWeight: 500 }}
+						sx={{fontWeight: 500}}
 					>
 						{t('joinedAt')}: {created_at}
 					</Typography>
@@ -93,7 +93,7 @@ export function UserCard({
 					fullWidth
 					variant="contained"
 					color="primary"
-					onClick={() => router.push(`${Routers.Users}/${id}`)}
+					onClick={() => router.push(`${Routes.Users.href}/${id}`)}
 				>
 					{t('viewProfile')}
 				</Button>

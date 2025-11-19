@@ -24,6 +24,9 @@
     ],
     "baseUrl": "src",
     "paths": {
+      "@actions/*": [
+        "actions/*"
+      ],
       "@api/*": [
         "api/*"
       ],
@@ -39,14 +42,17 @@
       "@libs/*": [
         "libs/*"
       ],
+      "@messages/*": [
+        "messages/*"
+      ],
+      "@schemas/*": [
+        "schemas/*"
+      ],
       "@styles/*": [
         "styles/*"
       ],
       "@templates/*": [
         "templates/*"
-      ],
-      "@messages/*": [
-        "messages/*"
       ]
     }
   },

@@ -1,7 +1,7 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { Box, Typography } from '@mui/material';
+import {useTranslations} from 'next-intl';
+import {Box, Typography} from '@mui/material';
 
 export default function CompanyPage() {
 	const t = useTranslations('companies');

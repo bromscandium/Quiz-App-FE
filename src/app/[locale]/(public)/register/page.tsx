@@ -1,7 +1,7 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
-import { useTranslations } from 'next-intl';
+import {Box, Typography} from '@mui/material';
+import {useTranslations} from 'next-intl';
 
 export default function RegisterPage() {
 	const t = useTranslations('register');
