@@ -1,56 +1,42 @@
 'use server';
 
-import {cookies} from 'next/headers';
-import {login, logout} from '@api/auth';
-import {LoginRequest} from '@schemas/auth';
-import {redirect} from '@libs/i18n/navigation';
-import {routing} from '@libs/i18n/routing';
-import {Routes} from '@enums/routes';
+import { CookieNames, Limits, Routes } from '@constants';
+import { deleteCookie, getCookie, setCookie } from '@helpers/cookies';
+import { redirectWithLocale } from '@helpers/redirect';
+import { AuthInterfaces } from '@interfaces';
 
-export async function loginActions(data: LoginRequest) {
-	const response = await login(data);
+import { login, logout } from '@api/auth';
 
-	const cookieStore = await cookies();
+export async function loginActions(data: AuthInterfaces.LoginRequest) {
+  try {
+    const response = await login(data);
 
-	cookieStore.set('ACCESS_TOKEN', response.data.access_token, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === 'production',
-		sameSite: 'lax',
-		maxAge: 3600,
-		path: '/',
-	});
+    await setCookie({
+      name: CookieNames.ACCESS_TOKEN,
+      value: response.data.access_token,
+      maxAge: Limits.COOKIE_MAX_AGE.HOUR,
+    });
 
-	cookieStore.set('REFRESH_TOKEN', response.data.refresh_token, {
-		httpOnly: true,
-		secure: process.env.NODE_ENV === 'production',
-		sameSite: 'lax',
-		maxAge: 259200,
-		path: '/',
-	});
+    await setCookie({
+      name: CookieNames.REFRESH_TOKEN,
+      value: response.data.refresh_token,
+      maxAge: Limits.COOKIE_MAX_AGE.MONTH,
+    });
+  } catch (error: any) {
+    return error?.response?.data?.detail ?? 'Unknown error occurred.';
+  }
 
-	return {success: true};
+  await redirectWithLocale(Routes.Home.href);
 }
 
 export async function logoutActions() {
-	const cookieStore = await cookies();
+  const refreshToken = await getCookie({ name: CookieNames.REFRESH_TOKEN });
+  if (refreshToken) {
+    await logout({ refresh_token: refreshToken });
+  }
 
-	const refreshTokenCookie = cookieStore.get('REFRESH_TOKEN')!;
-	const currentLocaleCookie = cookieStore.get('NEXT_LOCALE');
+  await deleteCookie({ name: CookieNames.ACCESS_TOKEN });
+  await deleteCookie({ name: CookieNames.REFRESH_TOKEN });
 
-	if (!refreshTokenCookie) {
-		redirect({
-			href: Routes.Login.href,
-			locale: currentLocaleCookie?.value || routing.defaultLocale,
-		});
-	}
-
-	await logout({refresh_token: refreshTokenCookie.value});
-
-	cookieStore.delete('REFRESH_TOKEN');
-	cookieStore.delete('ACCESS_TOKEN');
-
-	redirect({
-		href: Routes.Login.href,
-		locale: currentLocaleCookie?.value || routing.defaultLocale,
-	});
+  await redirectWithLocale(Routes.Login.href);
 }

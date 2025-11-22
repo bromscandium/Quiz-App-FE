@@ -1,0 +1,5 @@
+export const CookieNames = {
+  ACCESS_TOKEN: 'ACCESS_TOKEN',
+  REFRESH_TOKEN: 'REFRESH_TOKEN',
+  LOCALE: 'NEXT_LOCALE',
+};

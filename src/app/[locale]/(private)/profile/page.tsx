@@ -1,18 +1,39 @@
 'use client';
-import {useTranslations} from 'next-intl';
-import {Box, Typography} from '@mui/material';
 
-export default function UserPage() {
-	const t = useTranslations('users');
+import { useEffect } from 'react';
 
-	return (
-		<Box component="main">
-			<Typography variant="h3" component="h2">
-				{t('user.title')}
-			</Typography>
-			<Typography variant="h4" component="h4">
-				{t('user.note')}
-			</Typography>
-		</Box>
-	);
+import { Box, CircularProgress } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Profile from '@components/profile/Profile';
+
+import { readUserByMe } from '@libs/redux/slices/user';
+import { AppDispatch, RootState } from '@libs/redux/store';
+
+export default function ProfilePage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { selectedUser: user, loading } = useSelector(
+    (state: RootState) => state.user
+  );
+
+  useEffect(() => {
+    dispatch(readUserByMe());
+  }, [dispatch]);
+
+  if (loading || !user) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
+
+  return <Profile user={user} />;
 }

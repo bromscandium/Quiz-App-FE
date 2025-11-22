@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,36 +20,20 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@actions/*": [
-        "actions/*"
-      ],
-      "@api/*": [
-        "api/*"
-      ],
-      "@app/*": [
-        "app/*"
-      ],
-      "@enums/*": [
-        "enums/*"
-      ],
-      "@layouts/*": [
-        "layouts/*"
-      ],
-      "@libs/*": [
-        "libs/*"
-      ],
-      "@messages/*": [
-        "messages/*"
-      ],
-      "@schemas/*": [
-        "schemas/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@templates/*": [
-        "templates/*"
-      ]
+      "@actions/*": ["actions/*"],
+      "@api/*": ["api/*"],
+      "@api": ["api"],
+      "@app/*": ["app/*"],
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@constants": ["constants"],
+      "@helpers/*": ["helpers/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@interfaces": ["interfaces"],
+      "@layouts/*": ["layouts/*"],
+      "@libs/*": ["libs/*"],
+      "@messages/*": ["messages/*"],
+      "@styles/*": ["styles/*"]
     }
   },
   "include": [
@@ -64,7 +44,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

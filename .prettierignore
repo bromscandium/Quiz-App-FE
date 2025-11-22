@@ -3,3 +3,13 @@ node_modules
 .idea
 .gitignore
 .git
+.husky
+public
+.dockerignore
+.env
+.env.sample
+.gitattributes
+docker-compose.yml
+Dockerfile
+package-lock.json
+README.md

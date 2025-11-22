@@ -1,5 +1,6 @@
+import { Endpoints } from '@constants/endpoints';
+
 import api from '@libs/axios/axios';
-import {Endpoints} from '@enums/endpoints';
 
 export const getHealthCheck = () => api.get(Endpoints.HealthCheck.root);
 

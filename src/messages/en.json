@@ -20,10 +20,12 @@
     "contactEnd": "We'd love to hear from you."
   },
   "companies": {
+    "owner": "Owner",
     "title": "List of companies",
     "private": "Private",
     "public": "Public",
-
+    "viewActivities": "View Activities",
+    "noCompanies": "User does not have companies.",
     "viewCompany": "View Company",
     "company": {
       "title": "Company",
@@ -39,6 +41,22 @@
       "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
     }
   },
+  "profile": {
+    "name": "Name",
+    "surname": "Surname",
+    "nickname": "Nickname",
+    "email": "Email",
+    "birthday": "Birthday",
+    "bio": "Bio",
+    "created": "Created",
+    "editProfile": "Edit profile",
+    "password": "Password",
+    "notSet": "Not set",
+    "save": "Save",
+    "cancel": "Cancel",
+    "userInfoTitle": "Information",
+    "companiesTitle": "Companies"
+  },
   "login": {
     "title": "Login",
     "emailPlaceholder": "Enter your email",
@@ -47,15 +65,30 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
     "errors": {
-      "generalError": "Something went wrong, try again",
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email format",
       "passwordRequired": "Password is required",
-      "passwordInvalid": "Password must be at least 8 characters"
+      "passwordInvalid": "Password must be at least 6 characters"
     }
   },
   "register": {
-    "message": "Nothing to register."
+    "title": "Register",
+    "namePlaceholder": "Enter your name",
+    "surnamePlaceholder": "Enter your surname",
+    "nicknamePlaceholder": "Enter your nickname",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "haveAccount": "Already have an account?",
+    "signUp": "Sign up",
+    "errors": {
+      "nameRequired": "Name is required",
+      "nicknameRequired": "Nickname is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordInvalid": "Password must be at least 6 characters"
+    }
   },
   "header": {
     "users": "Users",
@@ -69,7 +102,7 @@
   "actions": {
     "delete": "Delete",
     "confirmDeleteTitle": "Are you sure?",
-    "confirmDeleteDescription": "This action cannot be undone. It will permanently delete {itemName} from your list.",
+    "confirmDeleteDescription": "This action cannot be undone.",
     "cancel": "Cancel"
   },
   "test": {

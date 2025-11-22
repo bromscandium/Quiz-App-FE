@@ -1,0 +1,10 @@
+export const Limits = {
+  COOKIE_MAX_AGE: {
+    HOUR: 3600,
+    DAY: 86400,
+    WEEK: 604800,
+    MONTH: 2592000,
+    YEAR: 315360000,
+  },
+  AXIOS_TIMEOUT: 10000,
+};
