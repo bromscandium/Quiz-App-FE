@@ -1,19 +1,44 @@
 'use client';
+import { useEffect } from 'react';
 
-import {useTranslations} from 'next-intl';
-import {Box, Typography} from '@mui/material';
+import { useParams } from 'next/navigation';
+
+import { Box, CircularProgress } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Profile from '@components/profile/Profile';
+
+import { readUserByIdThunk } from '@libs/redux/slices/user';
+import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function UserPage() {
-	const t = useTranslations('users');
+  const { id } = useParams();
 
-	return (
-		<Box component="main">
-			<Typography variant="h3" component="h2">
-				{t('user.title')}
-			</Typography>
-			<Typography variant="h4" component="h4">
-				{t('user.note')}
-			</Typography>
-		</Box>
-	);
+  const userId = Array.isArray(id) ? id[0] : id;
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { selectedUser: user, loading } = useSelector(
+    (state: RootState) => state.user
+  );
+
+  useEffect(() => {
+    if (userId) dispatch(readUserByIdThunk(userId));
+  }, [dispatch, userId]);
+
+  if (loading || !user) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
+
+  return <Profile user={user} />;
 }

@@ -20,9 +20,12 @@
     "contactEnd": "Ми будемо раді отримати ваші відгуки."
   },
   "companies": {
+    "owner": "Власник",
     "title": "Список компаній",
     "private": "Приватна",
     "public": "Публічна",
+    "viewActivities": "Переглянути активності",
+    "noCompanies": "Користувач не має компаній.",
     "viewCompany": "Переглянути компанію",
     "company": {
       "title": "Компанія",
@@ -38,6 +41,22 @@
       "note": "Якщо ви бачите цей текст, бекенд ще не працює (і стилі ще не зроблені)"
     }
   },
+  "profile": {
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "nickname": "Нікнейм",
+    "email": "Електронна пошта",
+    "birthday": "Дата народження",
+    "bio": "Опис",
+    "created": "Створено",
+    "editProfile": "Змінити профіль",
+    "password": "Пароль",
+    "notSet": "Не встановлено",
+    "save": "Зберегти",
+    "cancel": "Відмінити",
+    "userInfoTitle": "Інформація",
+    "companiesTitle": "Компанії"
+  },
   "login": {
     "title": "Вхід",
     "emailPlaceholder": "Введіть вашу електронну пошту",
@@ -46,7 +65,6 @@
     "noAccount": "Немає облікового запису?",
     "signUp": "Зареєструватися",
     "errors": {
-      "generalError": "Щось пішло не так, спробуйте ще раз",
       "emailRequired": "Пошта обовʼязкова",
       "emailInvalid": "Неправильний формат пошти",
       "passwordRequired": "Пароль обовʼязковий",
@@ -54,8 +72,25 @@
     }
   },
   "register": {
-    "message": "Немає нічого для реєстрації."
+    "title": "Реєстрація",
+    "namePlaceholder": "Введіть своє ім'я",
+    "surnamePlaceholder": "Введіть своє прізвище",
+    "nicknamePlaceholder": "Введіть нікнейм",
+    "emailPlaceholder": "Введіть електронну пошту",
+    "passwordPlaceholder": "Введіть пароль",
+    "signIn": "Увійти",
+    "haveAccount": "Вже маєте акаунт?",
+    "signUp": "Зареєструватися",
+    "errors": {
+      "nameRequired": "Ім'я обов'язкове",
+      "nicknameRequired": "Нікнейм обов'язковий",
+      "emailRequired": "Електронна пошта обов'язкова",
+      "emailInvalid": "Неправильний формат електронної пошти",
+      "passwordRequired": "Пароль обов'язковий",
+      "passwordInvalid": "Пароль повинен містити щонайменше 6 символів"
+    }
   },
+
   "header": {
     "users": "Користувачі",
     "companies": "Компанії",
@@ -68,7 +103,7 @@
   "actions": {
     "delete": "Видалити",
     "confirmDeleteTitle": "Ви впевнені?",
-    "confirmDeleteDescription": "Цю дію неможливо скасувати. Вона назавжди видалить {itemName} зі списку.",
+    "confirmDeleteDescription": "Цю дію неможливо скасувати.",
     "cancel": "Скасувати"
   },
   "test": {

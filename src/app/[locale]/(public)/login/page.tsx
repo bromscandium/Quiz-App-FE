@@ -1,179 +1,129 @@
 'use client';
 
 import React from 'react';
-import {
-	Box,
-	Typography,
-	TextField,
-	Button,
-	Link as MuiLink,
-} from '@mui/material';
 
-import {useTranslations} from 'next-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import { useTranslations } from 'next-intl';
 
+import { Routes } from '@constants/routes';
+import { Box, Link as MuiLink, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { loginActions } from '@actions/auth';
+
+import { AuthForm } from '@components/forms/AuthForm';
+import LanguageSelect from '@components/selects/Languages';
+
+import { Link } from '@libs/i18n/navigation';
 import {
-	setEmail,
-	setPassword,
-	setErrors,
-	clearErrors,
+  clearErrors,
+  setEmail,
+  setErrors,
+  setPassword,
 } from '@libs/redux/slices/login';
-
-import {AppDispatch, RootState} from '@libs/redux/store';
-import {Link, redirect} from '@libs/i18n/navigation';
-import {Routes} from '@enums/routes';
-import {loginActions} from '@actions/auth';
-import {routing} from '@libs/i18n/routing';
+import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function LoginPage() {
-	const dispatch = useDispatch<AppDispatch>();
-	const t = useTranslations('login');
+  const dispatch = useDispatch<AppDispatch>();
+  const t = useTranslations('login');
 
-	const {email, password, errors} = useSelector(
-		(state: RootState) => state.login,
-	);
+  const { email, password, errors } = useSelector(
+    (state: RootState) => state.login
+  );
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		dispatch(clearErrors());
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(clearErrors());
 
-		const newErrors: {email?: string; password?: string; general?: string} =
-			{};
+    const validation: { email?: string; password?: string } = {};
 
-		if (!email) newErrors.email = t('errors.emailRequired');
-		else if (!/\S+@\S+\.\S+/.test(email))
-			newErrors.email = t('errors.emailInvalid');
+    if (!email) validation.email = t('errors.emailRequired');
+    else if (!/\S+@\S+\.\S+/.test(email))
+      validation.email = t('errors.emailInvalid');
 
-		if (!password) newErrors.password = t('errors.passwordRequired');
-		else if (password.length < 6)
-			newErrors.password = t('errors.passwordInvalid');
+    if (!password) validation.password = t('errors.passwordRequired');
+    else if (password.length < 6)
+      validation.password = t('errors.passwordInvalid');
 
-		if (Object.keys(newErrors).length > 0) {
-			dispatch(setErrors(newErrors));
-			return;
-		}
+    if (Object.keys(validation).length > 0) {
+      dispatch(setErrors(validation));
+      return;
+    }
 
-		try {
-			await loginActions({email, password});
+    const loginResult = await loginActions({ email, password });
+    if (loginResult) dispatch(setErrors({ general: loginResult }));
+  };
 
-			const currentLocaleCookie = await cookieStore.get('NEXT_LOCALE');
+  return (
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 2,
+        position: 'relative',
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: 400,
+          p: 4,
+          boxShadow: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
+        }}
+      >
+        <Typography variant="h4" textAlign="center" fontWeight={700}>
+          {t('title')}
+        </Typography>
 
-			redirect({
-				href: Routes.Home.href,
-				locale: currentLocaleCookie?.value || routing.defaultLocale,
-			});
-		} catch {
-			newErrors.general = t('errors.generalError');
-			dispatch(setErrors(newErrors));
-		}
-	};
+        <AuthForm
+          onSubmit={handleSubmit}
+          submitLabel={t('signIn')}
+          generalError={errors.general}
+          fields={[
+            {
+              name: 'email',
+              value: email,
+              onChange: (v) => dispatch(setEmail(v)),
+              error: errors.email,
+              placeholder: t('emailPlaceholder'),
+              type: 'email',
+            },
+            {
+              name: 'password',
+              value: password,
+              onChange: (v) => dispatch(setPassword(v)),
+              error: errors.password,
+              placeholder: t('passwordPlaceholder'),
+              type: 'password',
+            },
+          ]}
+        />
 
-	return (
-		<Box
-			sx={{
-				minHeight: '100vh',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				p: 2,
-			}}
-		>
-			<Box
-				sx={{
-					width: '100%',
-					maxWidth: 400,
-					bgcolor: 'background.paper',
-					p: 4,
-					borderRadius: 2,
-					boxShadow: 3,
-					display: 'flex',
-					flexDirection: 'column',
-					gap: 3,
-				}}
-			>
-				<Typography
-					variant="h4"
-					component="h1"
-					textAlign="center"
-					fontWeight={700}
-				>
-					{t('title')}
-				</Typography>
+        <Typography variant="body2" textAlign="center">
+          {t('noAccount')}{' '}
+          <MuiLink
+            component={Link}
+            href={Routes.Register.href}
+            sx={{ color: 'primary.main' }}
+          >
+            {t('signUp')}
+          </MuiLink>
+        </Typography>
+      </Box>
 
-				<Box
-					component="form"
-					onSubmit={handleSubmit}
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						gap: 2,
-					}}
-				>
-					<TextField
-						type="email"
-						value={email}
-						onChange={(e) => {
-							dispatch(setEmail(e.target.value));
-							dispatch(clearErrors());
-						}}
-						error={!!errors.email}
-						helperText={errors.email}
-						placeholder={t('emailPlaceholder')}
-						fullWidth
-					/>
-
-					<TextField
-						type="password"
-						value={password}
-						onChange={(e) => {
-							dispatch(setPassword(e.target.value));
-							dispatch(clearErrors());
-						}}
-						error={!!errors.password}
-						helperText={errors.password}
-						placeholder={t('passwordPlaceholder')}
-						fullWidth
-					/>
-					<Button
-						type="submit"
-						variant="contained"
-						color="primary"
-						sx={{
-							py: 1.5,
-							fontWeight: 500,
-						}}
-						fullWidth
-					>
-						{t('signIn')}
-					</Button>
-
-					{errors.general && (
-						<Typography
-							color="error"
-							textAlign="center"
-							variant="subtitle2"
-						>
-							{errors.general}
-						</Typography>
-					)}
-				</Box>
-
-				<Typography variant="body2" textAlign="center">
-					{t('noAccount')}{' '}
-					<MuiLink
-						component={Link}
-						href={Routes.Register.href}
-						sx={{
-							color: 'primary.main',
-							'&:hover': {
-								color: 'primary.dark',
-							},
-						}}
-					>
-						{t('signUp')}
-					</MuiLink>
-				</Typography>
-			</Box>
-		</Box>
-	);
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 16,
+          right: 16,
+        }}
+      >
+        <LanguageSelect />
+      </Box>
+    </Box>
+  );
 }

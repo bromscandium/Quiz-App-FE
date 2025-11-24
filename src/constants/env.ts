@@ -1,0 +1,7 @@
+export const Env = {
+  NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
+  BACKEND_API: process.env.NEXT_PUBLIC_BACKEND_API,
+  TIMEZONE: process.env.NEXT_PUBLIC_TIMEZONE,
+  SUPPORT_EMAIL: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+  APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+};
