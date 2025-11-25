@@ -3,14 +3,14 @@
 import { Env } from '@constants';
 import { Routes } from '@constants/routes';
 import { AppBar, Toolbar, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import { Link } from '@libs/i18n/navigation';
+import { RootState } from '@libs/redux/store';
 
 import { HeaderDesktop } from './HeaderDesktop';
 import { HeaderMobile } from './HeaderMobile';
 import { useDesktopNavLinks, useMobileNavLinks } from './NavLinks';
-import {useSelector} from "react-redux";
-import {RootState} from "@libs/redux/store";
 
 export function Header() {
   const navDesktopLinks = useDesktopNavLinks();
@@ -50,8 +50,8 @@ export function Header() {
           {Env.APP_NAME}
         </Typography>
 
-        <HeaderDesktop navLinks={navDesktopLinks} userId={authUser?.id}/>
-        <HeaderMobile navLinks={navMobileLinks} userId={authUser?.id}/>
+        <HeaderDesktop navLinks={navDesktopLinks} userId={authUser?.id} />
+        <HeaderMobile navLinks={navMobileLinks} userId={authUser?.id} />
       </Toolbar>
     </AppBar>
   );

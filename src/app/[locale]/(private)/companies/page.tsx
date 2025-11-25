@@ -12,8 +12,8 @@ import LoadingScreen from '@components/loading/LoadingScreen';
 import Pagination from '@components/pagination/Pagination';
 
 import { readAllCompaniesThunk } from '@libs/redux/slices/company';
+import { readUserByMeThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
-import {readUserByMeThunk} from "@libs/redux/slices/user";
 
 export default function CompaniesPage() {
   const t = useTranslations('company');
@@ -22,9 +22,7 @@ export default function CompaniesPage() {
     (state: RootState) => state.company
   );
 
-  const { authUser } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { authUser } = useSelector((state: RootState) => state.user);
 
   const [page, setPage] = useState<number>(1);
 

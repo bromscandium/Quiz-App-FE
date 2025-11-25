@@ -96,18 +96,13 @@ export default function CompanyPage() {
                 color: 'text.primary',
               }}
             >
-              {selectedCompany?.description ||
-                tCommon('notSet')}
+              {selectedCompany?.description || tCommon('notSet')}
             </Typography>
 
             <Stack spacing={1} sx={{ mt: 1 }}>
               <InfoRow
                 label={t('visibility')}
-                value={
-                  selectedCompany?.visibility
-                    ? t('public')
-                    : t('private')
-                }
+                value={selectedCompany?.visibility ? t('public') : t('private')}
               />
               <InfoRow
                 label={t('created')}
@@ -119,11 +114,7 @@ export default function CompanyPage() {
           <Divider />
 
           <Box>
-            <Typography
-              variant="h6"
-              fontWeight={600}
-              color="text.secondary"
-            >
+            <Typography variant="h6" fontWeight={600} color="text.secondary">
               {t('owner')}
             </Typography>
             <Stack spacing={1} sx={{ mt: 1 }}>

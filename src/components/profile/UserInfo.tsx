@@ -12,7 +12,7 @@ import { logoutActions } from '@actions/auth';
 
 import CompanyModalButton from '@components/buttons/CompanyModal';
 import DeleteModalButton from '@components/buttons/DeleteModal';
-import { UserEditForm, FieldConfig } from '@components/forms/UserEditForm';
+import { FieldConfig, UserEditForm } from '@components/forms/UserEditForm';
 import { InfoRow } from '@components/rows/Info';
 
 import { UserSchema, UserUpdate } from '@interfaces/user';
@@ -24,7 +24,6 @@ interface UserInfoProps {
   user: UserSchema | null;
   isOwner: boolean;
 }
-
 
 export default function UserInfo({ user, isOwner }: UserInfoProps) {
   const dispatch = useDispatch<AppDispatch>();
@@ -133,9 +132,7 @@ export default function UserInfo({ user, isOwner }: UserInfoProps) {
 
                   <CompanyModalButton mode="create" />
 
-                  <DeleteModalButton
-                    onDeleteAction={handleDelete}
-                  />
+                  <DeleteModalButton onDeleteAction={handleDelete} />
                 </Stack>
               )}
             </>

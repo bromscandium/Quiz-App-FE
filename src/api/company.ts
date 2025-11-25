@@ -1,8 +1,7 @@
 import { Endpoints } from '@constants/endpoints';
-import { ParamsInterfaces, CompanyInterfaces } from '@interfaces';
+import { CompanyInterfaces, ParamsInterfaces } from '@interfaces';
 
 import api from '@libs/axios/axios';
-
 
 export const createCompany = (data: CompanyInterfaces.CompanyCreate) =>
   api.post<CompanyInterfaces.CompanySchema>(Endpoints.Companies.create, data);
