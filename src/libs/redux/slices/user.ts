@@ -1,28 +1,31 @@
 import { AuthAPI, UserAPI } from '@api';
 import { authBase, usersBase } from '@constants';
-import { UserInterfaces } from '@interfaces';
+import { ParamsInterfaces, UserInterfaces } from '@interfaces';
 import {
   PayloadAction,
   createAsyncThunk,
   createSlice,
+  isPending,
   isRejected,
 } from '@reduxjs/toolkit';
 
 interface UsersState {
-  users: UserInterfaces.UserSchema[];
+  users: UserInterfaces.UserSchema[] | null;
   total: number;
   loading: boolean;
   error?: string;
   selectedUser: UserInterfaces.UserSchema | null;
+  authUser: UserInterfaces.UserSchema | null;
   userCompanies: UserInterfaces.UserOwnedCompaniesList | null;
 }
 
 const initialState: UsersState = {
-  users: [],
+  users: null,
   total: 0,
   loading: false,
   error: '',
   selectedUser: null,
+  authUser: null,
   userCompanies: null,
 };
 
@@ -42,7 +45,7 @@ export const createUserThunk = createAsyncThunk<
   }
 });
 
-export const readUserByMe = createAsyncThunk<
+export const readUserByMeThunk = createAsyncThunk<
   UserInterfaces.UserSchema,
   void,
   { rejectValue: string }
@@ -107,23 +110,20 @@ export const readUserByNicknameThunk = createAsyncThunk<
 });
 
 export const readAllUsersThunk = createAsyncThunk<
-  { users: UserInterfaces.UserSchema[]; total: number },
-  { offset: number; limit: number },
+  { users: UserInterfaces.UserSchema[] | null; total: number },
+  ParamsInterfaces.paginationRequest,
   { rejectValue: string }
->(
-  `${usersBase}/readAllUsers`,
-  async ({ offset, limit }, { rejectWithValue }) => {
-    try {
-      const response = await UserAPI.readAllUsers(offset, limit);
-      return response.data;
-    } catch (error: unknown) {
-      return rejectWithValue(
-        (error as { response?: { data?: { detail?: string } } })?.response?.data
-          ?.detail || 'Unknown error occurred.'
-      );
-    }
+>(`${usersBase}/readAllUsers`, async (params, { rejectWithValue }) => {
+  try {
+    const response = await UserAPI.readAllUsers(params);
+    return response.data;
+  } catch (error: unknown) {
+    return rejectWithValue(
+      (error as { response?: { data?: { detail?: string } } })?.response?.data
+        ?.detail || 'Unknown error occurred.'
+    );
   }
-);
+});
 
 export const updateUserThunk = createAsyncThunk<
   UserInterfaces.UserSchema,
@@ -159,13 +159,13 @@ export const deleteUserThunk = createAsyncThunk<
 
 export const readUserCompaniesThunk = createAsyncThunk<
   UserInterfaces.UserOwnedCompaniesList,
-  { id: string; offset: number; limit: number },
+  { id: string; params: ParamsInterfaces.paginationRequest },
   { rejectValue: string }
 >(
   `${usersBase}/readUserCompanies`,
-  async ({ id, offset, limit }, { rejectWithValue }) => {
+  async ({ id, params }, { rejectWithValue }) => {
     try {
-      const response = await UserAPI.readUserCompanies(id, offset, limit);
+      const response = await UserAPI.readUserCompanies(id, params);
       return response.data;
     } catch (error: unknown) {
       return rejectWithValue(
@@ -180,14 +180,8 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    clearError: (state) => {
-      state.error = '';
-    },
     clearSelectedUser: (state) => {
       state.selectedUser = null;
-    },
-    clearUserCompanies: (state) => {
-      state.userCompanies = null;
     },
   },
   extraReducers: (builder) => {
@@ -201,7 +195,9 @@ const userSlice = createSlice({
 
     builder
       .addCase(createUserThunk.fulfilled, (state, action) => {
-        state.users.push(action.payload);
+        if (state.users) {
+          state.users.push(action.payload);
+        }
         state.total += 1;
         state.loading = false;
       })
@@ -212,14 +208,18 @@ const userSlice = createSlice({
       })
       .addCase(updateUserThunk.fulfilled, (state, action) => {
         const user = action.payload;
-        const index = state.users.findIndex((u) => u.id === user.id);
-        if (index !== -1) state.users[index] = user;
+        if (state.users) {
+          const index = state.users.findIndex((u) => u.id === user.id);
+          if (index !== -1) state.users[index] = user;
+        }
         if (state.selectedUser?.id === user.id) state.selectedUser = user;
         state.loading = false;
       })
       .addCase(deleteUserThunk.fulfilled, (state, action) => {
         const userId = action.payload;
-        state.users = state.users.filter((u) => u.id !== userId);
+        if (state.users) {
+          state.users = state.users.filter((u) => u.id !== userId);
+        }
         state.total -= 1;
         if (state.selectedUser?.id === userId) state.selectedUser = null;
         state.loading = false;
@@ -228,10 +228,29 @@ const userSlice = createSlice({
         state.userCompanies = action.payload;
         state.loading = false;
       })
-      .addCase(readUserByMe.fulfilled, setSelectedUser)
+      .addCase(readUserByMeThunk.fulfilled, (state, action) => {
+        state.authUser = action.payload;
+        state.loading = false;
+      })
       .addCase(readUserByIdThunk.fulfilled, setSelectedUser)
       .addCase(readUserByEmailThunk.fulfilled, setSelectedUser)
       .addCase(readUserByNicknameThunk.fulfilled, setSelectedUser);
+
+    builder.addMatcher(
+      isPending(
+        createUserThunk,
+        readUserByMeThunk,
+        readUserByIdThunk,
+        readUserByEmailThunk,
+        readUserByNicknameThunk,
+        readAllUsersThunk,
+        updateUserThunk,
+        deleteUserThunk
+      ),
+      (state) => {
+        state.loading = true;
+      }
+    );
 
     builder.addMatcher(isRejected, (state, action) => {
       state.loading = false;
@@ -240,6 +259,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearError, clearSelectedUser, clearUserCompanies } =
-  userSlice.actions;
+export const { clearSelectedUser } = userSlice.actions;
 export const userReducer = userSlice.reducer;

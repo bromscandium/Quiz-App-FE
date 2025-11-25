@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { companyReducer } from '@libs/redux/slices/company';
 import { languageReducer } from '@libs/redux/slices/language';
 import { loginReducer } from '@libs/redux/slices/login';
 import { registerReducer } from '@libs/redux/slices/register';
@@ -7,6 +8,7 @@ import { userReducer } from '@libs/redux/slices/user';
 
 export const store = configureStore({
   reducer: {
+    company: companyReducer,
     language: languageReducer,
     login: loginReducer,
     register: registerReducer,

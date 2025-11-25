@@ -4,39 +4,39 @@ import { useEffect, useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 
-import { Routes } from '@constants';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CompanyCard } from '@components/cards/CompanyCard';
 import Pagination from '@components/pagination/Pagination';
 
-import { useRouter } from '@libs/i18n/navigation';
 import { readUserCompaniesThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
 interface CompaniesListProps {
-  userId: string;
+  userId: string | undefined;
   isOwner: boolean;
 }
 
-export default function CompaniesList({ userId }: CompaniesListProps) {
+export default function CompaniesList({ userId, isOwner }: CompaniesListProps) {
+  const t = useTranslations('company');
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('companies');
-  const router = useRouter();
+  const { userCompanies } = useSelector((state: RootState) => state.user);
 
   const [page, setPage] = useState<number>(1);
 
-  const { userCompanies } = useSelector((state: RootState) => state.user);
-
   const limit = 6;
+  const offset = (page - 1) * limit;
+  const totalPages = userCompanies ? Math.ceil(userCompanies.total / limit) : 0;
 
   useEffect(() => {
-    const offset = (page - 1) * limit;
-    dispatch(readUserCompaniesThunk({ id: userId, offset, limit }));
-  }, [dispatch, page, userId]);
+    if (!userId) return;
+    dispatch(readUserCompaniesThunk({ id: userId, params: { offset, limit } }));
+  }, [dispatch, offset, userId]);
 
-  const totalPages = userCompanies ? Math.ceil(userCompanies.total / limit) : 0;
+  const visibleCompanies = userCompanies?.companies.filter(
+    (c) => isOwner || c.visibility
+  );
 
   if (!userCompanies?.companies?.length) {
     return (
@@ -66,20 +66,17 @@ export default function CompaniesList({ userId }: CompaniesListProps) {
             md: 'repeat(3, 1fr)',
           },
           gap: 2,
-          minHeight: 600,
+          gridAutoRows: 250,
+          minHeight: 2 * 250 + 16,
         }}
       >
-        {userCompanies.companies.map((company) => (
+        {visibleCompanies?.map((company) => (
           <CompanyCard
             key={company.id}
             id={company.id}
             name={company.name}
             description={company.description}
             visibility={company.visibility}
-            mode="list"
-            onViewActivities={(id) =>
-              router.push(Routes.Companies.buildActivitiesRoute(id))
-            }
           />
         ))}
       </Box>

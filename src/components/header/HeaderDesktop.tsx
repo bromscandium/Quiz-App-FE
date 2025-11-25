@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
 import { Box, Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 import { logoutActions } from '@actions/auth';
 
@@ -14,6 +15,7 @@ import { NavLink } from './NavLinks';
 
 interface HeaderDesktopProps {
   navLinks: NavLink[];
+  userId: string | undefined;
 }
 
 export function HeaderDesktop({ navLinks }: HeaderDesktopProps) {
@@ -63,7 +65,10 @@ export function HeaderDesktop({ navLinks }: HeaderDesktopProps) {
           menuItems={[
             { label: t('profile'), href: Routes.Profile.href },
             { label: t('about'), href: Routes.About.href },
-            { label: t('logout'), onClick: logoutActions },
+            {
+              label: t('logout'),
+              onClick: () => logoutActions(),
+            },
           ]}
         />
 

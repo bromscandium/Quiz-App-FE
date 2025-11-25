@@ -15,13 +15,13 @@ import {
 } from '@mui/material';
 
 type DeleteButtonProps = {
-  itemName: string;
-  itemId: string | number;
   onDeleteAction: () => Promise<void>;
 };
 
-export default function DeleteButton({ onDeleteAction }: DeleteButtonProps) {
-  const t = useTranslations('actions');
+export default function DeleteModalButton({
+  onDeleteAction,
+}: DeleteButtonProps) {
+  const tCommon = useTranslations('common');
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
@@ -35,18 +35,20 @@ export default function DeleteButton({ onDeleteAction }: DeleteButtonProps) {
   return (
     <>
       <Button color="error" variant="contained" onClick={handleOpen}>
-        <Typography>{t('delete')}</Typography>
+        <Typography>{tCommon('delete')}</Typography>
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{t('confirmDeleteTitle')}</DialogTitle>
+        <DialogTitle>{tCommon('confirmDeleteTitle')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{t('confirmDeleteDescription')}</DialogContentText>
+          <DialogContentText>
+            {tCommon('confirmDeleteDescription')}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{t('cancel')}</Button>
+          <Button onClick={handleClose}>{tCommon('cancel')}</Button>
           <Button onClick={handleDelete} color="error" variant="contained">
-            {t('delete')}
+            {tCommon('delete')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
+import { hasErrors, validation } from '@helpers/validation';
 import { Box, Link as MuiLink, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,6 +30,7 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 export default function RegisterPage() {
   const dispatch = useDispatch<AppDispatch>();
   const t = useTranslations('register');
+  const tCommon = useTranslations('common');
 
   const { name, surname, nickname, email, password, errors } = useSelector(
     (state: RootState) => state.register
@@ -38,27 +40,10 @@ export default function RegisterPage() {
     e.preventDefault();
     dispatch(clearErrors());
 
-    const validation: {
-      name?: string;
-      nickname?: string;
-      email?: string;
-      password?: string;
-    } = {};
+    const errors = validation({ name, nickname, email, password }, t);
 
-    if (!name) validation.name = t('errors.nameRequired');
-
-    if (!nickname) validation.nickname = t('errors.nicknameRequired');
-
-    if (!email) validation.email = t('errors.emailRequired');
-    else if (!/\S+@\S+\.\S+/.test(email))
-      validation.email = t('errors.emailInvalid');
-
-    if (!password) validation.password = t('errors.passwordRequired');
-    else if (password.length < 6)
-      validation.password = t('errors.passwordInvalid');
-
-    if (Object.keys(validation).length > 0) {
-      dispatch(setErrors(validation));
+    if (hasErrors(errors)) {
+      dispatch(setErrors(errors));
       return;
     }
 
@@ -73,11 +58,11 @@ export default function RegisterPage() {
       if (loginResult) {
         dispatch(setErrors({ general: loginResult }));
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       const errorMessage =
         typeof error === 'string'
           ? error
-          : error?.message || error?.toString() || 'Unknown error occurred.';
+          : error?.toString() || 'Unknown error occurred.';
 
       dispatch(setErrors({ general: errorMessage }));
     }
@@ -111,7 +96,7 @@ export default function RegisterPage() {
 
         <AuthForm
           onSubmit={handleSubmit}
-          submitLabel={t('signUp')}
+          submitLabel={tCommon('signUp')}
           generalError={errors.general}
           fields={[
             {
@@ -119,7 +104,7 @@ export default function RegisterPage() {
               value: name,
               onChange: (v) => dispatch(setName(v)),
               error: errors.name,
-              placeholder: t('namePlaceholder'),
+              placeholder: tCommon('namePlaceholder'),
               required: true,
             },
             {
@@ -127,14 +112,14 @@ export default function RegisterPage() {
               value: surname,
               onChange: (v) => dispatch(setSurname(v)),
               error: errors.surname,
-              placeholder: t('surnamePlaceholder'),
+              placeholder: tCommon('surnamePlaceholder'),
             },
             {
               name: 'nickname',
               value: nickname,
               onChange: (v) => dispatch(setNickname(v)),
               error: errors.nickname,
-              placeholder: t('nicknamePlaceholder'),
+              placeholder: tCommon('nicknamePlaceholder'),
               required: true,
             },
             {
@@ -142,7 +127,7 @@ export default function RegisterPage() {
               value: email,
               onChange: (v) => dispatch(setEmail(v)),
               error: errors.email,
-              placeholder: t('emailPlaceholder'),
+              placeholder: tCommon('emailPlaceholder'),
               type: 'email',
               required: true,
             },
@@ -151,7 +136,7 @@ export default function RegisterPage() {
               value: password,
               onChange: (v) => dispatch(setPassword(v)),
               error: errors.password,
-              placeholder: t('passwordPlaceholder'),
+              placeholder: tCommon('passwordPlaceholder'),
               type: 'password',
               required: true,
             },
@@ -165,7 +150,7 @@ export default function RegisterPage() {
             href={Routes.Login.href}
             sx={{ color: 'primary.main' }}
           >
-            {t('signIn')}
+            {tCommon('signIn')}
           </MuiLink>
         </Typography>
       </Box>

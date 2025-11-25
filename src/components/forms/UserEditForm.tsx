@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 
+import { ValidationData, hasErrors, validation } from '@helpers/validation';
 import { Button, Stack, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
@@ -16,27 +17,29 @@ export type FieldConfig = {
   rows?: number;
 };
 
-interface EditFormProps<T extends Record<string, any>> {
+interface UserEditFormProps<T extends Record<string, any>> {
   initialData: T;
   fields: FieldConfig[];
   onSubmit: (data: T) => void | Promise<void>;
   onCancel?: () => void;
 }
 
-export const EditForm = <T extends Record<string, any>>({
+export const UserEditForm = <T extends Record<string, any>>({
   initialData,
   fields,
   onSubmit,
   onCancel,
-}: EditFormProps<T>) => {
+}: UserEditFormProps<T>) => {
   const [formData, setFormData] = useState<T>(initialData);
-  const t = useTranslations('profile');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const tCommon = useTranslations('common');
 
   const handleChange = (key: string, value: string | number | Dayjs | null) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => ({ ...prev, [key]: '' }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const dataToSend: any = { ...formData };
 
     if (!dataToSend.password) delete dataToSend.password;
@@ -49,7 +52,12 @@ export const EditForm = <T extends Record<string, any>>({
       }
     });
 
-    onSubmit(dataToSend);
+    const validationErrors = validation(dataToSend as ValidationData, tCommon);
+    setErrors(validationErrors);
+
+    if (hasErrors(validationErrors)) return;
+
+    await onSubmit(dataToSend);
   };
 
   return (
@@ -81,17 +89,19 @@ export const EditForm = <T extends Record<string, any>>({
             rows={field.rows}
             fullWidth
             onChange={(e) => handleChange(field.name, e.target.value)}
+            error={!!errors[field.name]}
+            helperText={errors[field.name]}
           />
         );
       })}
 
       <Stack direction="row" spacing={2}>
         <Button variant="contained" onClick={handleSubmit}>
-          {t('save')}
+          {tCommon('save')}
         </Button>
         {onCancel && (
           <Button variant="outlined" onClick={onCancel}>
-            {t('cancel')}
+            {tCommon('cancel')}
           </Button>
         )}
       </Stack>

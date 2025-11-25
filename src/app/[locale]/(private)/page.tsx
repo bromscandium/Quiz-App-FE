@@ -6,7 +6,7 @@ import { Env } from '@constants';
 import { Box, Typography } from '@mui/material';
 
 export default function HomePage() {
-  const tHome = useTranslations('home');
+  const t = useTranslations('home');
 
   return (
     <Box
@@ -33,7 +33,7 @@ export default function HomePage() {
         </Typography>
 
         <Typography variant="body1" color="text.secondary">
-          {tHome('description')}
+          {t('description')}
         </Typography>
       </Box>
     </Box>

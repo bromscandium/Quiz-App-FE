@@ -1,5 +1,5 @@
 import { Endpoints } from '@constants/endpoints';
-import { UserInterfaces } from '@interfaces';
+import { ParamsInterfaces, UserInterfaces } from '@interfaces';
 
 import api from '@libs/axios/axios';
 
@@ -15,9 +15,9 @@ export const readUserByEmail = (email: string) =>
 export const readUserByNickname = (nickname: string) =>
   api.get<UserInterfaces.UserSchema>(Endpoints.Users.byNickname(nickname));
 
-export const readAllUsers = (offset = 0, limit = 20) =>
+export const readAllUsers = (params: ParamsInterfaces.paginationRequest) =>
   api.get<UserInterfaces.UsersList>(Endpoints.Users.all, {
-    params: { offset, limit },
+    params: params,
   });
 
 export const updateUser = (id: string, data: UserInterfaces.UserUpdate) =>
@@ -26,10 +26,13 @@ export const updateUser = (id: string, data: UserInterfaces.UserUpdate) =>
 export const deleteUser = (id: string) =>
   api.delete<void>(Endpoints.Users.delete(id));
 
-export const readUserCompanies = (id: string, offset: number, limit: number) =>
+export const readUserCompanies = (
+  id: string,
+  params: ParamsInterfaces.paginationRequest
+) =>
   api.get<UserInterfaces.UserOwnedCompaniesList>(
     Endpoints.Users.companies(id),
     {
-      params: { offset, limit },
+      params: params,
     }
   );

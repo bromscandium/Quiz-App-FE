@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Box, Button, TextField, Typography } from '@mui/material';
 
-export type AuthField = {
+type AuthField = {
   name: string;
   value: string;
   error?: string;
@@ -14,7 +14,7 @@ export type AuthField = {
   required?: boolean;
 };
 
-export interface AuthFormProps {
+interface AuthFormProps {
   fields: AuthField[];
   onSubmit: (e: React.FormEvent) => void;
   submitLabel: string;

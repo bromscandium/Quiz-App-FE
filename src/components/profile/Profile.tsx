@@ -1,34 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { useTranslations } from 'next-intl';
 
-import { getCurrentUserFromToken } from '@helpers/decoder';
 import { Box, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import { UserSchema } from '@interfaces/user';
+
+import { RootState } from '@libs/redux/store';
 
 import Companies from './CompaniesList';
 import UserInfo from './UserInfo';
 
 interface ProfileProps {
-  user: UserSchema;
+  user: UserSchema | null;
 }
 
 export default function Profile({ user }: ProfileProps) {
   const t = useTranslations('profile');
 
-  const [isOwner, setOwner] = useState<boolean>(false);
+  const { authUser } = useSelector((state: RootState) => state.user);
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      const currentUser = await getCurrentUserFromToken();
-      const id = currentUser?.sub ?? null;
-      setOwner(id === user.id);
-    };
-    fetchCurrentUser();
-  }, [user.id]);
+  const isOwner = authUser?.id === user?.id;
 
   return (
     <Box
@@ -51,7 +44,7 @@ export default function Profile({ user }: ProfileProps) {
         {t('companiesTitle')}
       </Typography>
 
-      <Companies userId={user.id} isOwner={isOwner} />
+      <Companies userId={user?.id} isOwner={isOwner} />
     </Box>
   );
 }

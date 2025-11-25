@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
+import { hasErrors, validation } from '@helpers/validation';
 import { Box, Link as MuiLink, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -25,6 +26,7 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
   const t = useTranslations('login');
+  const tCommon = useTranslations('common');
 
   const { email, password, errors } = useSelector(
     (state: RootState) => state.login
@@ -34,18 +36,10 @@ export default function LoginPage() {
     e.preventDefault();
     dispatch(clearErrors());
 
-    const validation: { email?: string; password?: string } = {};
+    const errors = validation({ email, password }, tCommon);
 
-    if (!email) validation.email = t('errors.emailRequired');
-    else if (!/\S+@\S+\.\S+/.test(email))
-      validation.email = t('errors.emailInvalid');
-
-    if (!password) validation.password = t('errors.passwordRequired');
-    else if (password.length < 6)
-      validation.password = t('errors.passwordInvalid');
-
-    if (Object.keys(validation).length > 0) {
-      dispatch(setErrors(validation));
+    if (hasErrors(errors)) {
+      dispatch(setErrors(errors));
       return;
     }
 
@@ -81,7 +75,7 @@ export default function LoginPage() {
 
         <AuthForm
           onSubmit={handleSubmit}
-          submitLabel={t('signIn')}
+          submitLabel={tCommon('signIn')}
           generalError={errors.general}
           fields={[
             {
@@ -89,7 +83,7 @@ export default function LoginPage() {
               value: email,
               onChange: (v) => dispatch(setEmail(v)),
               error: errors.email,
-              placeholder: t('emailPlaceholder'),
+              placeholder: tCommon('emailPlaceholder'),
               type: 'email',
             },
             {
@@ -97,7 +91,7 @@ export default function LoginPage() {
               value: password,
               onChange: (v) => dispatch(setPassword(v)),
               error: errors.password,
-              placeholder: t('passwordPlaceholder'),
+              placeholder: tCommon('passwordPlaceholder'),
               type: 'password',
             },
           ]}
@@ -110,7 +104,7 @@ export default function LoginPage() {
             href={Routes.Register.href}
             sx={{ color: 'primary.main' }}
           >
-            {t('signUp')}
+            {tCommon('signUp')}
           </MuiLink>
         </Typography>
       </Box>

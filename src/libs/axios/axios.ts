@@ -1,9 +1,9 @@
-import { Env, Limits } from '@constants';
+import { Env } from '@constants';
 import axios from 'axios';
 
 const api = axios.create({
   baseURL: Env.BACKEND_API,
-  timeout: Limits.AXIOS_TIMEOUT,
+  timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });

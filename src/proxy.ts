@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { handleAuth, handleLanguage } from '@libs/proxy';
+import { handleAuth, handleLanguage, handleProfileRedirect } from '@libs/proxy';
 
 export async function proxy(request: NextRequest) {
   const languageProxy = handleLanguage(request);
@@ -8,6 +8,9 @@ export async function proxy(request: NextRequest) {
 
   const authProxy = await handleAuth(request);
   if (authProxy) return authProxy;
+
+  const profileRedirect = handleProfileRedirect(request);
+  if (profileRedirect) return profileRedirect;
 
   return NextResponse.next();
 }

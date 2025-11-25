@@ -8,6 +8,7 @@ import type { Messages } from 'next-intl';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { SnackbarProvider } from 'notistack';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import { store } from '@libs/redux/store';
@@ -35,10 +36,15 @@ export function AppProviders({
           messages={messages}
           timeZone={timeZone}
         >
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
+          <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {children}
+            </ThemeProvider>
+          </SnackbarProvider>
         </NextIntlClientProvider>
       </ReduxProvider>
     </LocalizationProvider>

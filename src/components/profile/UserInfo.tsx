@@ -4,24 +4,16 @@ import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Paper,
-  Stack,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Avatar, Box, Button, Paper, Stack, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 
 import { logoutActions } from '@actions/auth';
 
-import { logout } from '@api/auth';
-
-import DeleteButton from '@components/buttons/Delete';
-import { EditForm, FieldConfig } from '@components/forms/EditForm';
+import CompanyModalButton from '@components/buttons/CompanyModal';
+import DeleteModalButton from '@components/buttons/DeleteModal';
+import { UserEditForm, FieldConfig } from '@components/forms/UserEditForm';
+import { InfoRow } from '@components/rows/Info';
 
 import { UserSchema, UserUpdate } from '@interfaces/user';
 
@@ -29,30 +21,25 @@ import { deleteUserThunk, updateUserThunk } from '@libs/redux/slices/user';
 import { AppDispatch } from '@libs/redux/store';
 
 interface UserInfoProps {
-  user: UserSchema;
+  user: UserSchema | null;
   isOwner: boolean;
 }
 
-const InfoRow = ({ label, value }: { label: string; value: string }) => (
-  <Stack direction="row" spacing={1}>
-    <Typography fontWeight={600}>{label}:</Typography>
-    <Typography>{value}</Typography>
-  </Stack>
-);
 
 export default function UserInfo({ user, isOwner }: UserInfoProps) {
   const dispatch = useDispatch<AppDispatch>();
   const t = useTranslations('profile');
+  const tCommon = useTranslations('common');
   const theme = useTheme();
 
   const avatarColor = theme.palette.primary.main;
 
   const formData: UserUpdate = {
-    name: user.name ?? '',
-    surname: user.surname ?? '',
-    nickname: user.nickname ?? '',
-    birthday: user.birthday ? dayjs(user.birthday) : null,
-    bio: user.bio ?? '',
+    name: user?.name ?? '',
+    surname: user?.surname ?? '',
+    nickname: user?.nickname ?? '',
+    birthday: user?.birthday ? dayjs(user?.birthday) : null,
+    bio: user?.bio ?? '',
     password: '',
   };
 
@@ -70,12 +57,12 @@ export default function UserInfo({ user, isOwner }: UserInfoProps) {
   const handleSave = async (data: UserUpdate) => {
     const dataToSend = { ...data };
     if (!dataToSend.password) delete dataToSend.password;
-    await dispatch(updateUserThunk({ id: user.id, data: dataToSend }));
+    await dispatch(updateUserThunk({ id: user!.id, data: dataToSend }));
     setIsEditing(false);
   };
 
   const handleDelete = async () => {
-    await dispatch(deleteUserThunk(user.id));
+    await dispatch(deleteUserThunk(user!.id));
     await logoutActions();
   };
 
@@ -88,7 +75,7 @@ export default function UserInfo({ user, isOwner }: UserInfoProps) {
         alignItems="center"
       >
         <Avatar
-          src={user.avatar_url ?? undefined}
+          src={user?.avatar_url ?? undefined}
           sx={{
             width: 90,
             height: 90,
@@ -97,12 +84,12 @@ export default function UserInfo({ user, isOwner }: UserInfoProps) {
             color: '#fff',
           }}
         >
-          {!user.avatar_url && user.name[0]?.toUpperCase()}
+          {user?.avatar_url && user?.name[0]?.toUpperCase()}
         </Avatar>
 
         <Box flex={1} mt={{ xs: 2, sm: 0 }}>
           {isEditing && isOwner ? (
-            <EditForm
+            <UserEditForm
               initialData={formData}
               fields={fields}
               onSubmit={handleSave}
@@ -111,24 +98,27 @@ export default function UserInfo({ user, isOwner }: UserInfoProps) {
           ) : (
             <>
               <Stack spacing={1}>
-                <InfoRow label={t('name')} value={user.name || t('notSet')} />
+                <InfoRow label={t('name')} value={user?.name} />
                 <InfoRow
                   label={t('surname')}
-                  value={user.surname || t('notSet')}
+                  value={user?.surname || tCommon('notSet')}
                 />
+                <InfoRow label={t('nickname')} value={`@${user?.nickname}`} />
                 <InfoRow
-                  label={t('nickname')}
-                  value={`@${user.nickname || t('notSet')}`}
+                  label={t('email')}
+                  value={user?.email || t('notSet')}
                 />
-                <InfoRow label={t('email')} value={user.email || t('notSet')} />
                 <InfoRow
                   label={t('birthday')}
-                  value={user.birthday || t('notSet')}
+                  value={user?.birthday || tCommon('notSet')}
                 />
-                <InfoRow label={t('bio')} value={user.bio || t('notSet')} />
+                <InfoRow
+                  label={t('bio')}
+                  value={user?.bio || tCommon('notSet')}
+                />
                 <InfoRow
                   label={t('created')}
-                  value={user.created_at?.slice(0, 10) || t('notSet')}
+                  value={user?.created_at?.slice(0, 10)}
                 />
               </Stack>
 
@@ -141,10 +131,10 @@ export default function UserInfo({ user, isOwner }: UserInfoProps) {
                     {t('editProfile')}
                   </Button>
 
-                  <DeleteButton
+                  <CompanyModalButton mode="create" />
+
+                  <DeleteModalButton
                     onDeleteAction={handleDelete}
-                    itemName={'profile'}
-                    itemId={''}
                   />
                 </Stack>
               )}

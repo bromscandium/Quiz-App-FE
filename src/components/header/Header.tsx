@@ -8,10 +8,14 @@ import { Link } from '@libs/i18n/navigation';
 
 import { HeaderDesktop } from './HeaderDesktop';
 import { HeaderMobile } from './HeaderMobile';
-import { useNavLinks } from './NavLinks';
+import { useDesktopNavLinks, useMobileNavLinks } from './NavLinks';
+import {useSelector} from "react-redux";
+import {RootState} from "@libs/redux/store";
 
 export function Header() {
-  const navLinks = useNavLinks();
+  const navDesktopLinks = useDesktopNavLinks();
+  const navMobileLinks = useMobileNavLinks();
+  const authUser = useSelector((state: RootState) => state.user.authUser);
 
   return (
     <AppBar
@@ -46,8 +50,8 @@ export function Header() {
           {Env.APP_NAME}
         </Typography>
 
-        <HeaderDesktop navLinks={navLinks} />
-        <HeaderMobile navLinks={navLinks} />
+        <HeaderDesktop navLinks={navDesktopLinks} userId={authUser?.id}/>
+        <HeaderMobile navLinks={navMobileLinks} userId={authUser?.id}/>
       </Toolbar>
     </AppBar>
   );

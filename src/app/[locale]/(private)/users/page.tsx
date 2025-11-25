@@ -7,6 +7,7 @@ import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { UserCard } from '@components/cards/UserCard';
+import LoadingScreen from '@components/loading/LoadingScreen';
 import Pagination from '@components/pagination/Pagination';
 
 import { readAllUsersThunk } from '@libs/redux/slices/user';
@@ -15,16 +16,23 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 export default function UsersPage() {
   const t = useTranslations('users');
   const dispatch = useDispatch<AppDispatch>();
-  const { users, total } = useSelector((state: RootState) => state.user);
+  const { users, total, loading } = useSelector(
+    (state: RootState) => state.user
+  );
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
+
   const limit = 9;
-
+  const offset = (page - 1) * limit;
   const totalPages = Math.ceil(total / limit);
 
   useEffect(() => {
-    dispatch(readAllUsersThunk({ offset: (page - 1) * limit, limit }));
-  }, [page, dispatch]);
+    dispatch(readAllUsersThunk({ offset, limit }));
+  }, [dispatch, offset]);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <Box
@@ -51,10 +59,12 @@ export default function UsersPage() {
             sm: 'repeat(2, 1fr)',
             md: 'repeat(3, 1fr)',
           },
-          gap: 3,
+          gap: 2,
+          gridAutoRows: 250,
+          minHeight: 3 * 250 + 45,
         }}
       >
-        {users.map((user) => (
+        {users?.map((user) => (
           <Box key={user.id}>
             <UserCard {...user} />
           </Box>

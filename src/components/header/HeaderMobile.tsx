@@ -15,10 +15,12 @@ import { NavLink } from './NavLinks';
 
 interface HeaderMobileProps {
   navLinks: NavLink[];
+  userId: string | undefined;
 }
 
 export function HeaderMobile({ navLinks }: HeaderMobileProps) {
   const t = useTranslations('header');
+
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   return (
@@ -89,7 +91,7 @@ export function HeaderMobile({ navLinks }: HeaderMobileProps) {
 
             <Button
               color="error"
-              onClick={logoutActions}
+              onClick={() => logoutActions()}
               sx={{
                 textTransform: 'none',
                 minWidth: 140,
