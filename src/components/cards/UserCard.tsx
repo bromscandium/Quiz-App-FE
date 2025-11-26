@@ -32,7 +32,7 @@ export function UserCard({ id, name, surname, nickname }: UserCardProps) {
         flexDirection: 'column',
         border: '1px solid #ccc',
         p: 2,
-        height: '100%',
+        minHeight: 250,
       }}
     >
       <CardHeader
@@ -71,7 +71,7 @@ export function UserCard({ id, name, surname, nickname }: UserCardProps) {
           variant="contained"
           color="primary"
           sx={{ mt: 2 }}
-          onClick={() => router.push(Routes.Users.buildRoute(id))}
+          onClick={() => router.push(Routes.Profile.buildRoute(id))}
         >
           {t('viewProfile')}
         </Button>

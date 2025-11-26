@@ -31,7 +31,7 @@ export interface UserUpdate {
 }
 
 export interface UsersList {
-  users: UserSchema[];
+  users: UserSchema[] | null;
   total: number;
 }
 

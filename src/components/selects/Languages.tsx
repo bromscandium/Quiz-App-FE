@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { CookieNames, Limits } from '@constants';
+import { CookieNames, LANGUAGES, Limits } from '@constants';
 import { setCookie } from '@helpers/cookies';
 import {
   FormControl,
@@ -38,8 +38,11 @@ export default function LanguageSelect() {
   return (
     <FormControl size="small" sx={{ minWidth: 80 }}>
       <Select value={locale} onChange={handleChange}>
-        <MenuItem value="en">EN</MenuItem>
-        <MenuItem value="ua">UA</MenuItem>
+        {LANGUAGES.map((lang) => (
+          <MenuItem key={lang.code} value={lang.code}>
+            {lang.label}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

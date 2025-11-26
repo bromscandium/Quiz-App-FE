@@ -6,5 +6,4 @@ export const Limits = {
     MONTH: 2592000,
     YEAR: 315360000,
   },
-  AXIOS_TIMEOUT: 10000,
 };

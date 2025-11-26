@@ -35,7 +35,7 @@ export default function AboutUsPage() {
       }}
     >
       <Typography variant="h3" component="h1" fontWeight={800}>
-        {t('title')}
+        {Env.APP_NAME}
       </Typography>
 
       <Typography variant="body1">{t('welcome')}</Typography>

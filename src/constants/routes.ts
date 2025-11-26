@@ -6,14 +6,11 @@ export const Routes = {
   Users: {
     href: '/users',
     text: 'users',
-    buildRoute: (id: string | number) => `/users/${id}`,
   },
   Companies: {
     href: '/companies',
     text: 'companies',
     buildRoute: (id: string | number) => `/companies/${id}`,
-    buildActivitiesRoute: (id: string | number) =>
-      `/companies/${id}/activities`,
   },
   About: {
     href: '/about',
@@ -30,6 +27,7 @@ export const Routes = {
   Profile: {
     href: '/profile',
     text: 'profile',
+    buildRoute: (id: string | number) => `/profile/${id}`,
   },
 };
 

@@ -1,8 +1,5 @@
-'use server';
-
 import { CookieNames, Limits, Routes } from '@constants';
 import { deleteCookie, getCookie, setCookie } from '@helpers/cookies';
-import { redirectWithLocale } from '@helpers/redirect';
 import { AuthInterfaces } from '@interfaces';
 
 import { login, logout } from '@api/auth';
@@ -26,11 +23,12 @@ export async function loginActions(data: AuthInterfaces.LoginRequest) {
     return error?.response?.data?.detail ?? 'Unknown error occurred.';
   }
 
-  await redirectWithLocale(Routes.Home.href);
+  window.location.href = Routes.Home.href;
 }
 
 export async function logoutActions() {
   const refreshToken = await getCookie({ name: CookieNames.REFRESH_TOKEN });
+
   if (refreshToken) {
     await logout({ refresh_token: refreshToken });
   }
@@ -38,5 +36,5 @@ export async function logoutActions() {
   await deleteCookie({ name: CookieNames.ACCESS_TOKEN });
   await deleteCookie({ name: CookieNames.REFRESH_TOKEN });
 
-  await redirectWithLocale(Routes.Login.href);
+  window.location.href = Routes.Login.href;
 }

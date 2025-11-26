@@ -1,9 +1,35 @@
 {
+  "common": {
+    "namePlaceholder": "Name",
+    "surnamePlaceholder": "Surname",
+    "nicknamePlaceholder": "Nickname",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "signUp": "Sign up",
+    "cancel": "Cancel",
+    "notSet": "Not set",
+    "userNotFound": "User not found",
+    "user": "User",
+    "company": "Company",
+    "save": "Save",
+    "delete": "Delete",
+    "confirmDeleteTitle": "Are you sure?",
+    "confirmDeleteDescription": "This action cannot be undone.",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordInvalid": "Password must be at least 6 characters",
+      "nameRequired": "Name is required",
+      "nicknameRequired": "Nickname is required",
+      "nickname": "This nickname is already taken"
+    }
+  },
   "home": {
     "description": "Welcome to Quiz App! Test your knowledge, create your own quizzes, and challenge your friends."
   },
   "about": {
-    "title": "About Us",
     "welcome": "Welcome to Quiz App, a modern platform built to make learning engaging and interactive. Our mission is to provide users with an easy-to-use environment where they can challenge themselves, track their knowledge, and have fun while doing it.",
     "visionTitle": "Our Vision",
     "visionText": "We aim to create a community where learning is accessible, interactive, and motivating. By combining technology with thoughtful design, we help users stay curious and continuously improve their skills.",
@@ -19,27 +45,34 @@
     "contactEmail": "Reach out at ",
     "contactEnd": "We'd love to hear from you."
   },
-  "companies": {
+  "company": {
+    "name": "Name",
+    "description": "Description",
+    "visibility": "Visibility",
+    "create": "Create",
+    "save": "Save",
+    "createCompany": "Create Company",
+    "editCompany": "Edit Company",
+    "createCompanyTitle": "Create New Company",
+    "editCompanyTitle": "Edit Company",
+    "notFound": "Companies not found",
     "owner": "Owner",
+    "created": "Created",
     "title": "List of companies",
     "private": "Private",
     "public": "Public",
     "viewActivities": "View Activities",
     "noCompanies": "User does not have companies.",
     "viewCompany": "View Company",
-    "company": {
-      "title": "Company",
-      "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
-    }
+    "noDescription": "No description",
+    "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
   },
   "users": {
+    "notFound": "Users not found",
     "title": "List of users",
     "viewProfile": "View Profile",
     "joinedAt": "Joined At",
-    "user": {
-      "title": "User",
-      "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
-    }
+    "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
   },
   "profile": {
     "name": "Name",
@@ -50,45 +83,18 @@
     "bio": "Bio",
     "created": "Created",
     "editProfile": "Edit profile",
+    "createCompany": "Create Company",
     "password": "Password",
-    "notSet": "Not set",
-    "save": "Save",
-    "cancel": "Cancel",
     "userInfoTitle": "Information",
     "companiesTitle": "Companies"
   },
   "login": {
     "title": "Login",
-    "emailPlaceholder": "Enter your email",
-    "passwordPlaceholder": "Enter your password",
-    "signIn": "Sign In",
-    "noAccount": "Don't have an account?",
-    "signUp": "Sign up",
-    "errors": {
-      "emailRequired": "Email is required",
-      "emailInvalid": "Invalid email format",
-      "passwordRequired": "Password is required",
-      "passwordInvalid": "Password must be at least 6 characters"
-    }
+    "noAccount": "Do not have an account?"
   },
   "register": {
     "title": "Register",
-    "namePlaceholder": "Enter your name",
-    "surnamePlaceholder": "Enter your surname",
-    "nicknamePlaceholder": "Enter your nickname",
-    "emailPlaceholder": "Enter your email",
-    "passwordPlaceholder": "Enter your password",
-    "signIn": "Sign In",
-    "haveAccount": "Already have an account?",
-    "signUp": "Sign up",
-    "errors": {
-      "nameRequired": "Name is required",
-      "nicknameRequired": "Nickname is required",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Invalid email format",
-      "passwordRequired": "Password is required",
-      "passwordInvalid": "Password must be at least 6 characters"
-    }
+    "haveAccount": "Have an account?"
   },
   "header": {
     "users": "Users",
@@ -98,14 +104,5 @@
     "logout": "Logout",
     "profile": "Profile",
     "menu": "Menu"
-  },
-  "actions": {
-    "delete": "Delete",
-    "confirmDeleteTitle": "Are you sure?",
-    "confirmDeleteDescription": "This action cannot be undone.",
-    "cancel": "Cancel"
-  },
-  "test": {
-    "testItemName": "Something"
   }
 }
