@@ -21,12 +21,12 @@ interface AuthFormProps {
   generalError?: string;
 }
 
-export function AuthForm({
+export const AuthForm = ({
   fields,
   onSubmit,
   submitLabel,
   generalError,
-}: AuthFormProps) {
+}: AuthFormProps) => {
   return (
     <Box
       component="form"
@@ -62,4 +62,4 @@ export function AuthForm({
       </Button>
     </Box>
   );
-}
+};

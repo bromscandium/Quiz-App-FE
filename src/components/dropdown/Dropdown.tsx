@@ -16,11 +16,11 @@ interface DropdownButtonProps {
   buttonProps?: ButtonProps;
 }
 
-export function DropdownButton({
+export const DropdownButton = ({
   buttonLabel,
   menuItems,
   buttonProps,
-}: DropdownButtonProps) {
+}: DropdownButtonProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -63,4 +63,4 @@ export function DropdownButton({
       </Menu>
     </>
   );
-}
+};

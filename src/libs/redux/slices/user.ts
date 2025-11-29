@@ -9,13 +9,15 @@ import {
   isRejected,
 } from '@reduxjs/toolkit';
 
+import { createCompanyThunk } from '@libs/redux/slices/company';
+
 interface UsersState {
   users: UserInterfaces.UserSchema[] | null;
   total: number;
   loading: boolean;
   error?: string;
   selectedUser: UserInterfaces.UserSchema | null;
-  authUser: UserInterfaces.UserSchema | null;
+  currentUser: UserInterfaces.UserSchema | null;
   userCompanies: UserInterfaces.UserOwnedCompaniesList | null;
 }
 
@@ -25,7 +27,7 @@ const initialState: UsersState = {
   loading: false,
   error: '',
   selectedUser: null,
-  authUser: null,
+  currentUser: null,
   userCompanies: null,
 };
 
@@ -193,6 +195,18 @@ const userSlice = createSlice({
       state.selectedUser = action.payload;
     };
 
+    builder.addCase(createCompanyThunk.fulfilled, (state, action) => {
+      if (state.userCompanies?.companies) {
+        state.userCompanies.companies.unshift(action.payload);
+        state.userCompanies.total += 1;
+      } else {
+        state.userCompanies = {
+          companies: [action.payload],
+          total: 1,
+        };
+      }
+    });
+
     builder
       .addCase(createUserThunk.fulfilled, (state, action) => {
         if (state.users) {
@@ -229,7 +243,7 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(readUserByMeThunk.fulfilled, (state, action) => {
-        state.authUser = action.payload;
+        state.currentUser = action.payload;
         state.loading = false;
       })
       .addCase(readUserByIdThunk.fulfilled, setSelectedUser)

@@ -12,10 +12,10 @@ import { HeaderDesktop } from './HeaderDesktop';
 import { HeaderMobile } from './HeaderMobile';
 import { useDesktopNavLinks, useMobileNavLinks } from './NavLinks';
 
-export function Header() {
+export const Header = () => {
   const navDesktopLinks = useDesktopNavLinks();
   const navMobileLinks = useMobileNavLinks();
-  const authUser = useSelector((state: RootState) => state.user.authUser);
+  const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
   return (
     <AppBar
@@ -50,9 +50,9 @@ export function Header() {
           {Env.APP_NAME}
         </Typography>
 
-        <HeaderDesktop navLinks={navDesktopLinks} userId={authUser?.id} />
-        <HeaderMobile navLinks={navMobileLinks} userId={authUser?.id} />
+        <HeaderDesktop navLinks={navDesktopLinks} userId={currentUser?.id} />
+        <HeaderMobile navLinks={navMobileLinks} userId={currentUser?.id} />
       </Toolbar>
     </AppBar>
   );
-}
+};

@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { useTranslations } from 'next-intl';
 
+import { Routes } from '@constants';
+import { redirectWithLocale } from '@helpers/redirect';
 import {
   Button,
   Dialog,
@@ -26,6 +28,7 @@ import {
   deleteCompanyThunk,
   updateCompanyThunk,
 } from '@libs/redux/slices/company';
+import { setErrors } from '@libs/redux/slices/register';
 import { AppDispatch } from '@libs/redux/store';
 
 interface CompanyModalButtonProps {
@@ -33,12 +36,12 @@ interface CompanyModalButtonProps {
   company?: CompanySchema;
 }
 
-export default function CompanyModalButton({
+export const CompanyModalButton = ({
   mode,
   company,
-}: CompanyModalButtonProps) {
+}: CompanyModalButtonProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('company');
+  const t = useTranslations('');
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -56,13 +59,19 @@ export default function CompanyModalButton({
       }
 
       handleClose();
-    } catch (error) {
-      throw error;
+    } catch (error: unknown) {
+      const errorMessage =
+        typeof error === 'string'
+          ? error
+          : error?.toString() || 'Unknown error occurred.';
+
+      dispatch(setErrors({ general: errorMessage }));
     }
   };
 
   const handleDelete = async () => {
     await dispatch(deleteCompanyThunk(company!.id));
+    await redirectWithLocale(Routes.Profile.href);
     handleClose();
   };
 
@@ -70,13 +79,17 @@ export default function CompanyModalButton({
     <>
       <Button variant="contained" onClick={handleOpen}>
         <Typography>
-          {mode === 'create' ? t('createCompany') : t('editCompany')}
+          {mode === 'create'
+            ? t('company.createCompany')
+            : t('company.editCompany')}
         </Typography>
       </Button>
 
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle>
-          {mode === 'create' ? t('createCompanyTitle') : t('editCompanyTitle')}
+          {mode === 'create'
+            ? t('company.createCompanyTitle')
+            : t('company.editCompanyTitle')}
         </DialogTitle>
 
         <DialogContent>
@@ -100,4 +113,4 @@ export default function CompanyModalButton({
       </Dialog>
     </>
   );
-}
+};

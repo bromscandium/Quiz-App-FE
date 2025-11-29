@@ -14,7 +14,7 @@ import {
   TextField,
 } from '@mui/material';
 
-import DeleteModalButton from '@components/buttons/DeleteModal';
+import { DeleteModalButton } from '@components/buttons/DeleteModal';
 
 import { CompanyCreate, CompanyUpdate } from '@interfaces/company';
 
@@ -33,8 +33,7 @@ export default function CompanyForm({
   onCancel,
   onDelete,
 }: CompanyFormProps) {
-  const t = useTranslations('company');
-  const tCommon = useTranslations('common');
+  const t = useTranslations('');
 
   const [formData, setFormData] = useState<CompanyUpdate>({
     name: initialData?.name || '',
@@ -44,8 +43,13 @@ export default function CompanyForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const fields = [
-    { name: 'name', label: t('name'), type: 'text' },
-    { name: 'description', label: t('description'), multiline: true, rows: 4 },
+    { name: 'name', label: t('company.name'), type: 'text' },
+    {
+      name: 'description',
+      label: t('company.description'),
+      multiline: true,
+      rows: 4,
+    },
   ];
 
   const handleChange = (key: string, value: string | boolean) => {
@@ -56,7 +60,7 @@ export default function CompanyForm({
   const handleSubmit = async () => {
     const dataToSend = { ...formData };
 
-    const validationErrors = validation(dataToSend as ValidationData, tCommon);
+    const validationErrors = validation(dataToSend as ValidationData, t);
     setErrors(validationErrors);
 
     if (hasErrors(validationErrors)) return;
@@ -89,15 +93,15 @@ export default function CompanyForm({
               onChange={(e) => handleChange('visibility', e.target.checked)}
             />
           }
-          label={t('visibility')}
+          label={t('company.visibility')}
         />
 
         <Stack direction="row" spacing={2}>
           <Button onClick={handleSubmit} variant="contained">
-            {mode === 'create' ? t('create') : t('save')}
+            {mode === 'create' ? t('company.create') : t('company.save')}
           </Button>
 
-          <Button onClick={onCancel}>{tCommon('cancel')}</Button>
+          <Button onClick={onCancel}>{t('common.cancel')}</Button>
           {mode === 'edit' && onDelete && (
             <DeleteModalButton onDeleteAction={onDelete} />
           )}

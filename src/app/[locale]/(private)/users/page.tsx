@@ -2,36 +2,58 @@
 import { useEffect, useState } from 'react';
 
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 
+import { Routes } from '@constants';
+import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { UserCard } from '@components/cards/UserCard';
-import LoadingScreen from '@components/loading/LoadingScreen';
-import Pagination from '@components/pagination/Pagination';
+import { Pagination } from '@components/pagination/Pagination';
+import { LoadingScreen } from '@components/screens/LoadingScreen';
+import { notFoundMessage } from '@components/screens/NotFoundScreen';
 
+import { useRouter } from '@libs/i18n/navigation';
 import { readAllUsersThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
+const LIMIT = 9;
+
 export default function UsersPage() {
-  const t = useTranslations('users');
+  const t = useTranslations('');
+
   const dispatch = useDispatch<AppDispatch>();
   const { users, total, loading } = useSelector(
     (state: RootState) => state.user
   );
 
-  const [page, setPage] = useState<number>(1);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const limit = 9;
-  const offset = (page - 1) * limit;
-  const totalPages = Math.ceil(total / limit);
+  const { page, offset, totalPages } = getPaginationParams(
+    searchParams,
+    LIMIT,
+    total
+  );
+
+  const [currentPage, setCurrentPage] = useState<number>(page);
+
+  const onPageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    handlePageChange(newPage, searchParams, router, Routes.Users.href);
+  };
 
   useEffect(() => {
-    dispatch(readAllUsersThunk({ offset, limit }));
+    dispatch(readAllUsersThunk({ offset, limit: LIMIT }));
   }, [dispatch, offset]);
 
   if (loading) {
     return <LoadingScreen />;
+  }
+
+  if (!users?.length) {
+    return notFoundMessage(t('noUsers'));
   }
 
   return (
@@ -48,7 +70,7 @@ export default function UsersPage() {
       }}
     >
       <Typography variant="h4" component="h2" fontWeight="bold">
-        {t('title')}
+        {t('users.title')}
       </Typography>
 
       <Box
@@ -71,7 +93,11 @@ export default function UsersPage() {
         ))}
       </Box>
 
-      <Pagination page={page} onChange={setPage} totalPages={totalPages} />
+      <Pagination
+        page={currentPage}
+        onChange={onPageChange}
+        totalPages={totalPages}
+      />
     </Box>
   );
 }

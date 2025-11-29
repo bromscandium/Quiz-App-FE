@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from '@actions/auth';
 
 import { AuthForm } from '@components/forms/AuthForm';
-import LanguageSelect from '@components/selects/Languages';
+import { LanguageSelect } from '@components/selects/LanguagesSelect';
 
 import { Link } from '@libs/i18n/navigation';
 import {
@@ -25,8 +25,7 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('login');
-  const tCommon = useTranslations('common');
+  const t = useTranslations('');
 
   const { email, password, errors } = useSelector(
     (state: RootState) => state.login
@@ -36,7 +35,7 @@ export default function LoginPage() {
     e.preventDefault();
     dispatch(clearErrors());
 
-    const errors = validation({ email, password }, tCommon);
+    const errors = validation({ email, password }, t);
 
     if (hasErrors(errors)) {
       dispatch(setErrors(errors));
@@ -70,12 +69,12 @@ export default function LoginPage() {
         }}
       >
         <Typography variant="h4" textAlign="center" fontWeight={700}>
-          {t('title')}
+          {t('login.title')}
         </Typography>
 
         <AuthForm
           onSubmit={handleSubmit}
-          submitLabel={tCommon('signIn')}
+          submitLabel={t('common.signIn')}
           generalError={errors.general}
           fields={[
             {
@@ -83,7 +82,7 @@ export default function LoginPage() {
               value: email,
               onChange: (v) => dispatch(setEmail(v)),
               error: errors.email,
-              placeholder: tCommon('emailPlaceholder'),
+              placeholder: t('common.emailPlaceholder'),
               type: 'email',
             },
             {
@@ -91,20 +90,20 @@ export default function LoginPage() {
               value: password,
               onChange: (v) => dispatch(setPassword(v)),
               error: errors.password,
-              placeholder: tCommon('passwordPlaceholder'),
+              placeholder: t('common.passwordPlaceholder'),
               type: 'password',
             },
           ]}
         />
 
         <Typography variant="body2" textAlign="center">
-          {t('noAccount')}{' '}
+          {t('login.noAccount')}{' '}
           <MuiLink
             component={Link}
             href={Routes.Register.href}
             sx={{ color: 'primary.main' }}
           >
-            {tCommon('signUp')}
+            {t('common.signUp')}
           </MuiLink>
         </Typography>
       </Box>

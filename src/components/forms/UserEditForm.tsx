@@ -32,7 +32,7 @@ export const UserEditForm = <T extends Record<string, any>>({
 }: UserEditFormProps<T>) => {
   const [formData, setFormData] = useState<T>(initialData);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const tCommon = useTranslations('common');
+  const t = useTranslations('');
 
   const handleChange = (key: string, value: string | number | Dayjs | null) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -52,7 +52,7 @@ export const UserEditForm = <T extends Record<string, any>>({
       }
     });
 
-    const validationErrors = validation(dataToSend as ValidationData, tCommon);
+    const validationErrors = validation(dataToSend as ValidationData, t);
     setErrors(validationErrors);
 
     if (hasErrors(validationErrors)) return;
@@ -67,7 +67,7 @@ export const UserEditForm = <T extends Record<string, any>>({
           return (
             <DatePicker
               key={field.name}
-              label={field.label}
+              label={t(field.label)}
               value={(formData[field.name] as Dayjs) || null}
               onChange={(newValue) =>
                 handleChange(field.name, newValue ?? null)
@@ -82,7 +82,7 @@ export const UserEditForm = <T extends Record<string, any>>({
         return (
           <TextField
             key={field.name}
-            label={field.label}
+            label={t(field.label)}
             value={(formData[field.name] as string | number) ?? ''}
             type={field.type || 'text'}
             multiline={field.multiline}
@@ -97,11 +97,11 @@ export const UserEditForm = <T extends Record<string, any>>({
 
       <Stack direction="row" spacing={2}>
         <Button variant="contained" onClick={handleSubmit}>
-          {tCommon('save')}
+          {t('common.save')}
         </Button>
         {onCancel && (
           <Button variant="outlined" onClick={onCancel}>
-            {tCommon('cancel')}
+            {t('common.cancel')}
           </Button>
         )}
       </Stack>

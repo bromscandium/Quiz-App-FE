@@ -6,22 +6,21 @@ export interface NavLink {
   href: string;
   label: string;
 }
-
-export function useDesktopNavLinks(): NavLink[] {
+export const useDesktopNavLinks = (): NavLink[] => {
   const t = useTranslations('header');
 
   return [
-    { href: Routes.Users.href, label: t(Routes.Users.text) },
-    { href: Routes.Companies.href, label: t(Routes.Companies.text) },
+    { href: Routes.Users.href, label: t('users') },
+    { href: Routes.Companies.href, label: t('companies') },
   ];
-}
+};
 
-export function useMobileNavLinks(): NavLink[] {
+export const useMobileNavLinks = (): NavLink[] => {
   const t = useTranslations('header');
 
   return [
-    { href: Routes.Users.href, label: t(Routes.Users.text) },
-    { href: Routes.Companies.href, label: t(Routes.Companies.text) },
-    { href: Routes.About.href, label: t(Routes.About.text) },
+    { href: Routes.Users.href, label: t('users') },
+    { href: Routes.Companies.href, label: t('companies') },
+    { href: Routes.About.href, label: t('about') },
   ];
-}
+};

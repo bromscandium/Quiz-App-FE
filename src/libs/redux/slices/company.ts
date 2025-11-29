@@ -156,10 +156,19 @@ const companySlice = createSlice({
         state.loading = false;
       });
 
-    builder.addMatcher(isPending, (state) => {
-      state.loading = true;
-      state.error = '';
-    });
+    builder.addMatcher(
+      isPending(
+        createCompanyThunk,
+        readCompanyByIdThunk,
+        readAllCompaniesThunk,
+        updateCompanyThunk,
+        deleteCompanyThunk
+      ),
+      (state) => {
+        state.loading = true;
+        state.error = '';
+      }
+    );
 
     builder.addMatcher(isRejected, (state, action) => {
       state.loading = false;

@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
+import { redirectWithLocale } from '@helpers/redirect';
 import {
   Button,
   Card,
@@ -16,23 +17,22 @@ import { UserSchema } from '@interfaces/user';
 
 import { useRouter } from '@libs/i18n/navigation';
 
-type CompanyCardProps = {
+interface CompanyCardProps {
   id: string;
   name: string;
   owner?: UserSchema | null;
   description?: string;
   visibility: boolean;
-};
+}
 
-export function CompanyCard({
+export const CompanyCard = ({
   id,
   name,
   owner,
   description,
   visibility,
-}: CompanyCardProps) {
-  const t = useTranslations('company');
-  const router = useRouter();
+}: CompanyCardProps) => {
+  const t = useTranslations('');
   const theme = useTheme();
 
   return (
@@ -59,8 +59,14 @@ export function CompanyCard({
           color: theme.palette.secondary.contrastText,
         }}
       >
-        {visibility ? t('public') : t('private')}
+        {visibility ? t('company.public') : t('company.private')}
       </Typography>
+
+      <CardHeader
+        title={name}
+        sx={{ p: 0 }}
+        slotProps={{ title: { variant: 'h6', fontWeight: 700 } }}
+      />
 
       {owner && (
         <Typography
@@ -69,14 +75,9 @@ export function CompanyCard({
           fontWeight={500}
           sx={{ mb: 0.5 }}
         >
-          {t('owner')}: {owner?.name} {owner?.surname}
+          {t('company.owner')}: {owner?.name} {owner?.surname}
         </Typography>
       )}
-      <CardHeader
-        title={name}
-        sx={{ p: 0 }}
-        slotProps={{ title: { variant: 'h6', fontWeight: 700 } }}
-      />
 
       <CardContent
         sx={{
@@ -89,18 +90,18 @@ export function CompanyCard({
         }}
       >
         <Typography variant="body2" color="text.secondary">
-          {description || t('noDescription')}
+          {description || t('company.noDescription')}
         </Typography>
 
         <Button
           fullWidth
           variant="contained"
           sx={{ mt: 2 }}
-          onClick={() => router.push(Routes.Companies.buildRoute(id))}
+          onClick={() => redirectWithLocale(Routes.Companies.buildRoute(id))}
         >
-          {t('viewCompany')}
+          {t('company.viewCompany')}
         </Button>
       </CardContent>
     </Card>
   );
-}
+};

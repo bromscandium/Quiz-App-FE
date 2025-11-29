@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginActions } from '@actions/auth';
 
 import { AuthForm } from '@components/forms/AuthForm';
-import LanguageSelect from '@components/selects/Languages';
+import { LanguageSelect } from '@components/selects/LanguagesSelect';
 
 import { Link } from '@libs/i18n/navigation';
 import {
@@ -29,8 +29,7 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function RegisterPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('register');
-  const tCommon = useTranslations('common');
+  const t = useTranslations('');
 
   const { name, surname, nickname, email, password, errors } = useSelector(
     (state: RootState) => state.register
@@ -53,19 +52,11 @@ export default function RegisterPage() {
       ).unwrap();
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      const loginResult = await loginActions({ email, password });
-      if (loginResult) {
-        dispatch(setErrors({ general: loginResult }));
-      }
-    } catch (error: unknown) {
-      const errorMessage =
-        typeof error === 'string'
-          ? error
-          : error?.toString() || 'Unknown error occurred.';
-
-      dispatch(setErrors({ general: errorMessage }));
+    } catch (error) {
+      dispatch(setErrors({ general: String(error) }));
     }
+    const loginResult = await loginActions({ email, password });
+    if (loginResult) dispatch(setErrors({ general: loginResult }));
   };
 
   return (
@@ -91,12 +82,12 @@ export default function RegisterPage() {
         }}
       >
         <Typography variant="h4" textAlign="center" fontWeight={700}>
-          {t('title')}
+          {t('register.title')}
         </Typography>
 
         <AuthForm
           onSubmit={handleSubmit}
-          submitLabel={tCommon('signUp')}
+          submitLabel={t('common.signUp')}
           generalError={errors.general}
           fields={[
             {
@@ -104,7 +95,7 @@ export default function RegisterPage() {
               value: name,
               onChange: (v) => dispatch(setName(v)),
               error: errors.name,
-              placeholder: tCommon('namePlaceholder'),
+              placeholder: t('common.namePlaceholder'),
               required: true,
             },
             {
@@ -112,14 +103,14 @@ export default function RegisterPage() {
               value: surname,
               onChange: (v) => dispatch(setSurname(v)),
               error: errors.surname,
-              placeholder: tCommon('surnamePlaceholder'),
+              placeholder: t('common.surnamePlaceholder'),
             },
             {
               name: 'nickname',
               value: nickname,
               onChange: (v) => dispatch(setNickname(v)),
               error: errors.nickname,
-              placeholder: tCommon('nicknamePlaceholder'),
+              placeholder: t('common.nicknamePlaceholder'),
               required: true,
             },
             {
@@ -127,7 +118,7 @@ export default function RegisterPage() {
               value: email,
               onChange: (v) => dispatch(setEmail(v)),
               error: errors.email,
-              placeholder: tCommon('emailPlaceholder'),
+              placeholder: t('common.emailPlaceholder'),
               type: 'email',
               required: true,
             },
@@ -136,7 +127,7 @@ export default function RegisterPage() {
               value: password,
               onChange: (v) => dispatch(setPassword(v)),
               error: errors.password,
-              placeholder: tCommon('passwordPlaceholder'),
+              placeholder: t('common.passwordPlaceholder'),
               type: 'password',
               required: true,
             },
@@ -144,13 +135,13 @@ export default function RegisterPage() {
         />
 
         <Typography variant="body2" textAlign="center">
-          {t('haveAccount')}{' '}
+          {t('register.haveAccount')}{' '}
           <MuiLink
             component={Link}
             href={Routes.Login.href}
             sx={{ color: 'primary.main' }}
           >
-            {tCommon('signIn')}
+            {t('common.signIn')}
           </MuiLink>
         </Typography>
       </Box>

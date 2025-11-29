@@ -18,10 +18,8 @@ type DeleteButtonProps = {
   onDeleteAction: () => Promise<void>;
 };
 
-export default function DeleteModalButton({
-  onDeleteAction,
-}: DeleteButtonProps) {
-  const tCommon = useTranslations('common');
+export const DeleteModalButton = ({ onDeleteAction }: DeleteButtonProps) => {
+  const t = useTranslations('');
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
@@ -35,23 +33,23 @@ export default function DeleteModalButton({
   return (
     <>
       <Button color="error" variant="contained" onClick={handleOpen}>
-        <Typography>{tCommon('delete')}</Typography>
+        <Typography>{t('common.delete')}</Typography>
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{tCommon('confirmDeleteTitle')}</DialogTitle>
+        <DialogTitle>{t('common.confirmDeleteTitle')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {tCommon('confirmDeleteDescription')}
+            {t('common.confirmDeleteDescription')}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>{tCommon('cancel')}</Button>
+          <Button onClick={handleClose}>{t('common.cancel')}</Button>
           <Button onClick={handleDelete} color="error" variant="contained">
-            {tCommon('delete')}
+            {t('common.delete')}
           </Button>
         </DialogActions>
       </Dialog>
     </>
   );
-}
+};

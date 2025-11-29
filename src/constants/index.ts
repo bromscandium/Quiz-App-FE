@@ -1,6 +1,6 @@
 export * from './endpoints';
 export * from './routes';
 export * from './cookieNames';
-export * from './limits';
+export * from './periods';
 export * from './env';
 export * from './languages';

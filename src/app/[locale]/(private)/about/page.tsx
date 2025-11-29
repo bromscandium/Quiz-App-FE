@@ -12,7 +12,8 @@ import {
 } from '@mui/material';
 
 export default function AboutUsPage() {
-  const t = useTranslations('about');
+  const t = useTranslations('');
+
   const email: string = Env.SUPPORT_EMAIL!;
 
   const offerPoints = [
@@ -38,15 +39,15 @@ export default function AboutUsPage() {
         {Env.APP_NAME}
       </Typography>
 
-      <Typography variant="body1">{t('welcome')}</Typography>
+      <Typography variant="body1">{t('about.welcome')}</Typography>
 
       <Typography variant="h5" component="h2" fontWeight={700}>
-        {t('visionTitle')}
+        {t('about.visionTitle')}
       </Typography>
-      <Typography variant="body1">{t('visionText')}</Typography>
+      <Typography variant="body1">{t('about.visionText')}</Typography>
 
       <Typography variant="h5" component="h2" fontWeight={700}>
-        {t('offerTitle')}
+        {t('about.offerTitle')}
       </Typography>
       <List sx={{ pl: 2 }}>
         {offerPoints.map((key) => (
@@ -57,16 +58,16 @@ export default function AboutUsPage() {
               py: 0,
             }}
           >
-            <Typography variant="body1">{t(key)}</Typography>
+            <Typography variant="body1">{t(`about.${key}`)}</Typography>
           </ListItem>
         ))}
       </List>
 
       <Typography variant="h5" component="h2" fontWeight={700}>
-        {t('contactTitle')}
+        {t('about.contactTitle')}
       </Typography>
-      <Typography variant="body1">{t('contactQuestion')}</Typography>
-      {t('contactEmail', { email }) && (
+      <Typography variant="body1">{t('about.contactQuestion')}</Typography>
+      {t('about.contactEmail', { email }) && (
         <Typography variant="body1">
           <MuiLink
             href={`mailto:${email}`}
@@ -81,7 +82,7 @@ export default function AboutUsPage() {
           </MuiLink>
         </Typography>
       )}
-      <Typography variant="body1">{t('contactEnd')}</Typography>
+      <Typography variant="body1">{t('about.contactEnd')}</Typography>
     </Box>
   );
 }

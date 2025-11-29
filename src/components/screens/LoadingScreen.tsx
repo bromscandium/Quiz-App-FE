@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from '@mui/material';
 
-export default function LoadingScreen() {
+export const LoadingScreen = () => {
   return (
     <Box
       sx={{
@@ -13,4 +13,4 @@ export default function LoadingScreen() {
       <CircularProgress size={60} />
     </Box>
   );
-}
+};

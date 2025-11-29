@@ -1,8 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 
-import { Routes } from '@constants/routes';
+import { Routes } from '@constants';
+import { QueryParams } from '@enums';
+import { getInvitationIDParam } from '@helpers/queryParams';
 import {
   Box,
   Button,
@@ -21,9 +24,19 @@ type UserCardProps = {
   nickname: string;
 };
 
-export function UserCard({ id, name, surname, nickname }: UserCardProps) {
-  const t = useTranslations('users');
+export const UserCard = ({ id, name, surname, nickname }: UserCardProps) => {
+  const t = useTranslations('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleClick = () => {
+    const invitationId = getInvitationIDParam(searchParams);
+
+    router.push({
+      pathname: Routes.Profile.buildRoute(id),
+      query: { [QueryParams.INVITATION_ID]: invitationId },
+    });
+  };
 
   return (
     <Card
@@ -71,11 +84,11 @@ export function UserCard({ id, name, surname, nickname }: UserCardProps) {
           variant="contained"
           color="primary"
           sx={{ mt: 2 }}
-          onClick={() => router.push(Routes.Profile.buildRoute(id))}
+          onClick={() => handleClick()}
         >
           {t('viewProfile')}
         </Button>
       </CardContent>
     </Card>
   );
-}
+};
