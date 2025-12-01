@@ -9,7 +9,7 @@ interface JWTPayload {
   type: string;
 }
 
-export const getCurrentUserFromToken = async (): Promise<JWTPayload | null> => {
+export async function getCurrentUserFromToken(): Promise<JWTPayload | null> {
   try {
     const accessToken = await getCookie({ name: CookieNames.ACCESS_TOKEN });
     if (!accessToken) return null;
@@ -19,4 +19,4 @@ export const getCurrentUserFromToken = async (): Promise<JWTPayload | null> => {
     console.error('Failed to decode token', error);
     return null;
   }
-};
+}

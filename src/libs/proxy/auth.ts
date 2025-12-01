@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { AuthRoutes, CookieNames, Limits, Routes } from '@constants';
+import { AuthRoutes, CookieNames, Periods, Routes } from '@constants';
 import { AuthInterfaces } from '@interfaces';
 
 import { refresh } from '@api/auth';
 
 import { deleteCookie, getCookie, setCookie } from '@libs/proxy/_cookies';
-import { redirectWithLocale } from '@libs/proxy/_redirect';
+import { redirectWithLocale } from '@libs/proxy/redirect';
 
 export async function handleAuth(
   request: NextRequest
@@ -38,23 +38,23 @@ export async function handleAuth(
 
       setCookie({
         response: nextResponse,
-        name: CookieNames.ACCESS_TOKEN,
-        value: data.access_token,
-        maxAge: Limits.COOKIE_MAX_AGE.YEAR,
+        name: CookieNames.REFRESH_TOKEN,
+        value: data.refresh_token,
+        maxAge: Periods.MONTH,
       });
       setCookie({
         response: nextResponse,
-        name: CookieNames.REFRESH_TOKEN,
-        value: data.refresh_token,
-        maxAge: Limits.COOKIE_MAX_AGE.YEAR,
+        name: CookieNames.ACCESS_TOKEN,
+        value: data.access_token,
+        maxAge: Periods.HOUR,
       });
 
       return nextResponse;
     } catch {
       const nextResponse = redirectWithLocale(request, Routes.Login.href);
 
-      deleteCookie({ response: nextResponse, name: CookieNames.ACCESS_TOKEN });
       deleteCookie({ response: nextResponse, name: CookieNames.REFRESH_TOKEN });
+      deleteCookie({ response: nextResponse, name: CookieNames.ACCESS_TOKEN });
 
       return nextResponse;
     }

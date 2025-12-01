@@ -22,12 +22,12 @@ interface AppProvidersProps {
   timeZone: string;
 }
 
-export function AppProviders({
+export const AppProviders = ({
   children,
   locale,
   messages,
   timeZone,
-}: AppProvidersProps) {
+}: AppProvidersProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ReduxProvider store={store}>
@@ -49,4 +49,4 @@ export function AppProviders({
       </ReduxProvider>
     </LocalizationProvider>
   );
-}
+};

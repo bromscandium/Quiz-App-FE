@@ -27,6 +27,8 @@
       "@components/*": ["components/*"],
       "@constants/*": ["constants/*"],
       "@constants": ["constants"],
+      "@enums/*": ["enums/*"],
+      "@enums": ["enums"],
       "@helpers/*": ["helpers/*"],
       "@interfaces/*": ["interfaces/*"],
       "@interfaces": ["interfaces"],

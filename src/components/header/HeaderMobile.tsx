@@ -7,7 +7,7 @@ import { Box, Button, Drawer } from '@mui/material';
 
 import { logoutActions } from '@actions/auth';
 
-import LanguageSelect from '@components/selects/Languages';
+import { LanguageSelect } from '@components/selects/LanguagesSelect';
 
 import { Link } from '@libs/i18n/navigation';
 
@@ -18,9 +18,8 @@ interface HeaderMobileProps {
   userId: string | undefined;
 }
 
-export function HeaderMobile({ navLinks }: HeaderMobileProps) {
-  const t = useTranslations('header');
-
+export const HeaderMobile = ({ navLinks }: HeaderMobileProps) => {
+  const t = useTranslations('');
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   return (
@@ -29,12 +28,9 @@ export function HeaderMobile({ navLinks }: HeaderMobileProps) {
         variant="contained"
         color="primary"
         onClick={() => setDrawerOpen(true)}
-        sx={{
-          display: { xs: 'flex', md: 'none' },
-          textTransform: 'none',
-        }}
+        sx={{ display: { xs: 'flex', md: 'none' }, textTransform: 'none' }}
       >
-        {t('menu')}
+        {t('header.menu')}
       </Button>
 
       <Drawer
@@ -66,12 +62,9 @@ export function HeaderMobile({ navLinks }: HeaderMobileProps) {
               href={Routes.Profile.href}
               component={Link}
               color="primary"
-              sx={{
-                textTransform: 'none',
-                minWidth: 140,
-              }}
+              sx={{ textTransform: 'none', minWidth: 140 }}
             >
-              {t('profile')}
+              {t('header.profile')}
             </Button>
 
             {navLinks.map((link) => (
@@ -80,10 +73,7 @@ export function HeaderMobile({ navLinks }: HeaderMobileProps) {
                 component={Link}
                 href={link.href}
                 color="inherit"
-                sx={{
-                  textTransform: 'none',
-                  minWidth: 140,
-                }}
+                sx={{ textTransform: 'none', minWidth: 140 }}
               >
                 {link.label}
               </Button>
@@ -92,26 +82,17 @@ export function HeaderMobile({ navLinks }: HeaderMobileProps) {
             <Button
               color="error"
               onClick={() => logoutActions()}
-              sx={{
-                textTransform: 'none',
-                minWidth: 140,
-              }}
+              sx={{ textTransform: 'none', minWidth: 140 }}
             >
-              {t('logout')}
+              {t('header.logout')}
             </Button>
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mt: 2,
-            }}
-          >
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
             <LanguageSelect />
           </Box>
         </Box>
       </Drawer>
     </>
   );
-}
+};

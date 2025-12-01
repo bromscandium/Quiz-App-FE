@@ -1,21 +1,43 @@
 export const authBase = '/auth';
 export const companiesBase = '/companies';
-export const usersBase = '/users';
+export const companyActionsBase = '/company_actions';
 export const healthBase = '/health';
+export const membershipsBase = '/memberships';
+export const usersBase = '/users';
 
 export const Endpoints = {
   Auth: {
     login: `${authBase}/login`,
     logout: `${authBase}/logout`,
     refresh: `${authBase}/refresh`,
-    me: `/auth/me`,
+    me: `${authBase}/me`,
   },
   Companies: {
-    create: `${companiesBase}`,
+    create: `${companiesBase}/`,
     byId: (id: string) => `${companiesBase}/id/${id}`,
     all: `${companiesBase}/all`,
-    update: (id?: string) => `${companiesBase}/update/${id}`,
+    update: (id: string) => `${companiesBase}/update/${id}`,
     delete: (id: string) => `${companiesBase}/delete/${id}`,
+  },
+  CompanyActions: {
+    create: `${companyActionsBase}`,
+    byId: (id: string) => `${companyActionsBase}/${id}`,
+    all: `${companyActionsBase}/all`,
+    update: (id?: string) => `${companyActionsBase}/update/${id}`,
+    delete: (id: string) => `${companyActionsBase}/delete/${id}`,
+  },
+  HealthCheck: {
+    root: '/',
+    db: `${healthBase}/db`,
+    redis: `${healthBase}/redis`,
+  },
+  Membership: {
+    create: `${membershipsBase}/`,
+    byId: (id: string) => `${membershipsBase}/id/${id}`,
+    user: `${membershipsBase}/user/`,
+    company: (id: string) => `${membershipsBase}/company/${id}`,
+    update: (id: string) => `${membershipsBase}/update/${id}`,
+    delete: (id: string) => `${membershipsBase}/delete/${id}`,
   },
   Users: {
     create: `${usersBase}`,
@@ -23,13 +45,8 @@ export const Endpoints = {
     byEmail: (email: string) => `${usersBase}/email/${email}`,
     byNickname: (nickname: string) => `${usersBase}/nickname/${nickname}`,
     all: `${usersBase}/all`,
-    update: (id?: string) => `${usersBase}/update/${id}`,
+    update: (id: string) => `${usersBase}/update/${id}`,
     delete: (id: string) => `${usersBase}/delete/${id}`,
     companies: (id: string) => `${usersBase}/companies/${id}`,
-  },
-  HealthCheck: {
-    root: '/',
-    db: `${healthBase}/db`,
-    redis: `${healthBase}/redis`,
   },
 };

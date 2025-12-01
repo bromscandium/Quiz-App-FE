@@ -14,8 +14,14 @@
     "company": "Company",
     "save": "Save",
     "delete": "Delete",
+    "send": "Send",
+    "accept": "Accept",
+    "yes": "Yes",
+    "no": "No",
     "confirmDeleteTitle": "Are you sure?",
     "confirmDeleteDescription": "This action cannot be undone.",
+    "createInvitation": "Create invitation",
+    "info": "Information",
     "errors": {
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email format",
@@ -51,6 +57,7 @@
     "visibility": "Visibility",
     "create": "Create",
     "save": "Save",
+    "noCompany": "Company doesn't exist",
     "createCompany": "Create Company",
     "editCompany": "Edit Company",
     "createCompanyTitle": "Create New Company",
@@ -62,17 +69,16 @@
     "private": "Private",
     "public": "Public",
     "viewActivities": "View Activities",
-    "noCompanies": "User does not have companies.",
+    "noCompanies": "Companies not found",
     "viewCompany": "View Company",
-    "noDescription": "No description",
-    "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
+    "noDescription": "No description"
   },
   "users": {
     "notFound": "Users not found",
     "title": "List of users",
     "viewProfile": "View Profile",
     "joinedAt": "Joined At",
-    "note": "If you see this text, backend still doesn't work (and styles isn't really made)"
+    "noUsers": "No any users. Try again."
   },
   "profile": {
     "name": "Name",
@@ -86,7 +92,14 @@
     "createCompany": "Create Company",
     "password": "Password",
     "userInfoTitle": "Information",
-    "companiesTitle": "Companies"
+    "companyInfoTitle": "Company Info",
+    "companiesTitle": "Companies",
+    "noUser": "User doesn't exist",
+    "noCompanies": "User doesn't have companies",
+    "role": "Role",
+    "owner": "Owner",
+    "admin": "Admin",
+    "member": "Member"
   },
   "login": {
     "title": "Login",
@@ -104,5 +117,66 @@
     "logout": "Logout",
     "profile": "Profile",
     "menu": "Menu"
+  },
+  "membership": {
+    "title": "Memberships",
+    "listTitle": "List of memberships",
+    "noMemberships": "User has no memberships",
+    "noMembers": "No members in this company",
+    "createMembership": "Create Membership",
+    "editMembership": "Edit Membership",
+    "viewMembership": "Check membership",
+    "save": "Save",
+    "delete": "Delete",
+    "confirmDeleteTitle": "Are you sure?",
+    "confirmDeleteDescription": "This action cannot be undone.",
+    "isActive": "Active",
+    "leaveMembership": "Leave Company",
+    "confirmLeaveTitle": "Confirm leaving",
+    "confirmLeaveDescription": "Are you sure that you want to leave the company?",
+    "leave": "Leave",
+    "errors": {
+      "nameRequired": "Name is required",
+      "invalidData": "Invalid data"
+    }
+  },
+  "companyActions": {
+    "title": "Company Actions",
+    "requestsTitle": "Requests",
+    "invitationsTitle": "Invitations",
+    "approve": "Approve",
+    "reject": "Reject",
+    "noRequests": "No requests",
+    "noInvitations": "No invitations",
+    "noActions": "No actions",
+    "sendRequest": "Send Request",
+    "sendInvitation": "Send Invitation",
+    "joinCompany": "Join Company",
+    "confirmRequestTitle": "Confirm Request",
+    "confirmRequestDescription": "Are you sure you want to send a request to join this company?",
+    "confirmInvitationTitle": "Confirm Invitation",
+    "confirmInvitationDescription": "Are you sure you want to send an invitation to this user to join the company?",
+    "confirmAcceptTitle": "Accept Request",
+    "confirmAcceptDescription": "Are you sure you want to accept this request? The user will gain access to the company.",
+    "confirmCancelTitle": "Cancel Action",
+    "confirmCancelDescription": "Are you sure you want to cancel this action?",
+    "cancelAction": "Cancel action",
+    "acceptAction": "Accept action",
+    "sendInvite": "Send invite",
+    "errors": {
+      "actionFailed": "Action failed",
+      "invalidAction": "Invalid action"
+    }
+  },
+  "tabs": {
+    "requests": "Requests",
+    "invitations": "Invitations",
+    "memberships": "Memberships",
+    "members": "Members",
+    "admins": "Admins",
+    "myCompanies": "My Companies"
+  },
+  "queryParams": {
+    "tab": "tab"
   }
 }

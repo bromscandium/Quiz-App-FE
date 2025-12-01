@@ -9,7 +9,7 @@ export async function proxy(request: NextRequest) {
   const authProxy = await handleAuth(request);
   if (authProxy) return authProxy;
 
-  const profileRedirect = handleProfileRedirect(request);
+  const profileRedirect = await handleProfileRedirect(request);
   if (profileRedirect) return profileRedirect;
 
   return NextResponse.next();

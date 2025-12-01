@@ -9,11 +9,7 @@ interface PaginationProps {
   onChange: (page: number) => void;
 }
 
-export default function Pagination({
-  page,
-  totalPages,
-  onChange,
-}: PaginationProps) {
+export const Pagination = ({ page, totalPages, onChange }: PaginationProps) => {
   const handlePrev = () => onChange(Math.max(1, page - 1));
   const handleNext = () => onChange(Math.min(totalPages, page + 1));
 
@@ -36,4 +32,4 @@ export default function Pagination({
       </IconButton>
     </Stack>
   );
-}
+};

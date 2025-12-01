@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Routes } from '@constants';
 import { getCurrentUserFromToken } from '@helpers/decoder';
 
-import { redirectWithLocale } from '@libs/proxy/_redirect';
+import { redirectWithLocale } from '@libs/proxy/redirect';
 
 export async function handleProfileRedirect(
   request: NextRequest

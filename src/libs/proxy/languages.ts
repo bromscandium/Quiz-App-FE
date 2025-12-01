@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { CookieNames, Limits } from '@constants';
+import { CookieNames, Periods } from '@constants';
 
 import { routing } from '@libs/i18n/routing';
 import { getCookie, setCookie } from '@libs/proxy/_cookies';
@@ -8,7 +8,7 @@ import { getCookie, setCookie } from '@libs/proxy/_cookies';
 export function handleLanguage(request: NextRequest): NextResponse | null {
   const cookieLocale =
     getCookie({ request, name: CookieNames.LOCALE }) ?? routing.defaultLocale;
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
 
   const pathParts = pathname.split('/').filter(Boolean);
   const hasValidLocale =
@@ -22,6 +22,10 @@ export function handleLanguage(request: NextRequest): NextResponse | null {
       : pathname;
     url.pathname = `/${cookieLocale}${pathWithoutLocale}`;
 
+    searchParams.forEach((value, key) => {
+      url.searchParams.set(key, value);
+    });
+
     const response = NextResponse.redirect(url);
 
     if (!getCookie({ request, name: CookieNames.LOCALE })) {
@@ -29,7 +33,7 @@ export function handleLanguage(request: NextRequest): NextResponse | null {
         response,
         name: CookieNames.LOCALE,
         value: cookieLocale,
-        maxAge: Limits.COOKIE_MAX_AGE.YEAR,
+        maxAge: Periods.YEAR,
       });
     }
 

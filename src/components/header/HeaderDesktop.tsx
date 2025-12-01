@@ -2,12 +2,11 @@ import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
 import { Box, Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
 
 import { logoutActions } from '@actions/auth';
 
 import { DropdownButton } from '@components/dropdown/Dropdown';
-import LanguageSelect from '@components/selects/Languages';
+import { LanguageSelect } from '@components/selects/LanguagesSelect';
 
 import { Link } from '@libs/i18n/navigation';
 
@@ -18,8 +17,8 @@ interface HeaderDesktopProps {
   userId: string | undefined;
 }
 
-export function HeaderDesktop({ navLinks }: HeaderDesktopProps) {
-  const t = useTranslations('header');
+export const HeaderDesktop = ({ navLinks }: HeaderDesktopProps) => {
+  const t = useTranslations('');
 
   return (
     <>
@@ -56,17 +55,17 @@ export function HeaderDesktop({ navLinks }: HeaderDesktopProps) {
         }}
       >
         <DropdownButton
-          buttonLabel={t('profile')}
+          buttonLabel={t('header.profile')}
           buttonProps={{
             variant: 'contained',
             color: 'primary',
             sx: { textTransform: 'none' },
           }}
           menuItems={[
-            { label: t('profile'), href: Routes.Profile.href },
-            { label: t('about'), href: Routes.About.href },
+            { label: t('header.profile'), href: Routes.Profile.href },
+            { label: t('header.about'), href: Routes.About.href },
             {
-              label: t('logout'),
+              label: t('header.logout'),
               onClick: () => logoutActions(),
             },
           ]}
@@ -76,4 +75,4 @@ export function HeaderDesktop({ navLinks }: HeaderDesktopProps) {
       </Box>
     </>
   );
-}
+};
