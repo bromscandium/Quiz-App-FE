@@ -29,7 +29,7 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function RegisterPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const { name, surname, nickname, email, password, errors } = useSelector(
     (state: RootState) => state.register

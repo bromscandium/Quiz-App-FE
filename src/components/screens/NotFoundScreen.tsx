@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box, Typography } from '@mui/material';
 
-export const notFoundMessage = (message: string) => {
+export const notFoundScreen = (message: string) => {
   return (
     <Box
       sx={{

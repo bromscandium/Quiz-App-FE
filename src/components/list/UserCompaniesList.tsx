@@ -12,8 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CompanyCard } from '@components/cards/CompanyCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { notFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readUserCompaniesThunk } from '@libs/redux/slices/user';
@@ -26,10 +27,10 @@ interface CompaniesListProps {
 const LIMIT = 6;
 
 export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { userCompanies, loading } = useSelector(
+  const { userCompanies, loading, error } = useSelector(
     (state: RootState) => state.user
   );
 
@@ -62,8 +63,10 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
 
   if (loading) return <LoadingScreen />;
 
+  if (error) return <ErrorScreen error={error} />;
+
   if (!userCompanies?.companies?.length)
-    return notFoundMessage(t('company.noCompanies'));
+    return notFoundScreen(t('company.noCompanies'));
 
   return (
     <Box>

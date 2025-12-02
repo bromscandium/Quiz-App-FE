@@ -14,14 +14,12 @@ import {
   useTheme,
 } from '@mui/material';
 
-import { useRouter } from '@libs/i18n/navigation';
-
 type MembershipCardProps = {
   membership: MembershipInterfaces.UserMembership;
 };
 
 export const MembershipCard = ({ membership }: MembershipCardProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const theme = useTheme();
 
   const { company, role } = membership;

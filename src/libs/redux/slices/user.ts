@@ -185,6 +185,9 @@ const userSlice = createSlice({
     clearSelectedUser: (state) => {
       state.selectedUser = null;
     },
+    logout: (state) => {
+      state.currentUser = null;
+    },
   },
   extraReducers: (builder) => {
     const setSelectedUser = (
@@ -273,5 +276,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearSelectedUser } = userSlice.actions;
+export const { clearSelectedUser, logout } = userSlice.actions;
 export const userReducer = userSlice.reducer;

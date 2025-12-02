@@ -41,7 +41,7 @@ export const CompanyModalButton = ({
   company,
 }: CompanyModalButtonProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const [open, setOpen] = useState<boolean>(false);
 

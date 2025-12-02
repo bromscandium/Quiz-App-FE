@@ -18,7 +18,7 @@ interface HeaderDesktopProps {
 }
 
 export const HeaderDesktop = ({ navLinks }: HeaderDesktopProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   return (
     <>

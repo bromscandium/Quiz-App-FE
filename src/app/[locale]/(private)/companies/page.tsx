@@ -12,24 +12,23 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CompanyCard } from '@components/cards/CompanyCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { notFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readAllCompaniesThunk } from '@libs/redux/slices/company';
-import { readUserByMeThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
 const LIMIT = 9;
 
 export default function CompaniesPage() {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { companies, total, loading } = useSelector(
+  const { companies, total, loading, error } = useSelector(
     (state: RootState) => state.company
   );
-  const { currentUser } = useSelector((state: RootState) => state.user);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -48,16 +47,14 @@ export default function CompaniesPage() {
   };
 
   useEffect(() => {
-    if (!currentUser) {
-      dispatch(readUserByMeThunk());
-    }
-
     dispatch(readAllCompaniesThunk({ offset, limit: LIMIT }));
-  }, [dispatch, currentUser, offset]);
+  }, [dispatch, offset]);
 
   if (loading) return <LoadingScreen />;
 
-  if (!companies?.length) return notFoundMessage(t('company.noCompanies'));
+  if (error) return <ErrorScreen error={error} />;
+
+  if (!companies?.length) return notFoundScreen(t('company.noCompanies'));
 
   return (
     <Box

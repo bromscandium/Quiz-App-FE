@@ -31,7 +31,7 @@ export default function MembershipForm({
   onCancel,
   onDelete,
 }: MembershipFormProps) {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const [formData, setFormData] =
     useState<MembershipInterfaces.MembershipUpdate>({

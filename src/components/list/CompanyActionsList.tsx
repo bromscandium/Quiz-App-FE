@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { CompanyActionsCard } from '@components/cards/CompanyActionsCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { notFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readAllCompanyActionsThunk } from '@libs/redux/slices/companyActions';
@@ -33,10 +34,10 @@ export const CompanyActionsList = ({
   companyId,
   actionType,
 }: CompanyActionsListProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { actions, loading, total } = useSelector(
+  const { actions, loading, total, error } = useSelector(
     (state: RootState) => state.companyActions
   );
 
@@ -74,6 +75,8 @@ export const CompanyActionsList = ({
 
   if (loading) return <LoadingScreen />;
 
+  if (error) return <ErrorScreen error={error} />;
+
   const noActionsMessage = (actionType?: ActionTypes) => {
     if (actionType === ActionTypes.REQUEST)
       return t('companyActions.noRequests');
@@ -82,7 +85,7 @@ export const CompanyActionsList = ({
     return t('companyActions.noActions');
   };
 
-  if (!actions?.length) return notFoundMessage(noActionsMessage(actionType));
+  if (!actions?.length) return notFoundScreen(noActionsMessage(actionType));
 
   return (
     <Box>

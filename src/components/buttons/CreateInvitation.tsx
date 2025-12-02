@@ -15,7 +15,7 @@ type CreateInvitationProps = {
 export const CreateInvitationButton = ({
   companyId,
 }: CreateInvitationProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const router = useRouter();
 
   const handleInvite = () => {
@@ -26,10 +26,8 @@ export const CreateInvitationButton = ({
   };
 
   return (
-    <>
-      <Button color="primary" variant="contained" onClick={handleInvite}>
-        <Typography>{t('common.createInvitation')}</Typography>
-      </Button>
-    </>
+    <Button color="primary" variant="contained" onClick={handleInvite}>
+      <Typography>{t('common.createInvitation')}</Typography>
+    </Button>
   );
 };

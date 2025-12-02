@@ -1,4 +1,5 @@
-import { Env } from '@constants';
+import { Env, Routes } from '@constants';
+import { redirectWithLocale } from '@helpers/redirect';
 import axios from 'axios';
 
 const api = axios.create({
@@ -10,7 +11,12 @@ const api = axios.create({
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error)
+  (error) => {
+    if (error.response?.status === 401) {
+      redirectWithLocale(Routes.Login.href);
+    }
+    return Promise.reject(error);
+  }
 );
 
 export default api;

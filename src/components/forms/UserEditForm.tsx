@@ -32,7 +32,7 @@ export const UserEditForm = <T extends Record<string, any>>({
 }: UserEditFormProps<T>) => {
   const [formData, setFormData] = useState<T>(initialData);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const handleChange = (key: string, value: string | number | Dayjs | null) => {
     setFormData((prev) => ({ ...prev, [key]: value }));

@@ -19,7 +19,7 @@ type DeleteButtonProps = {
 };
 
 export const DeleteModalButton = ({ onDeleteAction }: DeleteButtonProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);

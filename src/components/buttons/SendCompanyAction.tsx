@@ -39,7 +39,7 @@ export const SendCompanyActionButton = ({
   confirmTitle,
   confirmDescription,
 }: SendCompanyActionProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState<boolean>(false);
 

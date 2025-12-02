@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { MembersCard } from '@components/cards/MembersCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { notFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readCompanyMembersThunk } from '@libs/redux/slices/membership';
@@ -28,10 +29,10 @@ interface MembersListProps {
 const LIMIT = 6;
 
 export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { memberships, loading, total } = useSelector(
+  const { memberships, loading, total, error } = useSelector(
     (state: RootState) => state.membership
   );
 
@@ -67,12 +68,14 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
 
   if (loading) return <LoadingScreen />;
 
+  if (error) return <ErrorScreen error={error} />;
+
   const filteredMembers = filterParam
     ? memberships?.filter((m) => m.role === filterParam)
     : memberships;
 
   if (!filteredMembers?.length)
-    return notFoundMessage(t('membership.noMembers'));
+    return notFoundScreen(t('membership.noMembers'));
 
   return (
     <Box>
