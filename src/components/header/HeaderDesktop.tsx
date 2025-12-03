@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Routes } from '@constants/routes';
 import { Box, Button } from '@mui/material';
 
-import { logoutActions } from '@actions/auth';
+import { logoutAction } from '@actions/auth';
 
 import { DropdownButton } from '@components/dropdown/Dropdown';
 import { LanguageSelect } from '@components/selects/LanguagesSelect';
@@ -66,7 +66,7 @@ export const HeaderDesktop = ({ navLinks }: HeaderDesktopProps) => {
             { label: t('header.about'), href: Routes.About.href },
             {
               label: t('header.logout'),
-              onClick: () => logoutActions(),
+              onClick: () => logoutAction(),
             },
           ]}
         />

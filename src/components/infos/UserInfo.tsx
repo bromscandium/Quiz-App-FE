@@ -9,7 +9,7 @@ import { Avatar, Box, Button, Paper, Stack, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 
-import { logoutActions } from '@actions/auth';
+import { logoutAction } from '@actions/auth';
 
 import { CompanyModalButton } from '@components/buttons/CompanyModal';
 import { DeleteModalButton } from '@components/buttons/DeleteModal';
@@ -79,7 +79,7 @@ export const UserInfo = ({
 
   const handleDelete = async () => {
     await dispatch(deleteUserThunk(user!.id));
-    await logoutActions();
+    await logoutAction();
   };
 
   return (

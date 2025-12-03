@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants';
+import { NINE_LIMIT } from '@helpers/list';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,8 +21,6 @@ import { useRouter } from '@libs/i18n/navigation';
 import { readAllCompaniesThunk } from '@libs/redux/slices/company';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
-const LIMIT = 9;
-
 export default function CompaniesPage() {
   const t = useTranslations();
 
@@ -35,7 +34,7 @@ export default function CompaniesPage() {
 
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
-    LIMIT,
+    NINE_LIMIT,
     total
   );
 
@@ -47,7 +46,7 @@ export default function CompaniesPage() {
   };
 
   useEffect(() => {
-    dispatch(readAllCompaniesThunk({ offset, limit: LIMIT }));
+    dispatch(readAllCompaniesThunk({ offset, limit: NINE_LIMIT }));
   }, [dispatch, offset]);
 
   if (loading) return <LoadingScreen />;

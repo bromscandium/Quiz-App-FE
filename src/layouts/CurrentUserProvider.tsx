@@ -11,5 +11,5 @@ export const CurrentUserProvider = ({ children }: { children: ReactNode }) => {
     dispatch(readUserByMeThunk());
   }, []);
 
-  return <>{children}</>;
+  return children;
 };

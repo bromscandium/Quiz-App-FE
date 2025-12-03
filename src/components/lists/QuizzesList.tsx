@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants';
+import { SIX_LIMIT } from '@helpers/list';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +16,7 @@ import { QuizCard } from '@components/cards/QuizCard';
 import { Pagination } from '@components/pagination/Pagination';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
+import { NoQuizzesScreen } from '@components/screens/NoQuizzesScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readCompanyQuizzesThunk } from '@libs/redux/slices/quiz';
@@ -24,8 +26,6 @@ interface QuizzesListProps {
   companyId: string;
   isOwnerOrAdmin: boolean;
 }
-
-const LIMIT = 6;
 
 export const QuizzesList = ({
   companyId,
@@ -42,7 +42,7 @@ export const QuizzesList = ({
 
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
-    LIMIT,
+    SIX_LIMIT,
     total
   );
 
@@ -62,7 +62,7 @@ export const QuizzesList = ({
     dispatch(
       readCompanyQuizzesThunk({
         companyId,
-        params: { offset, limit: LIMIT },
+        params: { offset, limit: SIX_LIMIT },
       })
     );
   }, [dispatch, offset, companyId]);
@@ -71,25 +71,10 @@ export const QuizzesList = ({
 
   if (error) return <ErrorScreen error={error} />;
 
-  if (!quizzes?.length) {
+  if (!quizzes?.length)
     return (
-      <>
-        <Typography variant="h5" fontWeight={700}>
-          {t('quiz.quizzes')}
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: 200,
-          }}
-        >
-          {isOwnerOrAdmin && <QuizModal companyId={companyId} mode="create" />}
-        </Box>
-      </>
+      <NoQuizzesScreen companyId={companyId} isOwnerOrAdmin={isOwnerOrAdmin} />
     );
-  }
 
   return (
     <Box>

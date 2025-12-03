@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants';
 import { Roles } from '@enums';
+import { SIX_LIMIT } from '@helpers/list';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,8 +27,6 @@ interface MembersListProps {
   filterParam?: Roles;
 }
 
-const LIMIT = 6;
-
 export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
   const t = useTranslations();
 
@@ -41,7 +40,7 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
 
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
-    LIMIT,
+    SIX_LIMIT,
     companyMembersTotal
   );
 
@@ -61,7 +60,7 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
     dispatch(
       readCompanyMembersThunk({
         company_id: companyId,
-        params: { offset, limit: LIMIT },
+        params: { offset, limit: SIX_LIMIT },
       })
     );
   }, [dispatch, offset, companyId]);

@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants';
+import { SIX_LIMIT } from '@helpers/list';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,8 +25,6 @@ interface MembershipListProps {
   userId: string;
 }
 
-const LIMIT = 6;
-
 export const MembershipsList = ({ userId }: MembershipListProps) => {
   const t = useTranslations();
 
@@ -39,7 +38,7 @@ export const MembershipsList = ({ userId }: MembershipListProps) => {
 
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
-    LIMIT,
+    SIX_LIMIT,
     total
   );
 
@@ -56,7 +55,9 @@ export const MembershipsList = ({ userId }: MembershipListProps) => {
   };
 
   useEffect(() => {
-    dispatch(readUserMembershipsThunk({ params: { offset, limit: LIMIT } }));
+    dispatch(
+      readUserMembershipsThunk({ params: { offset, limit: SIX_LIMIT } })
+    );
   }, [dispatch, offset, userId]);
 
   if (loading) return <LoadingScreen />;

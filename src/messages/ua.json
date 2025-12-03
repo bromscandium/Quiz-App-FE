@@ -208,6 +208,7 @@
     "submissionError": "Помилка під час відправки квізу",
     "correctRequired": "Потрібно вказати правильну відповідь",
     "answerRequired": "Потрібно вказати відповідь",
-    "questionRequired": "Потрібно вказати питання"
+    "questionRequired": "Потрібно вказати питання",
+    "submissionSuccess": "Успішно надіслано"
   }
 }

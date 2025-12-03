@@ -31,7 +31,7 @@ export const QuizForm = ({
   };
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} component="form" onSubmit={handleSubmit}>
       <TextField
         label={t('quiz.title')}
         value={form.title}
@@ -61,7 +61,7 @@ export const QuizForm = ({
         <Button variant="outlined" onClick={onCancel}>
           {t('common.cancel')}
         </Button>
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" type="submit">
           {t('common.save')}
         </Button>
       </Stack>

@@ -5,11 +5,12 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
+import { redirectWithLocale } from '@helpers/redirect';
 import { hasErrors, validation } from '@helpers/validation';
 import { Box, Link as MuiLink, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loginActions } from '@actions/auth';
+import { loginAction } from '@actions/auth';
 
 import { AuthForm } from '@components/forms/AuthForm';
 import { LanguageSelect } from '@components/selects/LanguagesSelect';
@@ -21,6 +22,7 @@ import {
   setErrors,
   setPassword,
 } from '@libs/redux/slices/login';
+import { readUserByMeThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function LoginPage() {
@@ -42,8 +44,14 @@ export default function LoginPage() {
       return;
     }
 
-    const loginResult = await loginActions({ email, password });
-    if (loginResult) dispatch(setErrors({ general: loginResult }));
+    const result = await loginAction({ email, password });
+
+    if (result.success) {
+      await dispatch(readUserByMeThunk());
+      await redirectWithLocale(Routes.Home.href);
+    } else {
+      dispatch(setErrors({ general: result.error }));
+    }
   };
 
   return (

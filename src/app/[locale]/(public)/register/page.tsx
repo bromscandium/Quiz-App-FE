@@ -5,11 +5,12 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 import { Routes } from '@constants/routes';
+import { redirectWithLocale } from '@helpers/redirect';
 import { hasErrors, validation } from '@helpers/validation';
 import { Box, Link as MuiLink, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loginActions } from '@actions/auth';
+import { loginAction } from '@actions/auth';
 
 import { AuthForm } from '@components/forms/AuthForm';
 import { LanguageSelect } from '@components/selects/LanguagesSelect';
@@ -24,7 +25,7 @@ import {
   setPassword,
   setSurname,
 } from '@libs/redux/slices/register';
-import { createUserThunk } from '@libs/redux/slices/user';
+import { createUserThunk, readUserByMeThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function RegisterPage() {
@@ -52,11 +53,18 @@ export default function RegisterPage() {
       ).unwrap();
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const result = await loginAction({ email, password });
+
+      if (result.success) {
+        await dispatch(readUserByMeThunk());
+        await redirectWithLocale(Routes.Home.href);
+      } else {
+        dispatch(setErrors({ general: result.error }));
+      }
     } catch (error) {
       dispatch(setErrors({ general: String(error) }));
     }
-    const loginResult = await loginActions({ email, password });
-    if (loginResult) dispatch(setErrors({ general: loginResult }));
   };
 
   return (

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants';
+import { NINE_LIMIT } from '@helpers/list';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,8 +20,6 @@ import { useRouter } from '@libs/i18n/navigation';
 import { readAllUsersThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
-const LIMIT = 9;
-
 export default function UsersPage() {
   const t = useTranslations();
 
@@ -34,7 +33,7 @@ export default function UsersPage() {
 
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
-    LIMIT,
+    NINE_LIMIT,
     total
   );
 
@@ -46,7 +45,7 @@ export default function UsersPage() {
   };
 
   useEffect(() => {
-    dispatch(readAllUsersThunk({ offset, limit: LIMIT }));
+    dispatch(readAllUsersThunk({ offset, limit: NINE_LIMIT }));
   }, [dispatch, offset]);
 
   if (loading) return <LoadingScreen />;

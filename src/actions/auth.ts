@@ -5,10 +5,9 @@ import { AuthInterfaces } from '@interfaces';
 
 import { login, logout } from '@api/auth';
 
-import { readUserByMeThunk } from '@libs/redux/slices/user';
 import { store } from '@libs/redux/store';
 
-export async function loginActions(data: AuthInterfaces.LoginRequest) {
+export async function loginAction(data: AuthInterfaces.LoginRequest) {
   try {
     const response = await login(data);
 
@@ -23,15 +22,16 @@ export async function loginActions(data: AuthInterfaces.LoginRequest) {
       maxAge: Periods.HOUR,
     });
 
-    await store.dispatch(readUserByMeThunk());
+    return { success: true };
   } catch (error: any) {
-    return error?.response?.data?.detail ?? 'Unknown error occurred.';
+    return {
+      success: false,
+      error: error?.response?.data?.detail ?? 'Unknown error occurred.',
+    };
   }
-
-  await redirectWithLocale(Routes.Home.href);
 }
 
-export async function logoutActions() {
+export async function logoutAction() {
   const refreshToken = await getCookie({ name: CookieNames.REFRESH_TOKEN });
 
   if (refreshToken) {

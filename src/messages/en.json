@@ -208,6 +208,7 @@
     "submissionError": "Error submitting quiz",
     "correctRequired": "Correct answer is required",
     "answerRequired": "Answer is required",
-    "questionRequired": "Question is required"
+    "questionRequired": "Question is required",
+    "submissionSuccess": "Submission Success"
   }
 }

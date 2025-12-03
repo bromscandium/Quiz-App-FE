@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants/routes';
 import { ActionTypes } from '@enums';
+import { SIX_LIMIT } from '@helpers/list';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,8 +28,6 @@ interface CompanyActionsListProps {
   actionType?: ActionTypes;
 }
 
-const LIMIT = 6;
-
 export const CompanyActionsList = ({
   userId,
   companyId,
@@ -46,7 +45,7 @@ export const CompanyActionsList = ({
 
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
-    LIMIT,
+    SIX_LIMIT,
     total
   );
 
@@ -68,7 +67,7 @@ export const CompanyActionsList = ({
         action_type: actionType,
         company_id: companyId,
         offset,
-        limit: LIMIT,
+        limit: SIX_LIMIT,
       })
     );
   }, [dispatch, offset, actionType]);

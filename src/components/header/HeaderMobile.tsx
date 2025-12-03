@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Routes } from '@constants/routes';
 import { Box, Button, Drawer } from '@mui/material';
 
-import { logoutActions } from '@actions/auth';
+import { logoutAction } from '@actions/auth';
 
 import { LanguageSelect } from '@components/selects/LanguagesSelect';
 
@@ -81,7 +81,7 @@ export const HeaderMobile = ({ navLinks }: HeaderMobileProps) => {
 
             <Button
               color="error"
-              onClick={() => logoutActions()}
+              onClick={() => logoutAction()}
               sx={{ textTransform: 'none', minWidth: 140 }}
             >
               {t('header.logout')}
