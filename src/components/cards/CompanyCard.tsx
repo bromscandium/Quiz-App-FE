@@ -15,8 +15,6 @@ import {
 
 import { UserSchema } from '@interfaces/user';
 
-import { useRouter } from '@libs/i18n/navigation';
-
 interface CompanyCardProps {
   id: string;
   name: string;
@@ -32,7 +30,7 @@ export const CompanyCard = ({
   description,
   visibility,
 }: CompanyCardProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const theme = useTheme();
 
   return (

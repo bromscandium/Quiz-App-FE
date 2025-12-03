@@ -31,7 +31,7 @@ export const MembershipModalButton = ({
   member,
 }: MembershipModalButtonProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const [open, setOpen] = useState<boolean>(false);
 

@@ -6,33 +6,35 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
 import { Routes } from '@constants';
-import { Roles } from '@enums';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MembersCard } from '@components/cards/MembersCard';
+import { QuizModal } from '@components/buttons/QuizModal';
+import { QuizCard } from '@components/cards/QuizCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
-import { readCompanyMembersThunk } from '@libs/redux/slices/membership';
+import { readCompanyQuizzesThunk } from '@libs/redux/slices/quiz';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
-interface MembersListProps {
+interface QuizzesListProps {
   companyId: string;
-  filterParam?: Roles;
+  isOwnerOrAdmin: boolean;
 }
 
 const LIMIT = 6;
 
-export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
-  const t = useTranslations('');
-
+export const QuizzesList = ({
+  companyId,
+  isOwnerOrAdmin,
+}: QuizzesListProps) => {
+  const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
-  const { memberships, loading, total } = useSelector(
-    (state: RootState) => state.membership
+  const { quizzes, total, loading, error } = useSelector(
+    (state: RootState) => state.quiz
   );
 
   const searchParams = useSearchParams();
@@ -58,8 +60,8 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
 
   useEffect(() => {
     dispatch(
-      readCompanyMembersThunk({
-        company_id: companyId,
+      readCompanyQuizzesThunk({
+        companyId,
         params: { offset, limit: LIMIT },
       })
     );
@@ -67,15 +69,45 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
 
   if (loading) return <LoadingScreen />;
 
-  const filteredMembers = filterParam
-    ? memberships?.filter((m) => m.role === filterParam)
-    : memberships;
+  if (error) return <ErrorScreen error={error} />;
 
-  if (!filteredMembers?.length)
-    return notFoundMessage(t('membership.noMembers'));
+  if (!quizzes?.length) {
+    return (
+      <>
+        <Typography variant="h5" fontWeight={700}>
+          {t('quiz.quizzes')}
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: 200,
+          }}
+        >
+          {isOwnerOrAdmin && <QuizModal companyId={companyId} mode="create" />}
+        </Box>
+      </>
+    );
+  }
 
   return (
     <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 3,
+        }}
+      >
+        <Typography variant="h5" fontWeight={700}>
+          {t('quiz.quizzes')}
+        </Typography>
+
+        {isOwnerOrAdmin && <QuizModal companyId={companyId} mode="create" />}
+      </Box>
+
       <Box
         sx={{
           display: 'grid',
@@ -89,8 +121,8 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
           minHeight: 2 * 250 + 16,
         }}
       >
-        {filteredMembers.map((member) => (
-          <MembersCard key={member.id} member={member} />
+        {quizzes.map((quiz) => (
+          <QuizCard key={quiz.id} quiz={quiz} isOwnerOrAdmin={isOwnerOrAdmin} />
         ))}
       </Box>
 

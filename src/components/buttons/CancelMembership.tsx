@@ -25,7 +25,7 @@ type CancelMembershipProps = {
 };
 
 export const CancelMembership = ({ membershipId }: CancelMembershipProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState<boolean>(false);
 

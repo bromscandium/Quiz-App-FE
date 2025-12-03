@@ -19,7 +19,7 @@ interface HeaderMobileProps {
 }
 
 export const HeaderMobile = ({ navLinks }: HeaderMobileProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   return (

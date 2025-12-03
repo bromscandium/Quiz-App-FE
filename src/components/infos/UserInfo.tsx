@@ -39,7 +39,7 @@ export const UserInfo = ({
   invitationId,
 }: UserInfoProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('');
+  const t = useTranslations();
   const theme = useTheme();
 
   const [isEditing, setIsEditing] = useState<boolean>(false);

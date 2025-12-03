@@ -15,6 +15,8 @@ interface MembershipState {
   loading: boolean;
   error?: string;
   selectedMembership: MembershipInterfaces.MembershipSchema | null;
+  companyMembers: MembershipInterfaces.MembershipSchema[] | null;
+  companyMembersTotal: number;
 }
 
 const initialState: MembershipState = {
@@ -23,6 +25,8 @@ const initialState: MembershipState = {
   loading: false,
   error: '',
   selectedMembership: null,
+  companyMembers: null,
+  companyMembersTotal: 0,
 };
 
 export const createMembershipThunk = createAsyncThunk<
@@ -81,7 +85,7 @@ export const readUserMembershipsThunk = createAsyncThunk<
 );
 
 export const readCompanyMembersThunk = createAsyncThunk<
-  { memberships: MembershipInterfaces.MembershipSchema[]; total: number },
+  { companyMembers: MembershipInterfaces.MembershipSchema[]; total: number },
   {
     company_id: string;
     params: ParamsInterfaces.paginationRequest & { roles?: Roles[] };
@@ -97,7 +101,7 @@ export const readCompanyMembersThunk = createAsyncThunk<
       );
       const data = response.data;
       return {
-        memberships: data.memberships ?? [],
+        companyMembers: data.memberships ?? [],
         total: data.total ?? 0,
       };
     } catch (error: unknown) {
@@ -167,8 +171,8 @@ const membershipSlice = createSlice({
         state.loading = false;
       })
       .addCase(readCompanyMembersThunk.fulfilled, (state, action) => {
-        state.memberships = action.payload.memberships;
-        state.total = action.payload.total;
+        state.companyMembers = action.payload.companyMembers;
+        state.companyMembersTotal = action.payload.total;
         state.loading = false;
       })
       .addCase(readMembershipByIdThunk.fulfilled, (state, action) => {

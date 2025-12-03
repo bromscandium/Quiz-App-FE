@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { UserCard } from '@components/cards/UserCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readAllUsersThunk } from '@libs/redux/slices/user';
@@ -21,10 +22,10 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 const LIMIT = 9;
 
 export default function UsersPage() {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { users, total, loading } = useSelector(
+  const { users, total, loading, error } = useSelector(
     (state: RootState) => state.user
   );
 
@@ -48,13 +49,11 @@ export default function UsersPage() {
     dispatch(readAllUsersThunk({ offset, limit: LIMIT }));
   }, [dispatch, offset]);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  if (loading) return <LoadingScreen />;
 
-  if (!users?.length) {
-    return notFoundMessage(t('noUsers'));
-  }
+  if (error) return <ErrorScreen error={error} />;
+
+  if (!users?.length) return NotFoundScreen(t('noUsers'));
 
   return (
     <Box

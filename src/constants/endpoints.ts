@@ -4,6 +4,8 @@ export const companyActionsBase = '/company_actions';
 export const healthBase = '/health';
 export const membershipsBase = '/memberships';
 export const usersBase = '/users';
+export const quizzesBase = '/quizzes';
+export const quizAttemptsBase = '/quiz_attempts';
 
 export const Endpoints = {
   Auth: {
@@ -48,5 +50,19 @@ export const Endpoints = {
     update: (id: string) => `${usersBase}/update/${id}`,
     delete: (id: string) => `${usersBase}/delete/${id}`,
     companies: (id: string) => `${usersBase}/companies/${id}`,
+  },
+  Quizzes: {
+    create: `${quizzesBase}/`,
+    byId: (id: string) => `${quizzesBase}/id/${id}`,
+    byCompany: (companyId: string) => `${quizzesBase}/company/${companyId}`,
+    update: (id: string) => `${quizzesBase}/update/${id}`,
+    delete: (id: string) => `${quizzesBase}/delete/${id}`,
+  },
+  QuizAttempts: {
+    create: `${quizAttemptsBase}/`,
+    byId: (id: string, userId: string) =>
+      `${quizAttemptsBase}/${id}?user_id=${userId}`,
+    user: `${quizAttemptsBase}/user/`,
+    company: `${quizAttemptsBase}/company/`,
   },
 };

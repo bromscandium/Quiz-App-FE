@@ -33,7 +33,7 @@ export default function CompanyForm({
   onCancel,
   onDelete,
 }: CompanyFormProps) {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const [formData, setFormData] = useState<CompanyUpdate>({
     name: initialData?.name || '',

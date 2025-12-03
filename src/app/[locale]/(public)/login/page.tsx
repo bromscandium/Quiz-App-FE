@@ -25,7 +25,7 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const { email, password, errors } = useSelector(
     (state: RootState) => state.login

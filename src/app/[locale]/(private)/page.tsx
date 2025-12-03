@@ -6,7 +6,7 @@ import { Env } from '@constants';
 import { Box, Typography } from '@mui/material';
 
 export default function HomePage() {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   return (
     <Box

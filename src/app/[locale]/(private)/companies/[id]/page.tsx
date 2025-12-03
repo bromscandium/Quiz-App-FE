@@ -11,11 +11,13 @@ import { getTabParam, handleTabChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CompanyInfo } from '@components/info/CompanyInfo';
-import { CompanyActionsList } from '@components/list/CompanyActionsList';
-import { MembersList } from '@components/list/MembersList';
+import { CompanyInfo } from '@components/infos/CompanyInfo';
+import { CompanyActionsList } from '@components/lists/CompanyActionsList';
+import { MembersList } from '@components/lists/MembersList';
+import { QuizzesList } from '@components/lists/QuizzesList';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 import { HorizontalTabs } from '@components/tabs/HorizontalTabs';
 
 import {
@@ -23,50 +25,47 @@ import {
   readCompanyByIdThunk,
 } from '@libs/redux/slices/company';
 import { readUserMembershipsThunk } from '@libs/redux/slices/membership';
-import { readUserByMeThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function CompanyPage() {
-  const t = useTranslations('');
+  const t = useTranslations();
   const searchParams = useSearchParams();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
 
-  const { selectedCompany, loading } = useSelector(
+  const { selectedCompany, loading, error } = useSelector(
     (state: RootState) => state.company
   );
-  const { currentUser } = useSelector((state: RootState) => state.user);
-
   const { memberships } = useSelector((state: RootState) => state.membership);
+
+  const { currentUser } = useSelector((state: RootState) => state.user);
 
   const defaultTab = Tabs.MEMBERS;
   const tabFromUrl = getTabParam(searchParams, defaultTab) as Tabs;
   const [activeTab, setActiveTab] = useState<string>(tabFromUrl);
 
   useEffect(() => {
-    if (!currentUser) dispatch(readUserByMeThunk());
     if (!selectedCompany || selectedCompany.id !== id) {
       dispatch(clearSelectedCompany());
       dispatch(readCompanyByIdThunk(id));
+      dispatch(readUserMembershipsThunk({ params: { offset: 0, limit: 20 } }));
     }
-  }, [dispatch, currentUser, id]);
-
-  useEffect(() => {
-    if (currentUser?.id) {
-      dispatch(readUserMembershipsThunk({ params: { limit: 20, offset: 0 } }));
-    }
-  }, [currentUser?.id, dispatch]);
+  }, [dispatch, id]);
 
   if (loading) return <LoadingScreen />;
-  if (!selectedCompany || !currentUser)
-    return notFoundMessage(t('company.noCompany'));
+
+  if (error) return <ErrorScreen error={error} />;
+
+  if (!selectedCompany) return NotFoundScreen(t('company.noCompany'));
 
   const currentUserMembership = memberships?.find(
-    (membership) => membership.user?.id === currentUser.id
+    (membership) => membership.company?.id === id
   );
 
   const isOwner = currentUser?.id === selectedCompany.owner?.id;
+
+  const isAdmin = currentUserMembership?.role === Roles.ADMIN;
 
   const tabs = [
     {
@@ -108,6 +107,8 @@ export default function CompanyPage() {
     handleTabChange(key, searchParams, router, Routes.Companies.buildRoute(id));
   };
 
+  const isMember = !!currentUserMembership;
+
   return (
     <Box
       sx={{
@@ -125,10 +126,14 @@ export default function CompanyPage() {
       </Typography>
       <CompanyInfo
         company={selectedCompany}
-        currentUser={currentUser}
+        currentUser={currentUser!}
         userMembership={currentUserMembership}
         isOwner={isOwner}
       />
+
+      {isMember && (
+        <QuizzesList companyId={id} isOwnerOrAdmin={isOwner || isAdmin} />
+      )}
 
       {isOwner && (
         <HorizontalTabs

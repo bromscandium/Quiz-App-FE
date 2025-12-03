@@ -31,7 +31,7 @@ export const UpdateCompanyActionButton = ({
   actionId,
   newStatus,
 }: UpdateCompanyActionButtonProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState(false);
 

@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 export default function AboutUsPage() {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const email: string = Env.SUPPORT_EMAIL!;
 

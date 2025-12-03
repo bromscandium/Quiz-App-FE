@@ -5,39 +5,35 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
-import { Routes } from '@constants/routes';
-import { ActionTypes } from '@enums';
+import { Routes } from '@constants';
+import { Roles } from '@enums';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CompanyActionsCard } from '@components/cards/CompanyActionsCard';
+import { MembersCard } from '@components/cards/MembersCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
-import { readAllCompanyActionsThunk } from '@libs/redux/slices/companyActions';
+import { readCompanyMembersThunk } from '@libs/redux/slices/membership';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
-interface CompanyActionsListProps {
-  userId?: string;
-  companyId?: string;
-  actionType?: ActionTypes;
+interface MembersListProps {
+  companyId: string;
+  filterParam?: Roles;
 }
 
 const LIMIT = 6;
 
-export const CompanyActionsList = ({
-  userId,
-  companyId,
-  actionType,
-}: CompanyActionsListProps) => {
-  const t = useTranslations('');
+export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { actions, loading, total } = useSelector(
-    (state: RootState) => state.companyActions
+  const { companyMembers, loading, companyMembersTotal, error } = useSelector(
+    (state: RootState) => state.membership
   );
 
   const searchParams = useSearchParams();
@@ -46,7 +42,7 @@ export const CompanyActionsList = ({
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
     LIMIT,
-    total
+    companyMembersTotal
   );
 
   const [currentPage, setCurrentPage] = useState<number>(page);
@@ -57,32 +53,29 @@ export const CompanyActionsList = ({
       newPage,
       searchParams,
       router,
-      Routes.Profile.buildRoute(userId!)
+      Routes.Companies.buildRoute(companyId)
     );
   };
 
   useEffect(() => {
     dispatch(
-      readAllCompanyActionsThunk({
-        action_type: actionType,
+      readCompanyMembersThunk({
         company_id: companyId,
-        offset,
-        limit: LIMIT,
+        params: { offset, limit: LIMIT },
       })
     );
-  }, [dispatch, offset, actionType]);
+  }, [dispatch, offset, companyId]);
 
   if (loading) return <LoadingScreen />;
 
-  const noActionsMessage = (actionType?: ActionTypes) => {
-    if (actionType === ActionTypes.REQUEST)
-      return t('companyActions.noRequests');
-    if (actionType === ActionTypes.INVITATION)
-      return t('companyActions.noInvitations');
-    return t('companyActions.noActions');
-  };
+  if (error) return <ErrorScreen error={error} />;
 
-  if (!actions?.length) return notFoundMessage(noActionsMessage(actionType));
+  const filteredMembers = filterParam
+    ? companyMembers?.filter((m) => m.role === filterParam)
+    : companyMembers;
+
+  if (!filteredMembers?.length)
+    return NotFoundScreen(t('membership.noMembers'));
 
   return (
     <Box>
@@ -99,13 +92,8 @@ export const CompanyActionsList = ({
           minHeight: 2 * 250 + 16,
         }}
       >
-        {actions.map((action) => (
-          <CompanyActionsCard
-            key={action.id}
-            action={action}
-            actionType={actionType}
-            companyId={companyId}
-          />
+        {filteredMembers.map((member) => (
+          <MembersCard key={member.id} member={member} />
         ))}
       </Box>
 

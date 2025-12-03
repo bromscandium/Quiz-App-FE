@@ -5,32 +5,40 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 
-import { Routes } from '@constants';
+import { Routes } from '@constants/routes';
+import { ActionTypes } from '@enums';
 import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CompanyCard } from '@components/cards/CompanyCard';
+import { CompanyActionsCard } from '@components/cards/CompanyActionsCard';
 import { Pagination } from '@components/pagination/Pagination';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
-import { readUserCompaniesThunk } from '@libs/redux/slices/user';
+import { readAllCompanyActionsThunk } from '@libs/redux/slices/companyActions';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
-interface CompaniesListProps {
-  userId: string;
+interface CompanyActionsListProps {
+  userId?: string;
+  companyId?: string;
+  actionType?: ActionTypes;
 }
 
 const LIMIT = 6;
 
-export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
-  const t = useTranslations('');
+export const CompanyActionsList = ({
+  userId,
+  companyId,
+  actionType,
+}: CompanyActionsListProps) => {
+  const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { userCompanies, loading } = useSelector(
-    (state: RootState) => state.user
+  const { actions, loading, total, error } = useSelector(
+    (state: RootState) => state.companyActions
   );
 
   const searchParams = useSearchParams();
@@ -39,7 +47,7 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
     LIMIT,
-    userCompanies?.total
+    total
   );
 
   const [currentPage, setCurrentPage] = useState<number>(page);
@@ -50,20 +58,34 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
       newPage,
       searchParams,
       router,
-      Routes.Profile.buildRoute(userId)
+      Routes.Profile.buildRoute(userId!)
     );
   };
 
   useEffect(() => {
     dispatch(
-      readUserCompaniesThunk({ id: userId, params: { offset, limit: LIMIT } })
+      readAllCompanyActionsThunk({
+        action_type: actionType,
+        company_id: companyId,
+        offset,
+        limit: LIMIT,
+      })
     );
-  }, [dispatch, offset, userId]);
+  }, [dispatch, offset, actionType]);
 
   if (loading) return <LoadingScreen />;
 
-  if (!userCompanies?.companies?.length)
-    return notFoundMessage(t('company.noCompanies'));
+  if (error) return <ErrorScreen error={error} />;
+
+  const noActionsMessage = (actionType?: ActionTypes) => {
+    if (actionType === ActionTypes.REQUEST)
+      return t('companyActions.noRequests');
+    if (actionType === ActionTypes.INVITATION)
+      return t('companyActions.noInvitations');
+    return t('companyActions.noActions');
+  };
+
+  if (!actions?.length) return NotFoundScreen(noActionsMessage(actionType));
 
   return (
     <Box>
@@ -80,13 +102,12 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
           minHeight: 2 * 250 + 16,
         }}
       >
-        {userCompanies.companies.map((company) => (
-          <CompanyCard
-            key={company.id}
-            id={company.id}
-            name={company.name}
-            description={company.description}
-            visibility={company.visibility}
+        {actions.map((action) => (
+          <CompanyActionsCard
+            key={action.id}
+            action={action}
+            actionType={actionType}
+            companyId={companyId}
           />
         ))}
       </Box>

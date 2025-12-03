@@ -5,6 +5,7 @@ import { AuthInterfaces } from '@interfaces';
 
 import { login, logout } from '@api/auth';
 
+import { readUserByMeThunk } from '@libs/redux/slices/user';
 import { store } from '@libs/redux/store';
 
 export async function loginActions(data: AuthInterfaces.LoginRequest) {
@@ -21,6 +22,8 @@ export async function loginActions(data: AuthInterfaces.LoginRequest) {
       value: response.data.access_token,
       maxAge: Periods.HOUR,
     });
+
+    await store.dispatch(readUserByMeThunk());
   } catch (error: any) {
     return error?.response?.data?.detail ?? 'Unknown error occurred.';
   }

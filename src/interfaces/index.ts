@@ -4,3 +4,8 @@ export * as ParamsInterfaces from './params';
 export * as CompanyInterfaces from './company';
 export * as CompanyActionsInterfaces from './companyActions';
 export * as MembershipInterfaces from './membership';
+export * as QuizInterfaces from './quiz';
+export * as QuestionInterfaces from './question';
+export * as QuizAttemptInterfaces from './quizAttempt';
+export * as AnswerOptionInterfaces from './answerOption';
+export * as UserAnswerInterfaces from './userAnswer';

@@ -22,7 +22,7 @@ type MembersCardProps = {
 };
 
 export const MembersCard = ({ member }: MembersCardProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const theme = useTheme();
 
   const { currentUser } = useSelector((state: RootState) => state.user);

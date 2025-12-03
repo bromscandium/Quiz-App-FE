@@ -25,7 +25,7 @@ type UserCardProps = {
 };
 
 export const UserCard = ({ id, name, surname, nickname }: UserCardProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
 

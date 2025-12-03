@@ -26,6 +26,7 @@
       "@app/*": ["app/*"],
       "@components/*": ["components/*"],
       "@constants/*": ["constants/*"],
+      "@hooks/*": ["hooks/*"],
       "@constants": ["constants"],
       "@enums/*": ["enums/*"],
       "@enums": ["enums"],

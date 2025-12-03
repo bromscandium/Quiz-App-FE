@@ -15,30 +15,27 @@ import {
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { UserInfo } from '@components/info/UserInfo';
-import { CompanyActionsList } from '@components/list/CompanyActionsList';
-import { MembershipsList } from '@components/list/MembershipsList';
-import { UserCompaniesList } from '@components/list/UserCompaniesList';
+import { UserInfo } from '@components/infos/UserInfo';
+import { CompanyActionsList } from '@components/lists/CompanyActionsList';
+import { MembershipsList } from '@components/lists/MembershipsList';
+import { UserCompaniesList } from '@components/lists/UserCompaniesList';
+import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundMessage } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 import { HorizontalTabs } from '@components/tabs/HorizontalTabs';
 
 import { readCompanyByIdThunk } from '@libs/redux/slices/company';
-import {
-  clearSelectedUser,
-  readUserByIdThunk,
-  readUserByMeThunk,
-} from '@libs/redux/slices/user';
+import { clearSelectedUser, readUserByIdThunk } from '@libs/redux/slices/user';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
 export default function ProfilePage() {
-  const t = useTranslations('');
+  const t = useTranslations();
   const searchParams = useSearchParams();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
 
-  const { selectedUser, currentUser, loading } = useSelector(
+  const { selectedUser, currentUser, loading, error } = useSelector(
     (state: RootState) => state.user
   );
   const { selectedCompany } = useSelector((state: RootState) => state.company);
@@ -50,12 +47,11 @@ export default function ProfilePage() {
   const invitationId = getInvitationIDParam(searchParams);
 
   useEffect(() => {
-    if (!currentUser) dispatch(readUserByMeThunk());
     if (!selectedUser || selectedUser.id !== id) {
       dispatch(clearSelectedUser());
       dispatch(readUserByIdThunk(id));
     }
-  }, [dispatch, currentUser, id]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (invitationId) {
@@ -64,7 +60,10 @@ export default function ProfilePage() {
   }, [dispatch, invitationId]);
 
   if (loading) return <LoadingScreen />;
-  if (!selectedUser) return notFoundMessage(t('profile.noUser'));
+
+  if (error) return <ErrorScreen error={error} />;
+
+  if (!selectedUser) return NotFoundScreen(t('profile.noUser'));
 
   const isCurrentUser = currentUser?.id === selectedUser.id;
 

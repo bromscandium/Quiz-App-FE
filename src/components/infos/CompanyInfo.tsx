@@ -28,7 +28,7 @@ export const CompanyInfo = ({
   isOwner,
   userMembership,
 }: CompanyInfoProps) => {
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const isMember = !!userMembership;
   const canLeave = isMember && !isOwner;

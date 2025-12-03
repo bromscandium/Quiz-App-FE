@@ -28,6 +28,8 @@ import {
   deleteCompanyThunk,
   updateCompanyThunk,
 } from '@libs/redux/slices/company';
+import { readCompanyActionByIdThunk } from '@libs/redux/slices/companyActions';
+import { readUserMembershipsThunk } from '@libs/redux/slices/membership';
 import { setErrors } from '@libs/redux/slices/register';
 import { AppDispatch } from '@libs/redux/store';
 
@@ -41,7 +43,7 @@ export const CompanyModalButton = ({
   company,
 }: CompanyModalButtonProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const t = useTranslations('');
+  const t = useTranslations();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -57,6 +59,9 @@ export const CompanyModalButton = ({
           updateCompanyThunk({ id: company.id, data: data as CompanyUpdate })
         ).unwrap();
       }
+
+      dispatch(readUserMembershipsThunk({ params: { offset: 0, limit: 20 } }));
+      dispatch(readCompanyActionByIdThunk(company!.owner!.id));
 
       handleClose();
     } catch (error: unknown) {

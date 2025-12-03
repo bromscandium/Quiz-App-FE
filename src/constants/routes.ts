@@ -29,6 +29,10 @@ export const Routes = {
     text: 'profile',
     buildRoute: (id: string | number) => `/profile/${id}`,
   },
+  Quiz: {
+    href: '/quiz',
+    label: 'Quiz',
+  },
 };
 
 export const AuthRoutes = [Routes.Login.href, Routes.Register.href];
