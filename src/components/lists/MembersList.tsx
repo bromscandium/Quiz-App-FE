@@ -15,7 +15,7 @@ import { MembersCard } from '@components/cards/MembersCard';
 import { Pagination } from '@components/pagination/Pagination';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readCompanyMembersThunk } from '@libs/redux/slices/membership';
@@ -32,7 +32,7 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
   const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { memberships, loading, total, error } = useSelector(
+  const { companyMembers, loading, companyMembersTotal, error } = useSelector(
     (state: RootState) => state.membership
   );
 
@@ -42,7 +42,7 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
     LIMIT,
-    total
+    companyMembersTotal
   );
 
   const [currentPage, setCurrentPage] = useState<number>(page);
@@ -71,11 +71,11 @@ export const MembersList = ({ companyId, filterParam }: MembersListProps) => {
   if (error) return <ErrorScreen error={error} />;
 
   const filteredMembers = filterParam
-    ? memberships?.filter((m) => m.role === filterParam)
-    : memberships;
+    ? companyMembers?.filter((m) => m.role === filterParam)
+    : companyMembers;
 
   if (!filteredMembers?.length)
-    return notFoundScreen(t('membership.noMembers'));
+    return NotFoundScreen(t('membership.noMembers'));
 
   return (
     <Box>

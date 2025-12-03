@@ -11,12 +11,13 @@ import { getTabParam, handleTabChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CompanyInfo } from '@components/info/CompanyInfo';
-import { CompanyActionsList } from '@components/list/CompanyActionsList';
-import { MembersList } from '@components/list/MembersList';
+import { CompanyInfo } from '@components/infos/CompanyInfo';
+import { CompanyActionsList } from '@components/lists/CompanyActionsList';
+import { MembersList } from '@components/lists/MembersList';
+import { QuizzesList } from '@components/lists/QuizzesList';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 import { HorizontalTabs } from '@components/tabs/HorizontalTabs';
 
 import {
@@ -56,13 +57,15 @@ export default function CompanyPage() {
 
   if (error) return <ErrorScreen error={error} />;
 
-  if (!selectedCompany) return notFoundScreen(t('company.noCompany'));
+  if (!selectedCompany) return NotFoundScreen(t('company.noCompany'));
 
   const currentUserMembership = memberships?.find(
     (membership) => membership.company?.id === id
   );
 
   const isOwner = currentUser?.id === selectedCompany.owner?.id;
+
+  const isAdmin = currentUserMembership?.role === Roles.ADMIN;
 
   const tabs = [
     {
@@ -104,6 +107,8 @@ export default function CompanyPage() {
     handleTabChange(key, searchParams, router, Routes.Companies.buildRoute(id));
   };
 
+  const isMember = !!currentUserMembership;
+
   return (
     <Box
       sx={{
@@ -125,6 +130,10 @@ export default function CompanyPage() {
         userMembership={currentUserMembership}
         isOwner={isOwner}
       />
+
+      {isMember && (
+        <QuizzesList companyId={id} isOwnerOrAdmin={isOwner || isAdmin} />
+      )}
 
       {isOwner && (
         <HorizontalTabs

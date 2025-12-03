@@ -15,7 +15,7 @@ import { CompanyActionsCard } from '@components/cards/CompanyActionsCard';
 import { Pagination } from '@components/pagination/Pagination';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readAllCompanyActionsThunk } from '@libs/redux/slices/companyActions';
@@ -85,7 +85,7 @@ export const CompanyActionsList = ({
     return t('companyActions.noActions');
   };
 
-  if (!actions?.length) return notFoundScreen(noActionsMessage(actionType));
+  if (!actions?.length) return NotFoundScreen(noActionsMessage(actionType));
 
   return (
     <Box>

@@ -15,13 +15,13 @@ import {
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { UserInfo } from '@components/info/UserInfo';
-import { CompanyActionsList } from '@components/list/CompanyActionsList';
-import { MembershipsList } from '@components/list/MembershipsList';
-import { UserCompaniesList } from '@components/list/UserCompaniesList';
+import { UserInfo } from '@components/infos/UserInfo';
+import { CompanyActionsList } from '@components/lists/CompanyActionsList';
+import { MembershipsList } from '@components/lists/MembershipsList';
+import { UserCompaniesList } from '@components/lists/UserCompaniesList';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 import { HorizontalTabs } from '@components/tabs/HorizontalTabs';
 
 import { readCompanyByIdThunk } from '@libs/redux/slices/company';
@@ -63,7 +63,7 @@ export default function ProfilePage() {
 
   if (error) return <ErrorScreen error={error} />;
 
-  if (!selectedUser) return notFoundScreen(t('profile.noUser'));
+  if (!selectedUser) return NotFoundScreen(t('profile.noUser'));
 
   const isCurrentUser = currentUser?.id === selectedUser.id;
 

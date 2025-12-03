@@ -13,7 +13,7 @@ import { UserCard } from '@components/cards/UserCard';
 import { Pagination } from '@components/pagination/Pagination';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readAllUsersThunk } from '@libs/redux/slices/user';
@@ -53,7 +53,7 @@ export default function UsersPage() {
 
   if (error) return <ErrorScreen error={error} />;
 
-  if (!users?.length) return notFoundScreen(t('noUsers'));
+  if (!users?.length) return NotFoundScreen(t('noUsers'));
 
   return (
     <Box

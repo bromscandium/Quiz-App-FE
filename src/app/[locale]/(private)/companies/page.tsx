@@ -14,7 +14,7 @@ import { CompanyCard } from '@components/cards/CompanyCard';
 import { Pagination } from '@components/pagination/Pagination';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
 import { readAllCompaniesThunk } from '@libs/redux/slices/company';
@@ -54,7 +54,7 @@ export default function CompaniesPage() {
 
   if (error) return <ErrorScreen error={error} />;
 
-  if (!companies?.length) return notFoundScreen(t('company.noCompanies'));
+  if (!companies?.length) return NotFoundScreen(t('company.noCompanies'));
 
   return (
     <Box

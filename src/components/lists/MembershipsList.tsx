@@ -10,28 +10,28 @@ import { getPaginationParams, handlePageChange } from '@helpers/queryParams';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CompanyCard } from '@components/cards/CompanyCard';
+import { MembershipCard } from '@components/cards/MembershipCard';
 import { Pagination } from '@components/pagination/Pagination';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
-import { notFoundScreen } from '@components/screens/NotFoundScreen';
+import { NotFoundScreen } from '@components/screens/NotFoundScreen';
 
 import { useRouter } from '@libs/i18n/navigation';
-import { readUserCompaniesThunk } from '@libs/redux/slices/user';
+import { readUserMembershipsThunk } from '@libs/redux/slices/membership';
 import { AppDispatch, RootState } from '@libs/redux/store';
 
-interface CompaniesListProps {
+interface MembershipListProps {
   userId: string;
 }
 
 const LIMIT = 6;
 
-export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
+export const MembershipsList = ({ userId }: MembershipListProps) => {
   const t = useTranslations();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { userCompanies, loading, error } = useSelector(
-    (state: RootState) => state.user
+  const { memberships, loading, total, error } = useSelector(
+    (state: RootState) => state.membership
   );
 
   const searchParams = useSearchParams();
@@ -40,7 +40,7 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
   const { page, offset, totalPages } = getPaginationParams(
     searchParams,
     LIMIT,
-    userCompanies?.total
+    total
   );
 
   const [currentPage, setCurrentPage] = useState<number>(page);
@@ -56,17 +56,14 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
   };
 
   useEffect(() => {
-    dispatch(
-      readUserCompaniesThunk({ id: userId, params: { offset, limit: LIMIT } })
-    );
+    dispatch(readUserMembershipsThunk({ params: { offset, limit: LIMIT } }));
   }, [dispatch, offset, userId]);
 
   if (loading) return <LoadingScreen />;
 
   if (error) return <ErrorScreen error={error} />;
 
-  if (!userCompanies?.companies?.length)
-    return notFoundScreen(t('company.noCompanies'));
+  if (!memberships?.length) return NotFoundScreen(t('membership.noMembers'));
 
   return (
     <Box>
@@ -83,14 +80,8 @@ export const UserCompaniesList = ({ userId }: CompaniesListProps) => {
           minHeight: 2 * 250 + 16,
         }}
       >
-        {userCompanies.companies.map((company) => (
-          <CompanyCard
-            key={company.id}
-            id={company.id}
-            name={company.name}
-            description={company.description}
-            visibility={company.visibility}
-          />
+        {memberships.map((membership) => (
+          <MembershipCard key={membership.id} membership={membership} />
         ))}
       </Box>
 

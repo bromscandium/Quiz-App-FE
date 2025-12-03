@@ -16,6 +16,9 @@
     "delete": "Видалити",
     "yes": "Так",
     "no": "Ні",
+    "submitting": "Відправка",
+    "next": "Вперед",
+    "previous": "Назад",
     "send": "Відправити",
     "accept": "Прийняти",
     "confirmDeleteTitle": "Ви впевнені?",
@@ -178,5 +181,33 @@
   },
   "queryParams": {
     "tab": "tab"
+  },
+  "quiz": {
+    "notFound": "Не знайдено вікторину",
+    "title": "Квіз",
+    "quizzes": "Квізи",
+    "createQuiz": "Створити квіз",
+    "editQuiz": "Редагувати квіз",
+    "description": "Опис",
+    "questions": "Питання",
+    "question": "Питання",
+    "addQuestion": "Додати питання",
+    "answers": "Відповіді",
+    "answer": "Відповідь",
+    "addAnswer": "Додати відповідь",
+    "questionText": "Текст питання",
+    "answerOptions": "Варіанти відповіді",
+    "selectCorrectAnswer": "Виберіть принаймні одну правильну відповідь",
+    "minTwoQuestions": "Квіз повинен містити щонайменше 2 питання",
+    "minTwoAnswers": "Кожне питання повинно мати щонайменше 2 відповіді",
+    "noQuizzes": "Квізи відсутні",
+    "confirmDelete": "Ви впевнені, що хочете видалити цей квіз?",
+    "start": "Почати квіз",
+    "submit": "Відправити квіз",
+    "answerAllQuestions": "Будь ласка, дайте відповіді на всі питання",
+    "submissionError": "Помилка під час відправки квізу",
+    "correctRequired": "Потрібно вказати правильну відповідь",
+    "answerRequired": "Потрібно вказати відповідь",
+    "questionRequired": "Потрібно вказати питання"
   }
 }
