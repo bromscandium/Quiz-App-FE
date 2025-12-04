@@ -2,12 +2,14 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { companyReducer } from '@libs/redux/slices/company';
 import { companyActionsReducer } from '@libs/redux/slices/companyActions';
+import { exportReducer } from '@libs/redux/slices/export';
 import { languageReducer } from '@libs/redux/slices/language';
 import { loginReducer } from '@libs/redux/slices/login';
 import { membershipReducer } from '@libs/redux/slices/membership';
 import { quizReducer } from '@libs/redux/slices/quiz';
 import { quizAttemptReducer } from '@libs/redux/slices/quizAttempt';
 import { registerReducer } from '@libs/redux/slices/register';
+import { statsReducer } from '@libs/redux/slices/stats';
 import { userReducer } from '@libs/redux/slices/user';
 
 const appReducer = combineReducers({
@@ -20,6 +22,8 @@ const appReducer = combineReducers({
   user: userReducer,
   quiz: quizReducer,
   quizAttempt: quizAttemptReducer,
+  stats: statsReducer,
+  export: exportReducer,
 });
 
 const rootReducer = (

@@ -9,3 +9,5 @@ export * as QuestionInterfaces from './question';
 export * as QuizAttemptInterfaces from './quizAttempt';
 export * as AnswerOptionInterfaces from './answerOption';
 export * as UserAnswerInterfaces from './userAnswer';
+export * as StatsInterfaces from './stats';
+export * as ExportInterfaces from './export';

@@ -15,6 +15,8 @@ import {
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { UserGeneralRatingChart } from '@components/charts/UserGeneralRatingChart';
+import { UserQuizScoresChart } from '@components/charts/UserQuizScoresChart';
 import { UserInfo } from '@components/infos/UserInfo';
 import { CompanyActionsList } from '@components/lists/CompanyActionsList';
 import { MembershipsList } from '@components/lists/MembershipsList';
@@ -132,13 +134,17 @@ export default function ProfilePage() {
         invitationId={invitationId}
         selectedCompany={selectedCompany}
       />
+      <UserGeneralRatingChart userId={selectedUser.id} />
 
       {isCurrentUser && (
-        <HorizontalTabs
-          tabs={tabs}
-          activeKey={activeTab}
-          onTabClick={handleTabClick}
-        />
+        <>
+          <UserQuizScoresChart />
+          <HorizontalTabs
+            tabs={tabs}
+            activeKey={activeTab}
+            onTabClick={handleTabClick}
+          />
+        </>
       )}
     </Box>
   );

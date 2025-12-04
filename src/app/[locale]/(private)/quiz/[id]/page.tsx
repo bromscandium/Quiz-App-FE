@@ -7,20 +7,10 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { Routes } from '@constants';
 import { QuizAttemptInterfaces, UserAnswerInterfaces } from '@interfaces';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  Paper,
-  Radio,
-  RadioGroup,
-  Stack,
-  Typography,
-} from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { QuizAttemptForm } from '@components/forms/QuizAttemptForm';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
 import { LoadingScreen } from '@components/screens/LoadingScreen';
 import { NotFoundScreen } from '@components/screens/NotFoundScreen';
@@ -34,7 +24,6 @@ export default function QuizPage() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
-
   const { enqueueSnackbar } = useSnackbar();
 
   const { selectedQuiz, loading, error } = useSelector(
@@ -42,10 +31,6 @@ export default function QuizPage() {
   );
   const { memberships } = useSelector((state: RootState) => state.membership);
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<
-    Record<string, UserAnswerInterfaces.UserAnswerCreate>
-  >({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -66,37 +51,13 @@ export default function QuizPage() {
     }
   }, [loading, selectedQuiz, memberships, router]);
 
-  if (loading) return <LoadingScreen />;
-  if (error) return <ErrorScreen error={error} />;
-  if (!selectedQuiz) return NotFoundScreen(t('quiz.notFound'));
+  const handleSubmit = async (
+    userAnswers: UserAnswerInterfaces.UserAnswerCreate[]
+  ) => {
+    if (!selectedQuiz) return;
 
-  const currentQuestion = selectedQuiz.questions[currentQuestionIndex];
-
-  const handleAnswerChange = (answerId: string) => {
-    setAnswers({
-      ...answers,
-      [currentQuestion.id]: {
-        question_id: currentQuestion.id,
-        answer_option_id: answerId,
-      },
-    });
-  };
-
-  const handleNext = () => {
-    if (currentQuestionIndex < selectedQuiz.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
-
-  const handleSubmit = async () => {
-    const allAnswered = selectedQuiz.questions.every(
-      (q) => answers[q.id] !== undefined
+    const allAnswered = selectedQuiz.questions.every((q) =>
+      userAnswers.some((a) => a.question_id === q.id)
     );
 
     if (!allAnswered) {
@@ -106,7 +67,6 @@ export default function QuizPage() {
 
     setSubmitting(true);
     try {
-      const userAnswers = Object.values(answers);
       await dispatch(
         createQuizAttemptThunk({
           quiz_id: id,
@@ -124,71 +84,15 @@ export default function QuizPage() {
     }
   };
 
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorScreen error={error} />;
+  if (!selectedQuiz) return NotFoundScreen(t('quiz.notFound'));
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        px: 2,
-      }}
-    >
-      <Paper sx={{ maxWidth: 800, width: '100%', p: 4 }}>
-        <Stack spacing={3} alignItems="flex-start">
-          <Typography variant="h4">{selectedQuiz.title}</Typography>
-          <Typography variant="body1">{selectedQuiz.description}</Typography>
-          <Typography variant="h6">
-            {currentQuestionIndex + 1}. {currentQuestion.title}
-          </Typography>
-          <FormControl fullWidth>
-            <RadioGroup
-              value={answers[currentQuestion.id]?.answer_option_id || ''}
-              onChange={(e) => handleAnswerChange(e.target.value)}
-            >
-              {currentQuestion.answer_options.map((option) => (
-                <FormControlLabel
-                  key={option.id}
-                  value={option.id}
-                  control={
-                    <Radio
-                      checked={
-                        answers[currentQuestion.id]?.answer_option_id ===
-                        option.id
-                      }
-                      onChange={() => handleAnswerChange(option.id)}
-                    />
-                  }
-                  label={option.text}
-                  sx={{ width: '100%', m: 0 }}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-          <Stack direction="row" justifyContent="space-between" width="100%">
-            <Button
-              variant="outlined"
-              onClick={handlePrevious}
-              disabled={currentQuestionIndex === 0}
-            >
-              {t('common.previous')}
-            </Button>
-            {currentQuestionIndex === selectedQuiz.questions.length - 1 ? (
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                disabled={submitting}
-              >
-                {submitting ? t('common.submitting') : t('quiz.submit')}
-              </Button>
-            ) : (
-              <Button variant="contained" onClick={handleNext}>
-                {t('common.next')}
-              </Button>
-            )}
-          </Stack>
-        </Stack>
-      </Paper>
-    </Box>
+    <QuizAttemptForm
+      quiz={selectedQuiz}
+      onSubmit={handleSubmit}
+      submitting={submitting}
+    />
   );
 }

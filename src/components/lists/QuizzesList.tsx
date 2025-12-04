@@ -25,11 +25,13 @@ import { AppDispatch, RootState } from '@libs/redux/store';
 interface QuizzesListProps {
   companyId: string;
   isOwnerOrAdmin: boolean;
+  isActiveMembership: boolean;
 }
 
 export const QuizzesList = ({
   companyId,
   isOwnerOrAdmin,
+  isActiveMembership,
 }: QuizzesListProps) => {
   const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
@@ -107,7 +109,12 @@ export const QuizzesList = ({
         }}
       >
         {quizzes.map((quiz) => (
-          <QuizCard key={quiz.id} quiz={quiz} isOwnerOrAdmin={isOwnerOrAdmin} />
+          <QuizCard
+            key={quiz.id}
+            quiz={quiz}
+            isOwnerOrAdmin={isOwnerOrAdmin}
+            isActiveMembership={isActiveMembership}
+          />
         ))}
       </Box>
 

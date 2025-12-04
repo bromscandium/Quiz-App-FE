@@ -11,8 +11,10 @@ import { getTabParam, handleTabChange } from '@helpers/queryParams';
 import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { CompanyUsersStatsChart } from '@components/charts/CompanyUsersStatsChart';
 import { CompanyInfo } from '@components/infos/CompanyInfo';
 import { CompanyActionsList } from '@components/lists/CompanyActionsList';
+import { CompanyLastAttemptsList } from '@components/lists/CompanyLastAttemptsList';
 import { MembersList } from '@components/lists/MembersList';
 import { QuizzesList } from '@components/lists/QuizzesList';
 import { ErrorScreen } from '@components/screens/ErrorScreen';
@@ -38,7 +40,6 @@ export default function CompanyPage() {
     (state: RootState) => state.company
   );
   const { memberships } = useSelector((state: RootState) => state.membership);
-
   const { currentUser } = useSelector((state: RootState) => state.user);
 
   const defaultTab = Tabs.MEMBERS;
@@ -64,8 +65,8 @@ export default function CompanyPage() {
   );
 
   const isOwner = currentUser?.id === selectedCompany.owner?.id;
-
   const isAdmin = currentUserMembership?.role === Roles.ADMIN;
+  const isOwnerOrAdmin = isOwner || isAdmin;
 
   const tabs = [
     {
@@ -132,7 +133,24 @@ export default function CompanyPage() {
       />
 
       {isMember && (
-        <QuizzesList companyId={id} isOwnerOrAdmin={isOwner || isAdmin} />
+        <QuizzesList
+          companyId={id}
+          isOwnerOrAdmin={isOwnerOrAdmin}
+          isActiveMembership={currentUserMembership?.is_active}
+        />
+      )}
+
+      {isOwnerOrAdmin && (
+        <>
+          <CompanyUsersStatsChart
+            companyId={id}
+            isOwnerOrAdmin={isOwnerOrAdmin}
+          />
+          <CompanyLastAttemptsList
+            companyId={id}
+            isOwnerOrAdmin={isOwnerOrAdmin}
+          />
+        </>
       )}
 
       {isOwner && (

@@ -13,6 +13,7 @@ import { logoutAction } from '@actions/auth';
 
 import { CompanyModalButton } from '@components/buttons/CompanyModal';
 import { DeleteModalButton } from '@components/buttons/DeleteModal';
+import { ExportButton } from '@components/buttons/ExportButton';
 import { SendCompanyActionButton } from '@components/buttons/SendCompanyAction';
 import { FieldConfig, UserEditForm } from '@components/forms/UserEditForm';
 import { InfoRow } from '@components/rows/InfoRow';
@@ -158,6 +159,12 @@ export const UserInfo = ({
                     <CompanyModalButton mode="create" />
 
                     <DeleteModalButton onDeleteAction={handleDelete} />
+
+                    <ExportButton
+                      type="my-results"
+                      params={{}}
+                      label={t('export.myResults')}
+                    />
                   </>
                 </Stack>
               )}

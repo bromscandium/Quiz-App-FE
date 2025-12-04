@@ -210,5 +210,38 @@
     "answerRequired": "Answer is required",
     "questionRequired": "Question is required",
     "submissionSuccess": "Submission Success"
+  },
+  "stats": {
+    "generalRating": "General Rating",
+    "averageScore": "Average Score",
+    "correctAnswers": "Correct Answers",
+    "totalQuestions": "Total Questions",
+    "lastAttempt": "Last Attempt",
+    "noAttempts": "No attempts",
+    "quizScoresOverTime": "Quiz Scores Over Time",
+    "noQuizAttempts": "No quiz attempts yet",
+    "avgScore": "Avg Score",
+    "attempts": "Attempts",
+    "recentQuizzes": "Recent Quizzes",
+    "noRecentAttempts": "No recent attempts",
+    "completed": "Completed",
+    "usersStatistics": "Users Statistics",
+    "noUserStats": "No user statistics available",
+    "userName": "User Name",
+    "totalAttempts": "Total Attempts",
+    "recentActivity": "Recent Activity",
+    "noRecentActivity": "No recent activity",
+    "lastActivity": "Last Activity",
+    "noActivity": "No activity",
+    "incorrectAnswers": "Incorrect Answers"
+  },
+  "export": {
+    "download": "Export Data",
+    "myResults": "Export My Results",
+    "allUsersResults": "Export All Users",
+    "quizResults": "Export Quiz Results",
+    "userResults": "Export User Results",
+    "success": "Data exported successfully",
+    "error": "Failed to export data"
   }
 }

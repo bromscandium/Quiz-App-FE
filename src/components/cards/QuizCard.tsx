@@ -24,9 +24,14 @@ import { AppDispatch } from '@libs/redux/store';
 interface QuizCardProps {
   quiz: QuizInterfaces.QuizSchema;
   isOwnerOrAdmin: boolean;
+  isActiveMembership: boolean;
 }
 
-export const QuizCard = ({ quiz, isOwnerOrAdmin }: QuizCardProps) => {
+export const QuizCard = ({
+  quiz,
+  isOwnerOrAdmin,
+  isActiveMembership,
+}: QuizCardProps) => {
   const t = useTranslations();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -58,13 +63,15 @@ export const QuizCard = ({ quiz, isOwnerOrAdmin }: QuizCardProps) => {
       </CardContent>
 
       <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
-        <Button
-          variant="contained"
-          component="a"
-          href={`${Routes.Quiz.href}/${quiz.id}`}
-        >
-          {t('quiz.start')}
-        </Button>
+        {isActiveMembership && (
+          <Button
+            variant="contained"
+            component="a"
+            href={`${Routes.Quiz.href}/${quiz.id}`}
+          >
+            {t('quiz.start')}
+          </Button>
+        )}
         {isOwnerOrAdmin && (
           <Stack direction="row" spacing={1}>
             <QuizModal companyId={quiz.company_id} mode="edit" quiz={quiz} />

@@ -6,3 +6,5 @@ export * as CompanyActionsAPI from './companyActions';
 export * as MembershipAPI from './membership';
 export * as QuizAPI from './quiz';
 export * as QuizAttemptAPI from './quizAttempts';
+export * as StatsAPI from './stats';
+export * as ExportAPI from './export';

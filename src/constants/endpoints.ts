@@ -6,6 +6,8 @@ export const membershipsBase = '/memberships';
 export const usersBase = '/users';
 export const quizzesBase = '/quizzes';
 export const quizAttemptsBase = '/quiz_attempts';
+export const statsBase = '/stats';
+export const exportBase = '/export';
 
 export const Endpoints = {
   Auth: {
@@ -64,5 +66,25 @@ export const Endpoints = {
       `${quizAttemptsBase}/${id}?user_id=${userId}`,
     user: `${quizAttemptsBase}/user/`,
     company: `${quizAttemptsBase}/company/`,
+  },
+  Stats: {
+    user: `${statsBase}/user`,
+    userQuizzes: `${statsBase}/user/quizzes`,
+    userLastAttempts: `${statsBase}/user/quizzes/last-attempts`,
+    companyUsers: (companyId: string) =>
+      `${statsBase}/company/${companyId}/users`,
+    companyUserQuizzes: (companyId: string, userId: string) =>
+      `${statsBase}/company/${companyId}/user/${userId}/quizzes`,
+    companyLastAttempts: (companyId: string) =>
+      `${statsBase}/company/${companyId}/last-attempts`,
+  },
+  Export: {
+    myResults: `${exportBase}/my-results`,
+    companyUser: (companyId: string, userId: string) =>
+      `${exportBase}/company/${companyId}/user/${userId}`,
+    companyAll: (companyId: string) =>
+      `${exportBase}/company/${companyId}/all-users`,
+    companyQuiz: (companyId: string, quizId: string) =>
+      `${exportBase}/company/${companyId}/quiz/${quizId}`,
   },
 };

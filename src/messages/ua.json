@@ -210,5 +210,38 @@
     "answerRequired": "Потрібно вказати відповідь",
     "questionRequired": "Потрібно вказати питання",
     "submissionSuccess": "Успішно надіслано"
+  },
+  "stats": {
+    "generalRating": "Загальний рейтинг",
+    "averageScore": "Середній бал",
+    "correctAnswers": "Правильні відповіді",
+    "totalQuestions": "Всього питань",
+    "lastAttempt": "Остання спроба",
+    "noAttempts": "Немає спроб",
+    "quizScoresOverTime": "Результати квізів за часом",
+    "noQuizAttempts": "Ще немає спроб квізів",
+    "avgScore": "Серед. бал",
+    "attempts": "Спроби",
+    "recentQuizzes": "Останні квізи",
+    "noRecentAttempts": "Немає останніх спроб",
+    "completed": "Завершено",
+    "usersStatistics": "Статистика користувачів",
+    "noUserStats": "Немає статистики користувачів",
+    "userName": "Ім'я користувача",
+    "totalAttempts": "Всього спроб",
+    "recentActivity": "Остання активність",
+    "noRecentActivity": "Немає останньої активності",
+    "lastActivity": "Остання активність",
+    "noActivity": "Немає активності",
+    "incorrectAnswers": "Неправильні відповіді"
+  },
+  "export": {
+    "download": "Експортувати дані",
+    "myResults": "Експортувати мої результати",
+    "allUsersResults": "Експортувати всіх користувачів",
+    "quizResults": "Експортувати результати квізу",
+    "userResults": "Експортувати результати користувача",
+    "success": "Дані успішно експортовано",
+    "error": "Не вдалося експортувати дані"
   }
 }
