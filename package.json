@@ -1,0 +1,43 @@
+{
+  "name": "quiz-app-fe",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write \"src/**/*.{js,ts,jsx,tsx,json,css,scss,md}\"",
+    "check": "prettier --check \"src/**/*.{js,ts,jsx,tsx,json,css,scss,md}\"",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.5",
+    "@mui/material": "^7.3.5",
+    "@mui/x-date-pickers": "^8.19.0",
+    "@reduxjs/toolkit": "^2.11.0",
+    "axios": "^1.13.2",
+    "chart.js": "^4.5.1",
+    "dayjs": "^1.11.19",
+    "jwt-decode": "^4.0.0",
+    "next": "^16.0.4",
+    "next-intl": "^4.5.0",
+    "notistack": "^3.0.2",
+    "react": "19.2.0",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "19.2.0",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^16.0.4",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "typescript": "^5"
+  }
+}
