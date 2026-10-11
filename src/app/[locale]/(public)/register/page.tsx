@@ -50,13 +50,18 @@ export default function RegisterPage() {
     let signedIn = false;
 
     try {
-      await dispatch(
-        createUserThunk({ name, surname, nickname, email, password })
-      ).unwrap();
+      // An existing account with these credentials just signs in; only create a user when that fails.
+      let result = await loginAction({ email, password });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!result.success) {
+        await dispatch(
+          createUserThunk({ name, surname, nickname, email, password })
+        ).unwrap();
 
-      const result = await loginAction({ email, password });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        result = await loginAction({ email, password });
+      }
 
       if (result.success) {
         await dispatch(readUserByMeThunk());
