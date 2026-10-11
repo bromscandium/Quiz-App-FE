@@ -47,6 +47,8 @@ export default function RegisterPage() {
       return;
     }
 
+    let signedIn = false;
+
     try {
       await dispatch(
         createUserThunk({ name, surname, nickname, email, password })
@@ -58,12 +60,17 @@ export default function RegisterPage() {
 
       if (result.success) {
         await dispatch(readUserByMeThunk());
-        await redirectWithLocale(Routes.Home.href);
+        signedIn = true;
       } else {
         dispatch(setErrors({ general: result.error }));
       }
     } catch (error) {
       dispatch(setErrors({ general: String(error) }));
+    }
+
+    // redirect() works by throwing NEXT_REDIRECT, so it must not run inside the try above
+    if (signedIn) {
+      await redirectWithLocale(Routes.Home.href);
     }
   };
 
